@@ -11,12 +11,13 @@ header {background:#222; color:#fff; padding:15px; text-align:center;}
 .container {padding:20px; text-align:center;}
 button {padding:12px 20px; margin:10px; font-size:16px; cursor:pointer;}
 form {max-width:400px; margin:auto; text-align:left;}
-input {width:100%; padding:8px; margin:6px 0;}
+input {width:100%; padding:10px; margin:6px 0;}
 .card {background:#fff; padding:15px; margin:10px auto; max-width:400px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.2);} 
 img {max-width:100%; border-radius:10px;}
 .hidden {display:none;}
 .error{color:red;font-size:14px;margin-top:5px}
 .switch{color:blue;cursor:pointer;text-decoration:underline}
+.showpass{font-size:13px;margin-top:5px}
 </style>
 </head>
 <body>
@@ -30,7 +31,10 @@ img {max-width:100%; border-radius:10px;}
 <h3 id="authTitle">Register First</h3>
 <form id="authForm">
 <input type="email" id="authEmail" placeholder="Email" required>
-<input type="password" id="authPass" placeholder="Password (Use only 6+ characters)" required>
+<input type="password" id="authPass" placeholder="Password (min 6 characters)" required>
+<label class="showpass">
+<input type="checkbox" onclick="togglePassword()"> Show Password
+</label>
 <div class="error" id="errorMsg"></div>
 <button type="submit" id="authBtn">Register</button>
 </form>
@@ -91,6 +95,11 @@ const customer = document.getElementById('customer');
 
 let isLogin=false;
 
+function togglePassword(){
+ const pass=document.getElementById('authPass');
+ pass.type = pass.type==='password'?'text':'password';
+}
+
 function toggleAuth(){
  isLogin=!isLogin;
  document.getElementById('authTitle').innerText=isLogin?"Login":"Register First";
@@ -114,12 +123,12 @@ firebase.auth().onAuthStateChanged(user=>{
 
 document.getElementById('authForm').addEventListener('submit',async e=>{
  e.preventDefault();
- const email=authEmail.value;
- const pass=authPass.value;
+ const email=document.getElementById('authEmail').value;
+ const pass=document.getElementById('authPass').value;
  const error=document.getElementById('errorMsg');
 
  if(pass.length<6){
-  error.innerText="Use minimum 6 characters password";
+  error.innerText="Password must be at least 6 characters";
   return;
  }
 
@@ -133,7 +142,7 @@ document.getElementById('authForm').addEventListener('submit',async e=>{
    toggleAuth();
   }
  }catch(err){
-  error.innerText="Invalid email or password format";
+  error.innerText=err.message;
  }
 });
 
@@ -156,23 +165,37 @@ function showCustomer(){
  loadOrganizers();
 }
 
-// ORGANIZER UPLOAD
+// ORGANIZER UPLOAD FIXED
 
 document.getElementById('orgForm').addEventListener('submit',e=>{
  e.preventDefault();
+
+ const nameVal=document.getElementById('name').value;
+ const phoneVal=document.getElementById('phone').value;
+ const emailVal=document.getElementById('email').value;
+ const file=document.getElementById('photo').files[0];
+
+ if(!file){
+  alert("Select image first");
+  return;
+ }
+
  const reader=new FileReader();
  reader.onload=async()=>{
   await db.collection('organizers').add({
-   name:name.value,
-   phone:phone.value,
-   email:email.value,
+   name:nameVal,
+   phone:phoneVal,
+   email:emailVal,
    photo:reader.result,
-   owner:auth.currentUser.email
+   owner:auth.currentUser.email,
+   createdAt:new Date()
   });
+
   alert('Uploaded Successfully');
   goHome();
  };
- reader.readAsDataURL(photo.files[0]);
+
+ reader.readAsDataURL(file);
 });
 
 // LOAD ORGANIZERS

@@ -551,6 +551,38 @@ header {
 .toast.success { background: var(--surface); border: 1px solid var(--accent); color: var(--text); }
 .toast.error-t { background: var(--surface); border: 1px solid var(--danger); color: var(--text); }
 
+/* ====== EMAIL VERIFY SCREEN ====== */
+.verify-wrap { width: 100%; max-width: 440px; text-align: center; }
+.verify-icon { font-size: 64px; margin-bottom: 20px; display: block; animation: float 3s ease-in-out infinite; }
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.verify-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; margin-bottom: 10px; }
+.verify-title em { font-style: italic; color: var(--accent); }
+.verify-sub { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 28px; }
+.verify-email-badge {
+  display: inline-block; padding: 8px 18px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; font-size: 14px; font-weight: 600;
+  color: var(--accent); margin-bottom: 28px;
+}
+.verify-steps { text-align: left; margin-bottom: 28px; }
+.verify-step {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.verify-step:last-child { border-bottom: none; }
+.step-num {
+  width: 26px; height: 26px; flex-shrink: 0;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--accent);
+}
+.step-text { font-size: 13px; color: var(--muted); line-height: 1.5; padding-top: 3px; }
+.verify-btns { display: flex; flex-direction: column; gap: 10px; }
+.resend-timer { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
 /* LIGHT MODE */
 body.light {
   --bg: #f0ece4;
@@ -629,6 +661,38 @@ body.light header { background: rgba(240,236,228,0.85); }
         <a onclick="toggleAuth()" id="switchLink">Create an account</a>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ===== VERIFY EMAIL ===== -->
+<div class="page hidden" id="verifyEmail">
+  <div class="verify-wrap fade-in">
+    <span class="verify-icon">📧</span>
+    <h1 class="verify-title">Check your <em>inbox.</em></h1>
+    <p class="verify-sub">We've sent a verification link to:</p>
+    <div class="verify-email-badge" id="verifyEmailBadge">your@email.com</div>
+    <div class="glass-card" style="margin-bottom:20px;">
+      <div class="verify-steps">
+        <div class="verify-step">
+          <div class="step-num">1</div>
+          <div class="step-text">Open the email we sent you (check spam too)</div>
+        </div>
+        <div class="verify-step">
+          <div class="step-num">2</div>
+          <div class="step-text">Click the <strong>"Verify your email"</strong> link inside</div>
+        </div>
+        <div class="verify-step">
+          <div class="step-num">3</div>
+          <div class="step-text">Come back here and click <strong>"I've verified"</strong> below</div>
+        </div>
+      </div>
+      <div class="verify-btns">
+        <button class="btn-primary" onclick="checkVerified()">✓ I've verified my email</button>
+        <button class="btn-secondary" onclick="resendVerification()" id="resendBtn">Resend email</button>
+      </div>
+      <div class="resend-timer" id="resendTimer"></div>
+    </div>
+    <button class="btn-secondary" style="width:100%;" onclick="auth.signOut()">← Use a different account</button>
   </div>
 </div>
 
@@ -905,25 +969,98 @@ document.getElementById('authForm').addEventListener('submit',async e=>{
   const email=document.getElementById('authEmail').value;
   const pass=document.getElementById('authPass').value;
   const errEl=document.getElementById('errorMsg');
+  const btn=document.getElementById('authBtn');
   if(pass.length<6){errEl.textContent='⚠ Password must be at least 6 characters'; return;}
+  btn.textContent='Please wait...'; btn.disabled=true;
   try{
-    if(isLogin){ await auth.signInWithEmailAndPassword(email,pass); }
-    else{ await auth.createUserWithEmailAndPassword(email,pass); showToast('Account created! Please login.'); toggleAuth(); }
-  }catch(err){ errEl.textContent='⚠ '+err.message; }
+    if(isLogin){
+      const cred=await auth.signInWithEmailAndPassword(email,pass);
+      if(!cred.user.emailVerified){
+        // Force show verify screen
+        showVerifyScreen(cred.user);
+        btn.textContent='Login →'; btn.disabled=false;
+        return;
+      }
+    } else {
+      const cred=await auth.createUserWithEmailAndPassword(email,pass);
+      await cred.user.sendEmailVerification();
+      showVerifyScreen(cred.user);
+      btn.textContent='Register →'; btn.disabled=false;
+      return;
+    }
+  }catch(err){
+    errEl.textContent='⚠ '+err.message;
+  }
+  btn.textContent=isLogin?'Login →':'Register →'; btn.disabled=false;
 });
 
 auth.onAuthStateChanged(user=>{
   currentUser=user;
   if(user){
-    document.getElementById('auth').classList.add('hidden');
+    if(!user.emailVerified){
+      // Signed in but not verified — show verify screen
+      showVerifyScreen(user);
+      return;
+    }
+    // Fully verified
+    hideAllPages();
     document.getElementById('home').classList.remove('hidden');
     updateHeaderUser(user.email);
   } else {
-    ['auth'].forEach(id=>document.getElementById(id).classList.remove('hidden'));
-    ['home','organizer','customer'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+    hideAllPages();
+    document.getElementById('auth').classList.remove('hidden');
     document.getElementById('headerRight').innerHTML='<div class="icon-btn" onclick="toggleDark()" title="Toggle theme">🌙</div>';
   }
 });
+
+function hideAllPages(){
+  ['auth','verifyEmail','home','organizer','customer'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+}
+
+function showVerifyScreen(user){
+  hideAllPages();
+  document.getElementById('verifyEmail').classList.remove('hidden');
+  document.getElementById('verifyEmailBadge').textContent=user.email;
+  updateHeaderUser(user.email);
+}
+
+let resendCooldown=null;
+async function resendVerification(){
+  const btn=document.getElementById('resendBtn');
+  const timer=document.getElementById('resendTimer');
+  try{
+    await auth.currentUser.sendEmailVerification();
+    showToast('📧 Verification email resent!');
+    btn.disabled=true;
+    let secs=60;
+    timer.textContent=`Resend available in ${secs}s`;
+    resendCooldown=setInterval(()=>{
+      secs--;
+      timer.textContent=`Resend available in ${secs}s`;
+      if(secs<=0){
+        clearInterval(resendCooldown);
+        btn.disabled=false;
+        timer.textContent='';
+      }
+    },1000);
+  }catch(err){ showToast('Could not resend: '+err.message,'error'); }
+}
+
+async function checkVerified(){
+  const btn=document.querySelector('#verifyEmail .btn-primary');
+  btn.textContent='Checking...'; btn.disabled=true;
+  await auth.currentUser.reload();
+  if(auth.currentUser.emailVerified){
+    currentUser=auth.currentUser;
+    showToast('✦ Email verified! Welcome aboard.');
+    hideAllPages();
+    document.getElementById('home').classList.remove('hidden');
+    updateHeaderUser(currentUser.email);
+  } else {
+    showToast('⚠ Not verified yet. Check your inbox.','error');
+  }
+  btn.textContent='✓ I\'ve verified my email'; btn.disabled=false;
+}
 
 function updateHeaderUser(email){
   document.getElementById('headerRight').innerHTML=`
@@ -935,9 +1072,9 @@ function logout(){ auth.signOut(); }
 function handleLogoClick(){ if(currentUser) showSection('home'); }
 
 /* ============== SECTION NAVIGATION ============== */
-const sections=['auth','home','organizer','customer'];
+const sections=['auth','verifyEmail','home','organizer','customer'];
 function showSection(id){
-  sections.forEach(s=>document.getElementById(s).classList.add('hidden'));
+  hideAllPages();
   document.getElementById(id).classList.remove('hidden');
   document.getElementById(id).querySelector('.fade-in')?.classList.remove('fade-in');
   void document.getElementById(id).offsetWidth;

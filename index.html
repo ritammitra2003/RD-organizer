@@ -622,9 +622,40 @@ body.light header { background: rgba(240,236,228,0.85); }
 
 <!-- ===== HEADER ===== -->
 <header>
-  <div class="logo" onclick="handleLogoClick()">
-    <div class="logo-icon">✦</div>
-    <div class="logo-text" style="font-family:'Playfair Display',serif;">Ut<span>saav</span></div>
+  <div class="logo" onclick="handleLogoClick()" style="cursor:pointer;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" height="44" width="143">
+      <defs>
+        <linearGradient id="iG" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#FF6B6B"/>
+          <stop offset="35%" style="stop-color:#FF8E53"/>
+          <stop offset="70%" style="stop-color:#FFC837"/>
+          <stop offset="100%" style="stop-color:#FF6B9D"/>
+        </linearGradient>
+        <linearGradient id="tG" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#FF6B6B"/>
+          <stop offset="50%" style="stop-color:#FFC837"/>
+          <stop offset="100%" style="stop-color:#FF6B9D"/>
+        </linearGradient>
+        <filter id="hGlow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="hShadow"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#FF6B6B" flood-opacity="0.25"/></filter>
+        <filter id="hIG"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <circle cx="78" cy="80" r="58" fill="none" stroke="url(#iG)" stroke-width="1.5" opacity="0.3"/>
+      <circle cx="78" cy="80" r="46" fill="#0a0a0f" filter="url(#hShadow)"/>
+      <circle cx="78" cy="80" r="46" fill="url(#iG)" opacity="0.12"/>
+      <circle cx="78" cy="80" r="44" fill="none" stroke="url(#iG)" stroke-width="1.5" opacity="0.9"/>
+      <circle cx="78" cy="34" r="2.5" fill="url(#iG)" opacity="0.9"/>
+      <circle cx="78" cy="126" r="2.5" fill="url(#iG)" opacity="0.9"/>
+      <circle cx="32" cy="80" r="2.5" fill="url(#iG)" opacity="0.9"/>
+      <circle cx="124" cy="80" r="2.5" fill="url(#iG)" opacity="0.9"/>
+      <path d="M 55 52 L 55 88 Q 55 108 78 108 Q 101 108 101 88 L 101 52" fill="none" stroke="url(#iG)" stroke-width="7" stroke-linecap="round" filter="url(#hIG)"/>
+      <g transform="translate(52,46)" filter="url(#hGlow)"><path d="M0,-6 L1.5,-1.5 L6,0 L1.5,1.5 L0,6 L-1.5,1.5 L-6,0 L-1.5,-1.5 Z" fill="#FFC837"/></g>
+      <g transform="translate(104,46)" filter="url(#hGlow)"><path d="M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z" fill="#FF6B9D"/></g>
+      <g transform="translate(78,38)" filter="url(#hGlow)"><path d="M0,-4 L1,-1 L4,0 L1,1 L0,4 L-1,1 L-4,0 L-1,-1 Z" fill="#FF8E53" opacity="0.9"/></g>
+      <text x="168" y="95" font-family="Georgia,'Times New Roman',serif" font-size="58" font-weight="700" letter-spacing="4" fill="url(#tG)" filter="url(#hShadow)">UTSAAV</text>
+      <text x="170" y="118" font-family="Georgia,serif" font-size="12" letter-spacing="5" fill="#666">EVENT MANAGEMENT</text>
+      <line x1="170" y1="126" x2="390" y2="126" stroke="url(#tG)" stroke-width="0.8" opacity="0.4"/>
+    </svg>
   </div>
   <div class="header-right" id="headerRight">
     <div class="icon-btn" onclick="toggleDark()" title="Toggle theme">🌙</div>
@@ -1496,20 +1527,26 @@ function getCatColor(cat){
 
 <!-- FOOTER -->
 <footer style="position:relative;z-index:5;border-top:1px solid var(--border);background:var(--surface);padding:32px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-  <div style="display:flex;align-items:center;gap:10px;">
-    <div style="width:30px;height:30px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">✦</div>
-    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;">Ut<span style="color:var(--accent);">saav</span></div>
+  <div style="display:flex;align-items:center;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" height="36" width="117">
+      <defs>
+        <linearGradient id="ifIG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#FF6B6B"/><stop offset="70%" style="stop-color:#FFC837"/><stop offset="100%" style="stop-color:#FF6B9D"/></linearGradient>
+        <linearGradient id="ifTG" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#FF6B6B"/><stop offset="50%" style="stop-color:#FFC837"/><stop offset="100%" style="stop-color:#FF6B9D"/></linearGradient>
+        <filter id="ifG"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <circle cx="78" cy="80" r="44" fill="none" stroke="url(#ifIG)" stroke-width="1.5" opacity="0.9"/>
+      <circle cx="78" cy="80" r="44" fill="url(#ifIG)" opacity="0.1"/>
+      <circle cx="78" cy="34" r="2.5" fill="url(#ifIG)"/><circle cx="78" cy="126" r="2.5" fill="url(#ifIG)"/><circle cx="32" cy="80" r="2.5" fill="url(#ifIG)"/><circle cx="124" cy="80" r="2.5" fill="url(#ifIG)"/>
+      <path d="M 55 52 L 55 88 Q 55 108 78 108 Q 101 108 101 88 L 101 52" fill="none" stroke="url(#ifIG)" stroke-width="7" stroke-linecap="round" filter="url(#ifG)"/>
+      <g transform="translate(52,46)" filter="url(#ifG)"><path d="M0,-6 L1.5,-1.5 L6,0 L1.5,1.5 L0,6 L-1.5,1.5 L-6,0 L-1.5,-1.5 Z" fill="#FFC837"/></g>
+      <g transform="translate(104,46)" filter="url(#ifG)"><path d="M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z" fill="#FF6B9D"/></g>
+      <text x="168" y="95" font-family="Georgia,serif" font-size="58" font-weight="700" letter-spacing="4" fill="url(#ifTG)">UTSAAV</text>
+      <text x="170" y="118" font-family="Georgia,serif" font-size="12" letter-spacing="5" fill="#555">EVENT MANAGEMENT</text>
+    </svg>
   </div>
   <div style="text-align:center;font-size:13px;color:var(--muted);line-height:1.8;">
     <div>Event Management Platform — <a href="landing.html" style="color:var(--accent);text-decoration:none;font-weight:600;">Organizers ke liye free listing →</a></div>
     <div style="margin-top:4px;">
       CEO &amp; Founder — <strong style="color:var(--text);">Ritam Mitra</strong> &nbsp;|&nbsp;
       <a href="tel:7384949090" style="color:var(--accent);text-decoration:none;">📞 7384949090</a> &nbsp;|&nbsp;
-      <a href="mailto:mrritammitra@gmail.com" style="color:var(--accent);text-decoration:none;">✉ mrritammitra@gmail.com</a>
-    </div>
-  </div>
-  <div style="font-size:12px;color:var(--muted);">© 2026 Utsaav. All rights reserved.</div>
-</footer>
-
-</body>
-</html>
+      <a href="/cdn-cgi/l/email-protection#650817170c110408080c111704250208040c094b060a08" style="color:var(--accent);text-decoration:none;">✉ <span class="__cf_email__" data-cfemail="bdd0cfcfd4c9dcd0d0d4c9cfdcfddad0dcd4d193ded2d0">[email&#160;protected]</span></a

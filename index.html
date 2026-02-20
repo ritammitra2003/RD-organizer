@@ -214,7 +214,6 @@ header {
 }
 .btn-danger:hover { background: rgba(224,92,92,0.1); border-color: var(--danger); }
 
-/* Admin button */
 .btn-admin {
   display: inline-flex; align-items: center; justify-content: center; gap: 7px;
   padding: 9px 18px;
@@ -577,7 +576,6 @@ header {
 .admin-stat-num { font-family:'Playfair Display',serif; font-size:28px; font-weight:900; color:#e8a87c; }
 .admin-stat-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-top:4px; }
 
-/* Edit modal */
 .edit-modal {
   background: var(--surface); border: 1px solid rgba(201,168,76,0.3);
   border-radius: 16px; padding: 26px; width: 100%; max-width: 600px;
@@ -672,7 +670,7 @@ body.light header { background: rgba(240,236,228,0.85); }
   </div>
 </header>
 
-<!-- AUTH -->
+<!-- AUTH — ✅ PHONE NUMBER FIELD ADDED (signup mein dikhega) -->
 <div class="page" id="auth">
   <div class="auth-wrap fade-in">
     <div class="auth-head">
@@ -685,6 +683,11 @@ body.light header { background: rgba(240,236,228,0.85); }
         <div class="form-group">
           <label>Email Address</label>
           <input type="email" id="authEmail" placeholder="you@example.com" required>
+        </div>
+        <!-- ✅ NEW: Phone field — hidden on login, shown on signup -->
+        <div class="form-group hidden" id="phoneGroup">
+          <label>Phone Number</label>
+          <input type="tel" id="authPhone" placeholder="+91 00000 00000">
         </div>
         <div class="form-group">
           <label>Password</label>
@@ -772,7 +775,6 @@ body.light header { background: rgba(240,236,228,0.85); }
         <div class="opt-desc" style="font-size:12px;">Wedding favors & gift hampers</div>
       </div>
     </div>
-    <!-- ADMIN BUTTON — only shown to mrritammitra@gmail.com -->
     <div id="adminHomeBtn" class="hidden" style="margin-bottom:18px;">
       <div class="option-card a-opt" onclick="showSection('admin')" style="grid-column:1/-1;">
         <span class="opt-icon">🛡️</span>
@@ -1002,7 +1004,6 @@ body.light header { background: rgba(240,236,228,0.85); }
       </div>
     </div>
 
-    <!-- ADMIN STATS -->
     <div class="admin-stats-row" id="adminStatsRow">
       <div class="admin-stat"><div class="admin-stat-num" id="adStatOrg">–</div><div class="admin-stat-label">Organizers</div></div>
       <div class="admin-stat"><div class="admin-stat-num" id="adStatVendors">–</div><div class="admin-stat-label">Vendors</div></div>
@@ -1011,7 +1012,6 @@ body.light header { background: rgba(240,236,228,0.85); }
       <div class="admin-stat"><div class="admin-stat-num" id="adStatReviews">–</div><div class="admin-stat-label">Reviews</div></div>
     </div>
 
-    <!-- ADMIN TABS -->
     <div class="tabs" style="margin-bottom:26px;">
       <button class="tab active" onclick="switchAdminTab('organizers',this)">🎭 Organizers</button>
       <button class="tab" onclick="switchAdminTab('vendors',this)">📸 Vendors</button>
@@ -1020,31 +1020,26 @@ body.light header { background: rgba(240,236,228,0.85); }
       <button class="tab" onclick="switchAdminTab('addlisting',this)">➕ Add Listing</button>
     </div>
 
-    <!-- ALL ORGANIZERS -->
     <div id="adminTabOrganizers">
       <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">All organizer profiles on the platform. You can delete or edit any listing.</div>
       <div id="adminOrgList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
     </div>
 
-    <!-- ALL VENDORS -->
     <div id="adminTabVendors" class="hidden">
       <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">All vendor profiles (photographers, makeup artists, return gifts).</div>
       <div id="adminVendorList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
     </div>
 
-    <!-- ALL EVENTS -->
     <div id="adminTabEvents" class="hidden">
       <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">All events posted on the platform.</div>
       <div id="adminEventList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
     </div>
 
-    <!-- ALL ENQUIRIES -->
     <div id="adminTabEnquiries" class="hidden">
       <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">All enquiries sent by customers.</div>
       <div id="adminEnquiryList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
     </div>
 
-    <!-- ADD LISTING ON BEHALF -->
     <div id="adminTabAddlisting" class="hidden">
       <div class="admin-section">
         <div class="admin-section-title">➕ Add Vendor Listing (on behalf of anyone)</div>
@@ -1351,6 +1346,8 @@ function togglePass(){
   const p=document.getElementById('authPass');
   p.type=p.type==='password'?'text':'password';
 }
+
+// ✅ UPDATED toggleAuth — phone field show/hide
 function toggleAuth(){
   isLogin=!isLogin;
   document.getElementById('authTitle').innerHTML=isLogin?'Welcome <em>Back.</em>':'Create <em>Account.</em>';
@@ -1359,20 +1356,36 @@ function toggleAuth(){
   document.getElementById('switchPre').textContent=isLogin?'New here? ':'Already have an account? ';
   document.getElementById('switchLink').textContent=isLogin?'Create an account':'Login here';
   document.getElementById('errorMsg').textContent='';
+  // ✅ Phone field: show on signup, hide on login
+  const phoneGroup=document.getElementById('phoneGroup');
+  const phoneInput=document.getElementById('authPhone');
+  if(isLogin){
+    phoneGroup.classList.add('hidden');
+    phoneInput.removeAttribute('required');
+  } else {
+    phoneGroup.classList.remove('hidden');
+    phoneInput.setAttribute('required','true');
+  }
 }
 
+// ✅ UPDATED authForm — phone validation + Firestore save
 document.getElementById('authForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const email=document.getElementById('authEmail').value;
   const pass=document.getElementById('authPass').value;
+  const phone=document.getElementById('authPhone')?.value?.trim()||'';
   const errEl=document.getElementById('errorMsg');
   const btn=document.getElementById('authBtn');
   if(pass.length<6){errEl.textContent='⚠ Password must be at least 6 characters'; return;}
+  // ✅ Phone validation — only on signup
+  if(!isLogin){
+    if(!phone){ errEl.textContent='⚠ Phone number required hai'; return; }
+    if(phone.replace(/\D/g,'').length<10){ errEl.textContent='⚠ Valid phone number dalo (minimum 10 digits)'; return; }
+  }
   btn.textContent='Please wait...'; btn.disabled=true;
   try{
     if(isLogin){
       const cred=await auth.signInWithEmailAndPassword(email,pass);
-      // Admin bypasses email verification requirement
       if(!cred.user.emailVerified && cred.user.email!==ADMIN_EMAIL){
         showVerifyScreen(cred.user);
         btn.textContent='Login →'; btn.disabled=false;
@@ -1380,6 +1393,12 @@ document.getElementById('authForm').addEventListener('submit',async e=>{
       }
     } else {
       const cred=await auth.createUserWithEmailAndPassword(email,pass);
+      // ✅ Phone number Firestore mein save karo
+      await db.collection('users').doc(cred.user.uid).set({
+        email: email,
+        phone: phone,
+        createdAt: new Date()
+      });
       await cred.user.sendEmailVerification();
       showVerifyScreen(cred.user);
       btn.textContent='Register →'; btn.disabled=false;
@@ -1400,7 +1419,6 @@ auth.onAuthStateChanged(user=>{
     hideAllPages();
     document.getElementById('home').classList.remove('hidden');
     updateHeaderUser(user.email, isAdmin);
-    // Show admin button on home page
     const adminBtn = document.getElementById('adminHomeBtn');
     if(adminBtn) adminBtn.classList.toggle('hidden', !isAdmin);
   } else {
@@ -1472,7 +1490,6 @@ function handleLogoClick(){ if(currentUser) showSection('home'); }
 
 /* ===== NAVIGATION ===== */
 function showSection(id){
-  // Guard admin panel
   if(id==='admin' && currentUser?.email!==ADMIN_EMAIL){
     showToast('Access denied.','error'); return;
   }
@@ -1733,7 +1750,6 @@ async function adminEditOrg(id){
       </div>
     </div>
   </div>`;
-  // Set category select value
   const sel=document.getElementById('editOrgCat');
   if(sel && o.category) sel.value=o.category;
 }
@@ -2826,6 +2842,13 @@ function closeVendorProfile(){
   },100);
 }
 </script>
+
+<!-- ✅ FIRESTORE RULES REMINDER: Add this to your rules -->
+<!--
+match /users/{userId} {
+  allow read, write: if request.auth != null && request.auth.uid == userId;
+}
+-->
 
 </body>
 </html>

@@ -1326,27 +1326,44 @@ document.getElementById('orgForm').addEventListener('submit',async e=>{
   const files=document.getElementById('orgPhoto').files;
   if(!files.length){showToast('Please select at least one photo','error'); return;}
   const btn=e.target.querySelector('button[type=submit]');
-  btn.textContent='Uploading...'; btn.disabled=true;
-
-  // Read all images as base64
-  const readFile=f=>new Promise(res=>{
-    const r=new FileReader();
-    r.onload=()=>res(r.result);
-    r.readAsDataURL(f);
-  });
+  btn.disabled=true;
 
   const checkedCats=[...document.querySelectorAll('#catCheckboxes input:checked')].map(c=>c.value);
   if(!checkedCats.length){showToast('Please select at least one category','error'); return;}
-  const photos=await Promise.all(Array.from(files).map(readFile));
 
+  // Compress photos (max 800px, quality 0.72)
+  const compressPhoto = (file) => new Promise(res => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const MAX = 800;
+      let w = img.width, h = img.height;
+      if(w > MAX){ h = Math.round(h * MAX / w); w = MAX; }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      res(canvas.toDataURL('image/jpeg', 0.72));
+    };
+    img.src = url;
+  });
+
+  const total = files.length;
+  const photos = [];
+  for(let i = 0; i < total; i++){
+    btn.textContent = `Compressing ${i+1}/${total}...`;
+    photos.push(await compressPhoto(files[i]));
+  }
+
+  btn.textContent = 'Saving...';
   await db.collection('organizers').add({
     name:document.getElementById('orgName').value,
     company:document.getElementById('orgCompany').value||'',
     phone:document.getElementById('orgPhone').value,
     whatsapp:document.getElementById('orgWhatsapp').value||document.getElementById('orgPhone').value,
     email:document.getElementById('orgEmail').value,
-    category:checkedCats[0],       // primary category for card display
-    categories:checkedCats,         // all selected categories
+    category:checkedCats[0],
+    categories:checkedCats,
     bio:document.getElementById('orgBio').value,
     location:document.getElementById('orgLocation').value,
     experience:document.getElementById('orgExp').value||'',
@@ -1361,7 +1378,6 @@ document.getElementById('orgForm').addEventListener('submit',async e=>{
 
   document.getElementById('orgForm').reset();
   document.getElementById('orgImgsPreview').innerHTML='';
-  // Reset category chips
   document.querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('selected'));
   document.querySelectorAll('#catCheckboxes input').forEach(c=>c.checked=false);
   btn.textContent='✦ Publish Profile'; btn.disabled=false;
@@ -2283,16 +2299,39 @@ document.getElementById('vendorForm').addEventListener('submit', async e=>{
     showToast('Please enter a valid Google Drive link','error'); return;
   }
   const btn = e.target.querySelector('button[type=submit]');
-  btn.textContent='Publishing...'; btn.disabled=true;
+  btn.disabled=true;
 
-  // Read photos if any (photographer/makeup only)
+  // Read + COMPRESS photos (max 800px wide, quality 0.7)
   let photos = [];
   const photoFiles = document.getElementById('vPhotos').files;
   if(photoFiles.length > 0 && currentVendorType !== 'gifts'){
-    const readF = f => new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(f); });
-    photos = await Promise.all(Array.from(photoFiles).map(readF));
+    const total = photoFiles.length;
+    btn.textContent = `Compressing 0/${total}...`;
+
+    const compressPhoto = (file) => new Promise(res => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        const MAX = 800;
+        let w = img.width, h = img.height;
+        if(w > MAX){ h = Math.round(h * MAX / w); w = MAX; }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+        res(canvas.toDataURL('image/jpeg', 0.72));
+      };
+      img.src = url;
+    });
+
+    for(let i = 0; i < total; i++){
+      btn.textContent = `Compressing ${i+1}/${total}...`;
+      const compressed = await compressPhoto(photoFiles[i]);
+      photos.push(compressed);
+    }
   }
 
+  btn.textContent = 'Saving...';
   await db.collection('vendors').add({
     type: currentVendorType,
     name: document.getElementById('vName').value,

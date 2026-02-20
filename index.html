@@ -2421,6 +2421,11 @@ function renderVendors(list){
     card.style.cssText='background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;transition:all 0.2s;cursor:pointer;';
     card.onmouseover=()=>card.style.borderColor='rgba(201,168,76,0.3)';
     card.onmouseout=()=>card.style.borderColor='rgba(255,255,255,0.07)';
+    // Card click opens vendor profile
+    card.onclick=(e)=>{
+      if(e.target.tagName==='A'||e.target.closest('a')) return; // don't intercept link clicks
+      openVendorProfile(v);
+    };
     const stars='★'.repeat(Math.round(v.rating||0))+'☆'.repeat(5-Math.round(v.rating||0));
     card.innerHTML=`
       <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;">
@@ -2439,21 +2444,111 @@ function renderVendors(list){
           ${v.photos&&v.photos.length>0?`
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
             ${v.photos.slice(0,5).map((p,i)=>`<img src="${p}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;border:2px solid ${i===0?'var(--accent)':'var(--border)'};" title="Photo ${i+1}">`).join('')}
-            ${v.photos.length>5?`<div style="width:56px;height:56px;border-radius:8px;background:var(--surface2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);font-weight:700;">+${v.photos.length-5}</div>`:''}
           </div>`:''}
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             ${v.priceMin||v.priceMax?`<span style="font-size:13px;font-weight:600;color:var(--accent);">₹${Number(v.priceMin||0).toLocaleString()} – ₹${Number(v.priceMax||0).toLocaleString()}</span>`:''}
-            ${v.driveLink?`<a href="${v.driveLink}" target="_blank" style="font-size:12px;color:var(--accent3);text-decoration:none;background:rgba(76,154,201,0.1);border:1px solid rgba(76,154,201,0.2);padding:4px 12px;border-radius:20px;">📂 View Portfolio →</a>`:''}
-            ${v.website?`<a href="${v.website}" target="_blank" style="font-size:12px;color:var(--muted);text-decoration:none;">🌐 Website</a>`:''}
+            ${v.driveLink?`<a href="${v.driveLink}" target="_blank" onclick="event.stopPropagation()" style="font-size:12px;color:#4ecb71;text-decoration:none;background:rgba(78,203,113,0.1);border:1px solid rgba(78,203,113,0.25);padding:5px 14px;border-radius:20px;font-weight:600;">📂 View Portfolio →</a>`:''}
+            ${v.website?`<a href="${v.website}" target="_blank" onclick="event.stopPropagation()" style="font-size:12px;color:var(--muted);text-decoration:none;background:var(--surface2);border:1px solid var(--border);padding:5px 14px;border-radius:20px;">🌐 Website</a>`:''}
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;min-width:120px;">
-          <a href="tel:${v.phone}" style="padding:8px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:var(--text);text-align:center;">📞 Call</a>
-          <a href="https://wa.me/91${(v.whatsapp||v.phone).replace(/\D/g,'')}" target="_blank" style="padding:8px 16px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:#25d366;text-align:center;">💬 WhatsApp</a>
-          ${v.email?`<a href="mailto:${v.email}" style="padding:8px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:var(--text);text-align:center;">✉ Email</a>`:''}
+          <a href="tel:${v.phone}" onclick="event.stopPropagation()" style="padding:8px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:var(--text);text-align:center;">📞 Call</a>
+          <a href="https://wa.me/91${(v.whatsapp||v.phone).replace(/\D/g,'')}" target="_blank" onclick="event.stopPropagation()" style="padding:8px 16px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:#25d366;text-align:center;">💬 WhatsApp</a>
+          ${v.email?`<a href="mailto:${v.email}" onclick="event.stopPropagation()" style="padding:8px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:var(--text);text-align:center;">✉ Email</a>`:''}
+          <button onclick="event.stopPropagation();openVendorProfile(allVendors.find(x=>x.id==='${v.id}'))" style="padding:8px 16px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:8px;font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;">View Profile →</button>
         </div>
       </div>`;
     el.appendChild(card);
   });
+}
+
+/* ====== VENDOR PROFILE PAGE ====== */
+let currentVendorProfile = null;
+
+function openVendorProfile(v){
+  currentVendorProfile = v;
+  hideAllPages();
+  const typeIcon={photographer:'📸',makeup:'💄',gifts:'🎁'};
+  const stars='★'.repeat(Math.round(v.rating||0))+'☆'.repeat(5-Math.round(v.rating||0));
+
+  // Build page
+  let page = document.getElementById('vendorProfilePage');
+  if(!page){
+    page = document.createElement('div');
+    page.id = 'vendorProfilePage';
+    page.style.cssText='position:relative;z-index:5;padding:20px 12px 80px;display:flex;justify-content:center;min-height:100vh;';
+    document.body.appendChild(page);
+  }
+  page.style.display='flex';
+
+  const photosHtml = v.photos&&v.photos.length>0 ? `
+    <div style="margin-bottom:24px;">
+      <img id="vpMainPhoto" src="${v.photos[0]}" style="width:100%;max-height:360px;object-fit:cover;border-radius:16px;margin-bottom:10px;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${v.photos.map((p,i)=>`<img src="${p}" onclick="document.getElementById('vpMainPhoto').src='${p}'" style="width:70px;height:70px;object-fit:cover;border-radius:10px;border:2px solid ${i===0?'var(--accent)':'var(--border)'};cursor:pointer;transition:border 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='${i===0?'var(--accent)':'var(--border)'}'">`).join('')}
+      </div>
+    </div>` : '';
+
+  page.innerHTML = `
+  <div style="width:100%;max-width:780px;">
+    <div class="panel-header">
+      <div class="panel-back" onclick="closeVendorProfile()">←</div>
+      <div><div class="panel-title">${typeIcon[v.type]||'✨'} <span>${v.type.charAt(0).toUpperCase()+v.type.slice(1)} Profile</span></div></div>
+    </div>
+
+    ${photosHtml}
+
+    <div class="glass-card" style="margin-bottom:16px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:900;margin-bottom:4px;">${v.name}</div>
+          ${v.company?`<div style="font-size:14px;color:var(--muted);margin-bottom:8px;">${v.company}</div>`:''}
+          <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);">
+            <span>📍 ${v.location}</span>
+            ${v.experience?`<span>🏆 ${v.experience} years exp</span>`:''}
+            ${v.specialty?`<span>🎯 ${v.specialty}</span>`:''}
+          </div>
+        </div>
+        ${v.priceMin||v.priceMax?`<div style="text-align:right;"><div style="font-size:11px;color:var(--muted);margin-bottom:2px;">Price Range</div><div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--accent);">₹${Number(v.priceMin||0).toLocaleString()} – ₹${Number(v.priceMax||0).toLocaleString()}</div></div>`:''}
+      </div>
+      <div style="color:var(--accent);font-size:16px;margin-bottom:4px;">${stars} <span style="font-size:13px;color:var(--muted);">${v.reviewCount?'('+v.reviewCount+' reviews)':'No reviews yet'}</span></div>
+      ${v.bio?`<p style="font-size:14px;color:var(--muted);line-height:1.7;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">${v.bio}</p>`:''}
+    </div>
+
+    <!-- CONTACT CARD -->
+    <div class="glass-card" style="margin-bottom:16px;">
+      <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px;margin-bottom:16px;">Contact</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="tel:${v.phone}" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);">
+          <span style="font-size:18px;">📞</span><div><div style="font-size:11px;color:var(--muted);">Phone</div><div style="font-weight:600;">${v.phone}</div></div>
+        </a>
+        <a href="https://wa.me/91${(v.whatsapp||v.phone).replace(/\D/g,'')}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.2);border-radius:10px;text-decoration:none;color:#25d366;">
+          <span style="font-size:18px;">💬</span><div><div style="font-size:11px;color:var(--muted);">WhatsApp</div><div style="font-weight:600;">${v.whatsapp||v.phone}</div></div>
+        </a>
+        ${v.email?`<a href="mailto:${v.email}" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);">
+          <span style="font-size:18px;">✉</span><div><div style="font-size:11px;color:var(--muted);">Email</div><div style="font-weight:600;">${v.email}</div></div>
+        </a>`:''}
+        ${v.driveLink?`<a href="${v.driveLink}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(78,203,113,0.08);border:1px solid rgba(78,203,113,0.25);border-radius:10px;text-decoration:none;color:#4ecb71;">
+          <span style="font-size:18px;">📂</span><div><div style="font-size:11px;color:var(--muted);">Portfolio</div><div style="font-weight:600;">View on Google Drive →</div></div>
+        </a>`:''}
+        ${v.website?`<a href="${v.website}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);">
+          <span style="font-size:18px;">🌐</span><div><div style="font-size:11px;color:var(--muted);">Website</div><div style="font-weight:600;">${v.website}</div></div>
+        </a>`:''}
+      </div>
+    </div>
+  </div>`;
+
+  window.scrollTo(0,0);
+}
+
+function closeVendorProfile(){
+  const page = document.getElementById('vendorProfilePage');
+  if(page) page.style.display='none';
+  showSection('customer');
+  // Re-open vendors tab
+  setTimeout(()=>{
+    const tabs = document.querySelectorAll('#customer .tab');
+    tabs.forEach(t=>{ if(t.textContent.includes('Photographers')) t.click(); });
+  }, 100);
 }
 </script>

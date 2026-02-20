@@ -47,7 +47,6 @@ body::before {
   z-index: 0;
 }
 
-/* ====== HEADER ====== */
 header {
   position: sticky;
   top: 0;
@@ -102,7 +101,6 @@ header {
 }
 .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ====== PAGES ====== */
 .page {
   position: relative;
   z-index: 5;
@@ -119,7 +117,6 @@ header {
 }
 .fade-in { animation: fadeUp 0.45s ease forwards; }
 
-/* ====== GLASS CARD ====== */
 .glass-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -128,7 +125,6 @@ header {
   box-shadow: 0 24px 64px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
-/* ====== FORM ELEMENTS ====== */
 .form-group { margin-bottom: 16px; }
 .form-group label {
   display: block;
@@ -164,7 +160,6 @@ header {
 .form-group textarea::placeholder { color: var(--muted); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-/* ====== BUTTONS ====== */
 .btn-primary {
   display: inline-flex; align-items: center; justify-content: center; gap: 7px;
   width: 100%; padding: 13px;
@@ -219,13 +214,28 @@ header {
 }
 .btn-danger:hover { background: rgba(224,92,92,0.1); border-color: var(--danger); }
 
+/* Admin button */
+.btn-admin {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 9px 18px;
+  background: linear-gradient(135deg, rgba(224,92,92,0.2), rgba(201,168,76,0.2));
+  color: #e8a87c;
+  border: 1px solid rgba(224,150,92,0.4);
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.btn-admin:hover { background: linear-gradient(135deg, rgba(224,92,92,0.3), rgba(201,168,76,0.3)); border-color: rgba(224,150,92,0.7); }
+
 .btn-sm {
   padding: 7px 14px !important;
   font-size: 13px !important;
   width: auto !important;
 }
 
-/* ====== AUTH ====== */
 .auth-wrap { width: 100%; max-width: 440px; }
 .auth-head { margin-bottom: 28px; }
 .auth-head h1 {
@@ -245,7 +255,6 @@ header {
 .switch-link a { color: var(--accent); cursor: pointer; font-weight: 600; }
 .switch-link a:hover { text-decoration: underline; }
 
-/* ====== HOME ====== */
 .home-wrap { width: 100%; max-width: 600px; text-align: center; }
 .home-title {
   font-family: 'Playfair Display', serif;
@@ -268,15 +277,16 @@ header {
 }
 .option-card.o-opt::before { background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%); }
 .option-card.c-opt::before { background: radial-gradient(ellipse at 50% 0%, rgba(123,94,167,0.15) 0%, transparent 70%); }
+.option-card.a-opt::before { background: radial-gradient(ellipse at 50% 0%, rgba(224,92,92,0.15) 0%, transparent 70%); }
 .option-card:hover { transform: translateY(-3px); }
 .option-card:hover::before { opacity: 1; }
 .option-card.o-opt:hover { border-color: var(--accent); box-shadow: 0 12px 32px rgba(201,168,76,0.12); }
 .option-card.c-opt:hover { border-color: var(--accent2); box-shadow: 0 12px 32px rgba(123,94,167,0.12); }
+.option-card.a-opt:hover { border-color: #e05c5c; box-shadow: 0 12px 32px rgba(224,92,92,0.15); }
 .opt-icon { font-size: 38px; margin-bottom: 12px; display: block; }
 .opt-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; margin-bottom: 5px; }
 .opt-desc { font-size: 12px; color: var(--muted); }
 
-/* ===== CATEGORY CHIPS ===== */
 .cat-chip {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 8px 14px; border-radius: 20px;
@@ -292,7 +302,6 @@ header {
   font-weight: 600;
 }
 
-/* ====== BADGE ====== */
 .badge {
   display: inline-block; padding: 4px 12px;
   border-radius: 20px; font-size: 11px;
@@ -302,23 +311,11 @@ header {
   border: 1px solid rgba(201,168,76,0.2);
   margin-bottom: 14px;
 }
-.badge-purple {
-  background: rgba(123,94,167,0.1);
-  color: #b89fd4;
-  border-color: rgba(123,94,167,0.25);
-}
-.badge-blue {
-  background: rgba(76,154,201,0.1);
-  color: #7fc3e8;
-  border-color: rgba(76,154,201,0.25);
-}
-.badge-green {
-  background: rgba(92,184,92,0.1);
-  color: #7ed37e;
-  border-color: rgba(92,184,92,0.25);
-}
+.badge-purple { background: rgba(123,94,167,0.1); color: #b89fd4; border-color: rgba(123,94,167,0.25); }
+.badge-blue { background: rgba(76,154,201,0.1); color: #7fc3e8; border-color: rgba(76,154,201,0.25); }
+.badge-green { background: rgba(92,184,92,0.1); color: #7ed37e; border-color: rgba(92,184,92,0.25); }
+.badge-red { background: rgba(224,92,92,0.1); color: #e88e8e; border-color: rgba(224,92,92,0.25); }
 
-/* ====== PANEL LAYOUT ====== */
 .panel-wrap { width: 100%; max-width: 560px; }
 .panel-header { display: flex; align-items: center; gap: 14px; margin-bottom: 26px; }
 .panel-back {
@@ -331,7 +328,6 @@ header {
 .panel-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; }
 .panel-title span { color: var(--accent); }
 
-/* ====== TABS ====== */
 .tabs {
   display: flex; gap: 4px;
   background: var(--surface2);
@@ -349,7 +345,6 @@ header {
 }
 .tab.active { background: var(--surface); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
 
-/* ====== ORGANIZER DASHBOARD ====== */
 .dash-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 24px; }
 .stat-card {
   background: var(--surface); border: 1px solid var(--border);
@@ -364,7 +359,6 @@ header {
 }
 .stat-label { font-size: 11px; color: var(--muted); margin-top: 5px; letter-spacing: 0.5px; text-transform: uppercase; }
 
-/* ====== CUSTOMER VIEW ====== */
 .customer-wrap { width: 100%; max-width: 900px; }
 .search-sort-row { display: flex; gap: 12px; margin-bottom: 24px; align-items: center; }
 .search-bar { position: relative; flex: 1; }
@@ -387,7 +381,6 @@ header {
 }
 .sort-select:focus { border-color: var(--accent); }
 
-/* CATEGORY PILLS */
 .cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
 .cat-pill {
   padding: 6px 14px; border-radius: 20px;
@@ -398,7 +391,6 @@ header {
 .cat-pill:hover { border-color: var(--border2); color: var(--text); }
 .cat-pill.active { background: var(--accent); color: #0a0a0f; border-color: var(--accent); font-weight: 600; }
 
-/* ====== ORG CARDS ====== */
 .org-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap: 16px; }
 .org-card {
   background: var(--surface); border: 1px solid var(--border);
@@ -427,7 +419,6 @@ header {
   display: flex; align-items: center; justify-content: space-between;
 }
 
-/* ====== MODAL ====== */
 .modal-overlay {
   position: fixed; inset: 0; z-index: 200;
   background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
@@ -472,7 +463,6 @@ header {
 .modal-actions .btn-primary { flex: 1; }
 .modal-actions .btn-secondary { flex: 1; }
 
-/* REVIEW SECTION */
 .reviews-section { margin-top: 22px; }
 .reviews-section h4 { font-family: 'Playfair Display', serif; font-size: 16px; margin-bottom: 14px; }
 .review-card {
@@ -488,51 +478,14 @@ header {
 .star-picker span { opacity: 0.3; transition: opacity 0.15s; }
 .star-picker span.lit { opacity: 1; color: var(--accent); }
 
-/* ENQUIRY FORM */
 .enquiry-form { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
 .enquiry-form h4 { font-family: 'Playfair Display', serif; font-size: 16px; margin-bottom: 14px; }
 
-/* ====== EVENTS ====== */
-.events-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 16px; }
-.event-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 16px; padding: 20px;
-  transition: all 0.2s; cursor: pointer;
-}
-.event-card:hover { transform: translateY(-3px); border-color: var(--border2); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
-.event-date-badge {
-  display: inline-flex; flex-direction: column; align-items: center;
-  width: 52px; background: var(--surface2);
-  border: 1px solid var(--border); border-radius: 10px;
-  padding: 6px 8px; margin-bottom: 14px;
-}
-.event-date-badge .month { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 600; }
-.event-date-badge .day { font-size: 22px; font-weight: 900; font-family: 'Playfair Display', serif; line-height: 1; }
-.event-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; margin-bottom: 6px; }
-.event-meta { font-size: 12px; color: var(--muted); margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
-.event-price { font-size: 18px; font-weight: 700; color: var(--accent); margin-top: 12px; }
-.event-price span { font-size: 12px; color: var(--muted); font-weight: 400; }
-
-/* MY ENQUIRIES */
-.enquiry-item {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 14px; padding: 18px; margin-bottom: 12px;
-}
-.enquiry-to { font-size: 13px; color: var(--muted); margin-bottom: 5px; }
-.enquiry-msg { font-size: 14px; line-height: 1.5; }
-.enquiry-status {
-  display: inline-block; margin-top: 10px;
-  padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
-  background: rgba(201,168,76,0.1); color: var(--accent); border: 1px solid rgba(201,168,76,0.2);
-}
-
-/* IMAGE PREVIEW */
 .img-preview {
   width: 100%; height: 160px; border-radius: 10px; object-fit: cover;
   border: 1px solid var(--border); margin-top: 8px; display: none;
 }
 
-/* ====== LOADING ====== */
 .loading-dots { display: flex; gap: 6px; justify-content: center; padding: 40px; grid-column: 1/-1; }
 .loading-dots span {
   width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
@@ -545,7 +498,6 @@ header {
   40% { transform: scale(1); opacity: 1; }
 }
 
-/* ====== EMPTY ====== */
 .empty-state {
   text-align: center; padding: 60px 20px;
   color: var(--muted); grid-column: 1/-1;
@@ -553,7 +505,6 @@ header {
 .empty-icon { font-size: 48px; opacity: 0.3; display: block; margin-bottom: 14px; }
 .empty-state p { font-size: 15px; }
 
-/* ====== TOAST ====== */
 .toast {
   position: fixed; bottom: 28px; right: 28px;
   padding: 13px 20px; border-radius: 12px;
@@ -567,7 +518,6 @@ header {
 .toast.success { background: var(--surface); border: 1px solid var(--accent); color: var(--text); }
 .toast.error-t { background: var(--surface); border: 1px solid var(--danger); color: var(--text); }
 
-/* ====== EMAIL VERIFY SCREEN ====== */
 .verify-wrap { width: 100%; max-width: 440px; text-align: center; }
 .verify-icon { font-size: 64px; margin-bottom: 20px; display: block; animation: float 3s ease-in-out infinite; }
 @keyframes float {
@@ -599,7 +549,41 @@ header {
 .verify-btns { display: flex; flex-direction: column; gap: 10px; }
 .resend-timer { font-size: 12px; color: var(--muted); margin-top: 8px; }
 
-/* LIGHT MODE */
+/* ====== ADMIN STYLES ====== */
+.admin-wrap { width: 100%; max-width: 1100px; }
+.admin-section {
+  background: var(--surface); border: 1px solid rgba(224,92,92,0.2);
+  border-radius: 16px; padding: 22px; margin-bottom: 20px;
+}
+.admin-section-title {
+  font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700;
+  margin-bottom: 16px; color: #e8a87c;
+  display: flex; align-items: center; gap: 10px;
+}
+.admin-item {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px; margin-bottom: 10px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.admin-item-info { flex: 1; min-width: 200px; }
+.admin-item-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.admin-item-meta { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.admin-item-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-start; flex-shrink: 0; }
+.admin-stats-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; margin-bottom: 24px; }
+.admin-stat {
+  background: var(--surface); border: 1px solid rgba(224,92,92,0.15);
+  border-radius: 12px; padding: 16px; text-align: center;
+}
+.admin-stat-num { font-family:'Playfair Display',serif; font-size:28px; font-weight:900; color:#e8a87c; }
+.admin-stat-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-top:4px; }
+
+/* Edit modal */
+.edit-modal {
+  background: var(--surface); border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 16px; padding: 26px; width: 100%; max-width: 600px;
+  max-height: 85vh; overflow-y: auto;
+}
+
 body.light {
   --bg: #f0ece4;
   --surface: #ffffff;
@@ -614,7 +598,6 @@ body.light {
 body.light::before { opacity: 0.5; }
 body.light header { background: rgba(240,236,228,0.85); }
 
-/* RESPONSIVE */
 @media(max-width:640px){
   header { padding: 14px 18px; }
   .home-title { font-size: 32px; }
@@ -631,12 +614,7 @@ body.light header { background: rgba(240,236,228,0.85); }
   .customer-wrap { width: 100% !important; padding: 0 !important; }
   .glass-card { padding: 16px !important; }
   .panel-header { margin-bottom: 16px; }
-  .org-card { width: 100% !important; }
-  .search-bar { width: 100% !important; }
-  .sort-select { width: 100% !important; }
-  .cat-pills { flex-wrap: wrap !important; overflow-x: auto; }
-
-  /* Profile page mobile */
+  .admin-stats-row { grid-template-columns: repeat(2,1fr); }
   #profilePage > div:last-child > div:first-child { display: block !important; }
   #profilePage [style*="grid-template-columns:1fr 320px"],
   #profilePage [style*="grid-template-columns: 1fr 320px"] { display: block !important; }
@@ -650,13 +628,9 @@ body.light header { background: rgba(240,236,228,0.85); }
 </head>
 <body>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
-
-<!-- MODAL CONTAINER -->
 <div id="modalContainer"></div>
 
-<!-- ===== HEADER ===== -->
 <header>
   <div class="logo" onclick="handleLogoClick()" style="cursor:pointer;">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" height="44" width="143">
@@ -698,7 +672,7 @@ body.light header { background: rgba(240,236,228,0.85); }
   </div>
 </header>
 
-<!-- ===== AUTH ===== -->
+<!-- AUTH -->
 <div class="page" id="auth">
   <div class="auth-wrap fade-in">
     <div class="auth-head">
@@ -731,13 +705,13 @@ body.light header { background: rgba(240,236,228,0.85); }
   </div>
 </div>
 
-<!-- ===== VERIFY EMAIL ===== -->
+<!-- VERIFY EMAIL -->
 <div class="page hidden" id="verifyEmail">
   <div class="verify-wrap fade-in">
     <span class="verify-icon">📧</span>
     <h1 class="verify-title">Check your <em>inbox.</em></h1>
     <p class="verify-sub">We've sent a verification link to:</p>
-    <div class="verify-email-badge" id="verifyEmailBadge"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b1c8dec4c3f1d4dcd0d8dd9fd2dedc">[email&#160;protected]</a></div>
+    <div class="verify-email-badge" id="verifyEmailBadge">email@example.com</div>
     <div class="glass-card" style="margin-bottom:20px;">
       <div class="verify-steps">
         <div class="verify-step">
@@ -763,7 +737,7 @@ body.light header { background: rgba(240,236,228,0.85); }
   </div>
 </div>
 
-<!-- ===== HOME ===== -->
+<!-- HOME -->
 <div class="page hidden" id="home">
   <div class="home-wrap fade-in">
     <div class="badge">✦ Welcome back</div>
@@ -798,11 +772,19 @@ body.light header { background: rgba(240,236,228,0.85); }
         <div class="opt-desc" style="font-size:12px;">Wedding favors & gift hampers</div>
       </div>
     </div>
+    <!-- ADMIN BUTTON — only shown to mrritammitra@gmail.com -->
+    <div id="adminHomeBtn" class="hidden" style="margin-bottom:18px;">
+      <div class="option-card a-opt" onclick="showSection('admin')" style="grid-column:1/-1;">
+        <span class="opt-icon">🛡️</span>
+        <div class="opt-title" style="color:#e8a87c;">Admin Panel</div>
+        <div class="opt-desc">Manage all listings, delete content, add on behalf of others</div>
+      </div>
+    </div>
     <button class="btn-secondary" onclick="logout()">← Sign out</button>
   </div>
 </div>
 
-<!-- ===== ORGANIZER PANEL ===== -->
+<!-- ORGANIZER PANEL -->
 <div class="page hidden" id="organizer" style="align-items:flex-start;padding-top:20px;padding-left:12px;padding-right:12px;">
   <div class="panel-wrap fade-in" style="max-width:720px;width:100%;">
     <div class="panel-header">
@@ -812,21 +794,18 @@ body.light header { background: rgba(240,236,228,0.85); }
       </div>
     </div>
 
-    <!-- STATS -->
     <div class="dash-grid" id="orgStats">
       <div class="stat-card"><div class="stat-num" id="statProfiles">0</div><div class="stat-label">My Profiles</div></div>
       <div class="stat-card"><div class="stat-num" id="statEvents">0</div><div class="stat-label">My Events</div></div>
       <div class="stat-card"><div class="stat-num" id="statEnquiries">0</div><div class="stat-label">Enquiries</div></div>
     </div>
 
-    <!-- TABS -->
     <div class="tabs">
       <button class="tab active" onclick="switchOrgTab('profile',this)">👤 Profile</button>
       <button class="tab" onclick="switchOrgTab('events',this)">🎪 Post Event</button>
       <button class="tab" onclick="switchOrgTab('inbox',this)">📬 Inbox</button>
     </div>
 
-    <!-- TAB: PROFILE UPLOAD -->
     <div id="orgTabProfile">
       <div class="glass-card">
         <form id="orgForm">
@@ -899,7 +878,6 @@ body.light header { background: rgba(240,236,228,0.85); }
       </div>
     </div>
 
-    <!-- TAB: POST EVENT -->
     <div id="orgTabEvents" class="hidden">
       <div class="glass-card" style="margin-bottom:20px;">
         <form id="eventForm">
@@ -948,15 +926,13 @@ body.light header { background: rgba(240,236,228,0.85); }
       <div id="myEventsList"></div>
     </div>
 
-    <!-- TAB: INBOX -->
     <div id="orgTabInbox" class="hidden">
       <div id="inboxList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
     </div>
-
   </div>
 </div>
 
-<!-- ===== CUSTOMER VIEW ===== -->
+<!-- CUSTOMER VIEW -->
 <div class="page hidden" id="customer" style="align-items:flex-start;padding-top:20px;padding-left:12px;padding-right:12px;">
   <div class="customer-wrap fade-in">
     <div class="panel-header">
@@ -964,7 +940,6 @@ body.light header { background: rgba(240,236,228,0.85); }
       <div><div class="panel-title">Explore <span>Organizers</span></div></div>
     </div>
 
-    <!-- TABS -->
     <div class="tabs">
       <button class="tab active" onclick="switchCustTab('browse',this)">🔍 Browse</button>
       <button class="tab" onclick="switchCustTab('events',this)">🎪 Events</button>
@@ -972,7 +947,6 @@ body.light header { background: rgba(240,236,228,0.85); }
       <button class="tab" onclick="switchCustTab('myenquiries',this)">📋 My Enquiries</button>
     </div>
 
-    <!-- BROWSE TAB -->
     <div id="custTabBrowse">
       <div class="search-sort-row">
         <div class="search-bar">
@@ -995,14 +969,12 @@ body.light header { background: rgba(240,236,228,0.85); }
       </div>
     </div>
 
-    <!-- EVENTS TAB -->
     <div id="custTabEvents" class="hidden">
       <div class="events-grid" id="eventsGrid">
         <div class="loading-dots"><span></span><span></span><span></span></div>
       </div>
     </div>
 
-    <!-- VENDORS TAB -->
     <div id="custTabVendors" class="hidden">
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;" id="vendorFilterBtns">
         <button class="vendor-type-btn active" onclick="filterVendors('all',this)">All</button>
@@ -1013,21 +985,236 @@ body.light header { background: rgba(240,236,228,0.85); }
       <div id="vendorList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
     </div>
 
-    <!-- MY ENQUIRIES TAB -->
     <div id="custTabMyenquiries" class="hidden">
       <div id="myEnquiriesList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div class="page hidden" id="admin" style="align-items:flex-start;padding-top:20px;padding-left:12px;padding-right:12px;">
+  <div class="admin-wrap fade-in">
+    <div class="panel-header">
+      <div class="panel-back" onclick="showSection('home')">←</div>
+      <div>
+        <div class="panel-title">🛡️ Admin <span>Panel</span></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Logged in as mrritammitra@gmail.com</div>
+      </div>
+    </div>
+
+    <!-- ADMIN STATS -->
+    <div class="admin-stats-row" id="adminStatsRow">
+      <div class="admin-stat"><div class="admin-stat-num" id="adStatOrg">–</div><div class="admin-stat-label">Organizers</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" id="adStatVendors">–</div><div class="admin-stat-label">Vendors</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" id="adStatEvents">–</div><div class="admin-stat-label">Events</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" id="adStatEnq">–</div><div class="admin-stat-label">Enquiries</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" id="adStatReviews">–</div><div class="admin-stat-label">Reviews</div></div>
+    </div>
+
+    <!-- ADMIN TABS -->
+    <div class="tabs" style="margin-bottom:26px;">
+      <button class="tab active" onclick="switchAdminTab('organizers',this)">🎭 Organizers</button>
+      <button class="tab" onclick="switchAdminTab('vendors',this)">📸 Vendors</button>
+      <button class="tab" onclick="switchAdminTab('events',this)">🎪 Events</button>
+      <button class="tab" onclick="switchAdminTab('enquiries',this)">📬 Enquiries</button>
+      <button class="tab" onclick="switchAdminTab('addlisting',this)">➕ Add Listing</button>
+    </div>
+
+    <!-- ALL ORGANIZERS -->
+    <div id="adminTabOrganizers">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">All organizer profiles on the platform. You can delete or edit any listing.</div>
+      <div id="adminOrgList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+    </div>
+
+    <!-- ALL VENDORS -->
+    <div id="adminTabVendors" class="hidden">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">All vendor profiles (photographers, makeup artists, return gifts).</div>
+      <div id="adminVendorList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+    </div>
+
+    <!-- ALL EVENTS -->
+    <div id="adminTabEvents" class="hidden">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">All events posted on the platform.</div>
+      <div id="adminEventList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+    </div>
+
+    <!-- ALL ENQUIRIES -->
+    <div id="adminTabEnquiries" class="hidden">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">All enquiries sent by customers.</div>
+      <div id="adminEnquiryList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+    </div>
+
+    <!-- ADD LISTING ON BEHALF -->
+    <div id="adminTabAddlisting" class="hidden">
+      <div class="admin-section">
+        <div class="admin-section-title">➕ Add Vendor Listing (on behalf of anyone)</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">Use this to list your uncle's makeup business or anyone else — no login needed from them. You submit it here as admin.</div>
+        <div class="glass-card">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;" id="adminVendorTypeBtns">
+            <button class="vendor-type-btn active" onclick="adminSelectVendorType('photographer',this)">📸 Photographer</button>
+            <button class="vendor-type-btn" onclick="adminSelectVendorType('makeup',this)">💄 Makeup Artist</button>
+            <button class="vendor-type-btn" onclick="adminSelectVendorType('gifts',this)">🎁 Return Gifts</button>
+          </div>
+          <form id="adminVendorForm">
+            <div id="adminVendorTypeLabel" style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;margin-bottom:16px;color:var(--accent);">📸 Adding: Photographer</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="avName" placeholder="Full name" required>
+              </div>
+              <div class="form-group">
+                <label>Company / Brand <span style="font-size:11px;color:var(--muted);">(optional)</span></label>
+                <input type="text" id="avCompany" placeholder="Studio / brand name">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" id="avPhone" placeholder="+91 00000 00000" required>
+              </div>
+              <div class="form-group">
+                <label>WhatsApp</label>
+                <input type="tel" id="avWhatsapp" placeholder="+91 WhatsApp">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="avEmail" placeholder="their@email.com" required>
+              </div>
+              <div class="form-group">
+                <label>Website <span style="font-size:11px;color:var(--muted);">(optional)</span></label>
+                <input type="url" id="avWebsite" placeholder="https://...">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Location / City</label>
+              <input type="text" id="avLocation" placeholder="e.g. Midnapore, Kolkata..." required>
+            </div>
+            <div class="form-group">
+              <label>Bio / Description</label>
+              <textarea id="avBio" rows="3" placeholder="About their work..."></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Years of Experience</label>
+                <input type="number" id="avExp" placeholder="e.g. 5" min="0">
+              </div>
+              <div class="form-group">
+                <label id="avSpecialtyLabel">Specialty</label>
+                <input type="text" id="avSpecialty" placeholder="e.g. Bridal Makeup">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Min Price (₹)</label>
+                <input type="number" id="avPriceMin" placeholder="e.g. 2000" min="0">
+              </div>
+              <div class="form-group">
+                <label>Max Price (₹)</label>
+                <input type="number" id="avPriceMax" placeholder="e.g. 20000" min="0">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Google Drive Portfolio Link <span style="font-size:11px;color:var(--muted);">(optional)</span></label>
+              <input type="url" id="avDriveLink" placeholder="https://drive.google.com/...">
+            </div>
+            <div class="form-group" id="avPhotoGroup">
+              <label>Work Photos <span style="font-size:11px;color:var(--muted);">(max 5)</span></label>
+              <input type="file" id="avPhotos" accept="image/*" multiple onchange="previewAdminVendorPhotos(this)">
+              <div id="avPhotosPreview" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;"></div>
+            </div>
+            <button type="submit" class="btn-primary" style="margin-top:8px;">✦ Publish Listing</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="admin-section" style="margin-top:20px;">
+        <div class="admin-section-title">🎭 Add Organizer Profile (on behalf of anyone)</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">List a full event organizer profile for someone without them needing an account.</div>
+        <div class="glass-card">
+          <form id="adminOrgForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Organizer Name</label>
+                <input type="text" id="aoName" placeholder="Name or company" required>
+              </div>
+              <div class="form-group">
+                <label>Company Name <span style="font-size:11px;color:var(--muted);">(optional)</span></label>
+                <input type="text" id="aoCompany" placeholder="Brand name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Categories</label>
+              <div id="aoCatCheckboxes" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+                <label class="cat-chip"><input type="checkbox" value="Wedding"> 💍 Wedding</label>
+                <label class="cat-chip"><input type="checkbox" value="Birthday"> 🎂 Birthday</label>
+                <label class="cat-chip"><input type="checkbox" value="Corporate"> 🏢 Corporate</label>
+                <label class="cat-chip"><input type="checkbox" value="Concert"> 🎵 Concert</label>
+                <label class="cat-chip"><input type="checkbox" value="Sports"> 🏅 Sports</label>
+                <label class="cat-chip"><input type="checkbox" value="Conference"> 🎤 Conference</label>
+                <label class="cat-chip"><input type="checkbox" value="Social"> 🎊 Social</label>
+                <label class="cat-chip"><input type="checkbox" value="Other"> ✨ Other</label>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" id="aoPhone" placeholder="+91 00000 00000" required>
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="aoEmail" placeholder="contact@email.com" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Bio / Description</label>
+              <textarea id="aoBio" rows="3" placeholder="Tell clients about this organizer..."></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Location / City</label>
+                <input type="text" id="aoLocation" placeholder="e.g. Midnapore..." required>
+              </div>
+              <div class="form-group">
+                <label>Years of Experience</label>
+                <input type="number" id="aoExp" placeholder="e.g. 5" min="0">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Min Price (₹)</label>
+                <input type="number" id="aoPriceMin" placeholder="e.g. 10000" min="0">
+              </div>
+              <div class="form-group">
+                <label>Max Price (₹)</label>
+                <input type="number" id="aoPriceMax" placeholder="e.g. 100000" min="0">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>WhatsApp Number</label>
+              <input type="tel" id="aoWhatsapp" placeholder="+91 WhatsApp number">
+            </div>
+            <div class="form-group">
+              <label>Photos (select multiple)</label>
+              <input type="file" id="aoPhotos" accept="image/*" multiple onchange="previewAdminOrgPhotos(this)">
+              <div id="aoImgsPreview" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;"></div>
+            </div>
+            <button type="submit" class="btn-primary">✦ Publish Organizer Profile</button>
+          </form>
+        </div>
+      </div>
     </div>
 
   </div>
 </div>
 
 <!-- FIREBASE -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
-/* ============== FIREBASE ============== */
 firebase.initializeApp({
   apiKey:"AIzaSyBNW3y2zR8xQmhrOWqXzu8dmFRMYdSRSFM",
   authDomain:"rd-eventsphere.firebaseapp.com",
@@ -1039,21 +1226,16 @@ firebase.initializeApp({
 const auth=firebase.auth();
 const db=firebase.firestore();
 
-/* ============== SEED ORGANIZERS (run once) ============== */
+const ADMIN_EMAIL = 'mrritammitra@gmail.com';
+
+/* ===== SEED ===== */
 async function seedOrganizers(){
   try{
     const check=await db.collection('organizers').limit(1).get();
-    if(!check.empty){ console.log('Already has organizers, skip seed'); return; }
-    console.log('Seeding 10 organizers...');
-    const organizers=getSeedData();
-
-  const batch=db.batch();
-  organizers.forEach(o=>{
-    const ref=db.collection('organizers').doc();
-    batch.set(ref,o);
-  });
-  await batch.commit();
-  console.log('✅ 10 organizers seeded!');
+    if(!check.empty){ return; }
+    const batch=db.batch();
+    getSeedData().forEach(o=>{ const ref=db.collection('organizers').doc(); batch.set(ref,o); });
+    await batch.commit();
   }catch(err){ console.error('Seed error:',err); }
 }
 
@@ -1061,90 +1243,64 @@ async function forceSeed(){
   const btn=document.getElementById('seedBtn');
   if(btn){btn.textContent='⏳ Adding...';btn.disabled=true;}
   try{
-    const data=getSeedData();
     const batch=db.batch();
-    data.forEach(o=>{
-      const ref=db.collection('organizers').doc();
-      batch.set(ref,o);
-    });
+    getSeedData().forEach(o=>{ const ref=db.collection('organizers').doc(); batch.set(ref,o); });
     await batch.commit();
-    showToast('✅ 10 organizers added successfully!');
+    showToast('✅ 10 organizers added!');
     const banner=document.getElementById('seedBanner');
     if(banner) banner.style.display='none';
     await loadOrganizers();
   }catch(err){
     showToast('❌ Error: '+err.message,'error');
-    console.error('Seed error:',err);
     if(btn){btn.textContent='+ Add 10 Sample Organizers';btn.disabled=false;}
   }
 }
 
-async function seedOrganizersFresh(){
-  try{
-    const data=getSeedData();
-    const batch=db.batch();
-    data.forEach(o=>{const ref=db.collection('organizers').doc();batch.set(ref,o);});
-    await batch.commit();
-    showToast('✅ 10 organizers added!');
-  }catch(err){showToast('Error: '+err.message,'error');console.error(err);}
-}
-
 function getSeedData(){
   return [
-    {name:"Sharma Wedding Planners",phone:"9832100001",whatsapp:"9832100001",email:"sharmaweddings@gmail.com",category:"Wedding",bio:"10+ saal ka experience. Midnapore aur West Bengal mein 500+ weddings successfully organize ki hain. Decoration, catering, photography sab ek hi jagah.",location:"Midnapore, West Bengal",experience:"10",priceMin:50000,priceMax:500000,photo:"https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80",photos:["https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80","https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&q=80"],owner:"seed@utsaav.com",rating:4.5,reviewCount:12,createdAt:new Date()},
-    {name:"Royal Events & Decorators",phone:"9733200002",whatsapp:"9733200002",email:"royalevents.wbg@gmail.com",category:"Wedding",bio:"Royal Events specializes in royal themed weddings and receptions. Best decorator in Kharagpur area with 7 years of expertise.",location:"Kharagpur, West Bengal",experience:"7",priceMin:30000,priceMax:300000,photo:"https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&q=80",photos:["https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&q=80","https://images.unsplash.com/photo-1478146059778-26028b07395a?w=400&q=80"],owner:"seed@utsaav.com",rating:4.2,reviewCount:8,createdAt:new Date()},
-    {name:"Star Corporate Events",phone:"9434300003",whatsapp:"9434300003",email:"starcorp.events@gmail.com",category:"Corporate",bio:"Corporate seminars, conferences, product launches aur team building events mein specialist. Kolkata se Midnapore tak saare districts mein service available.",location:"Kolkata, West Bengal",experience:"6",priceMin:20000,priceMax:200000,photo:"https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&q=80",photos:["https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&q=80","https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80"],owner:"seed@utsaav.com",rating:4.7,reviewCount:15,createdAt:new Date()},
-    {name:"Dream Birthday Studio",phone:"9635400004",whatsapp:"9635400004",email:"dreambirthday.wb@gmail.com",category:"Birthday",bio:"Bachon se lekar adults tak — har tarah ke birthday party themes available. Balloon decoration, cake arrangement, DJ, photography sab kuch.",location:"Paschim Medinipur, West Bengal",experience:"4",priceMin:5000,priceMax:50000,photo:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",photos:["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80","https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=400&q=80"],owner:"seed@utsaav.com",rating:4.3,reviewCount:20,createdAt:new Date()},
-    {name:"Beats & Beyond Concert Co.",phone:"9800500005",whatsapp:"9800500005",email:"beatsbeyond.concerts@gmail.com",category:"Concert",bio:"Live concerts, music festivals aur cultural programs ke liye No.1 organizer in West Bengal. Stage setup, sound system, artist booking sab manage karte hain.",location:"Durgapur, West Bengal",experience:"8",priceMin:100000,priceMax:1000000,photo:"https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=80",photos:["https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=80","https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=400&q=80"],owner:"seed@utsaav.com",rating:4.8,reviewCount:31,createdAt:new Date()},
-    {name:"Utsav Social Events",phone:"9123600006",whatsapp:"9123600006",email:"utsavsocial.events@gmail.com",category:"Social",bio:"Pujo, cultural programs, annual functions aur community events ke liye trusted name. 15 saal se Midnapore aur surrounding areas mein kaam kar rahe hain.",location:"Midnapore, West Bengal",experience:"15",priceMin:10000,priceMax:150000,photo:"https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=80",photos:["https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=80","https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80"],owner:"seed@utsaav.com",rating:4.6,reviewCount:18,createdAt:new Date()},
-    {name:"Elite Conference Solutions",phone:"9876700007",whatsapp:"9876700007",email:"eliteconf.wb@gmail.com",category:"Conference",bio:"Professional conference rooms, AV setup, speaker coordination aur delegate management mein expert. ISO certified event company.",location:"Howrah, West Bengal",experience:"9",priceMin:25000,priceMax:250000,photo:"https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&q=80",photos:["https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&q=80","https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400&q=80"],owner:"seed@utsaav.com",rating:4.4,reviewCount:9,createdAt:new Date()},
-    {name:"Champions Sports Events",phone:"9654800008",whatsapp:"9654800008",email:"championsports.events@gmail.com",category:"Sports",bio:"Cricket tournaments, football matches, kabaddi competitions aur school sports events ke expert organizer. Complete sports event management available.",location:"Medinipur, West Bengal",experience:"5",priceMin:15000,priceMax:100000,photo:"https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&q=80",photos:["https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&q=80","https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400&q=80"],owner:"seed@utsaav.com",rating:4.1,reviewCount:6,createdAt:new Date()},
-    {name:"Pink Celebration Studio",phone:"9345900009",whatsapp:"9345900009",email:"pinkcelebration.wb@gmail.com",category:"Birthday",bio:"Themed birthday parties, baby showers, anniversary celebrations — full package mein photography, cake, decoration, entertainment sab.",location:"Bankura, West Bengal",experience:"3",priceMin:8000,priceMax:60000,photo:"https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&q=80",photos:["https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&q=80","https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400&q=80"],owner:"seed@utsaav.com",rating:4.0,reviewCount:14,createdAt:new Date()},
-    {name:"Grand Wedding Affairs",phone:"9567000010",whatsapp:"9567000010",email:"grandwedding.affairs@gmail.com",category:"Wedding",bio:"Aapki shaadi ko unforgettable banana hamare haath mein. Full destination wedding packages available. Catering, mehendi, sangeet, reception — ek hi team.",location:"Purulia, West Bengal",experience:"12",priceMin:75000,priceMax:750000,photo:"https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&q=80",photos:["https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&q=80","https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&q=80"],owner:"seed@utsaav.com",rating:4.9,reviewCount:27,createdAt:new Date()}
+    {name:"Sharma Wedding Planners",phone:"9832100001",whatsapp:"9832100001",email:"sharmaweddings@gmail.com",category:"Wedding",bio:"10+ saal ka experience. Midnapore aur West Bengal mein 500+ weddings successfully organize ki hain.",location:"Midnapore, West Bengal",experience:"10",priceMin:50000,priceMax:500000,photo:"https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80",photos:["https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80","https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&q=80"],owner:"seed@utsaav.com",rating:4.5,reviewCount:12,createdAt:new Date()},
+    {name:"Royal Events & Decorators",phone:"9733200002",whatsapp:"9733200002",email:"royalevents.wbg@gmail.com",category:"Wedding",bio:"Royal Events specializes in royal themed weddings. Best decorator in Kharagpur with 7 years.",location:"Kharagpur, West Bengal",experience:"7",priceMin:30000,priceMax:300000,photo:"https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&q=80",photos:["https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&q=80"],owner:"seed@utsaav.com",rating:4.2,reviewCount:8,createdAt:new Date()},
+    {name:"Star Corporate Events",phone:"9434300003",whatsapp:"9434300003",email:"starcorp.events@gmail.com",category:"Corporate",bio:"Corporate seminars, conferences, product launches specialist. Kolkata to Midnapore service.",location:"Kolkata, West Bengal",experience:"6",priceMin:20000,priceMax:200000,photo:"https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&q=80",photos:["https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&q=80"],owner:"seed@utsaav.com",rating:4.7,reviewCount:15,createdAt:new Date()},
+    {name:"Dream Birthday Studio",phone:"9635400004",whatsapp:"9635400004",email:"dreambirthday.wb@gmail.com",category:"Birthday",bio:"Bachon se lekar adults tak — har tarah ke birthday party themes. Balloon, cake, DJ, photography.",location:"Paschim Medinipur, West Bengal",experience:"4",priceMin:5000,priceMax:50000,photo:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",photos:["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80"],owner:"seed@utsaav.com",rating:4.3,reviewCount:20,createdAt:new Date()},
+    {name:"Beats & Beyond Concert Co.",phone:"9800500005",whatsapp:"9800500005",email:"beatsbeyond.concerts@gmail.com",category:"Concert",bio:"Live concerts, music festivals aur cultural programs ke liye No.1 in West Bengal.",location:"Durgapur, West Bengal",experience:"8",priceMin:100000,priceMax:1000000,photo:"https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=80",photos:["https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=80"],owner:"seed@utsaav.com",rating:4.8,reviewCount:31,createdAt:new Date()},
+    {name:"Utsav Social Events",phone:"9123600006",whatsapp:"9123600006",email:"utsavsocial.events@gmail.com",category:"Social",bio:"Pujo, cultural programs, annual functions. 15 saal se Midnapore mein.",location:"Midnapore, West Bengal",experience:"15",priceMin:10000,priceMax:150000,photo:"https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=80",photos:["https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=80"],owner:"seed@utsaav.com",rating:4.6,reviewCount:18,createdAt:new Date()},
+    {name:"Elite Conference Solutions",phone:"9876700007",whatsapp:"9876700007",email:"eliteconf.wb@gmail.com",category:"Conference",bio:"Professional conference rooms, AV setup, speaker coordination expert.",location:"Howrah, West Bengal",experience:"9",priceMin:25000,priceMax:250000,photo:"https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&q=80",photos:["https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&q=80"],owner:"seed@utsaav.com",rating:4.4,reviewCount:9,createdAt:new Date()},
+    {name:"Champions Sports Events",phone:"9654800008",whatsapp:"9654800008",email:"championsports.events@gmail.com",category:"Sports",bio:"Cricket tournaments, football, kabaddi — complete sports event management.",location:"Medinipur, West Bengal",experience:"5",priceMin:15000,priceMax:100000,photo:"https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&q=80",photos:["https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&q=80"],owner:"seed@utsaav.com",rating:4.1,reviewCount:6,createdAt:new Date()},
+    {name:"Pink Celebration Studio",phone:"9345900009",whatsapp:"9345900009",email:"pinkcelebration.wb@gmail.com",category:"Birthday",bio:"Themed birthday parties, baby showers, anniversary — full package.",location:"Bankura, West Bengal",experience:"3",priceMin:8000,priceMax:60000,photo:"https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&q=80",photos:["https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&q=80"],owner:"seed@utsaav.com",rating:4.0,reviewCount:14,createdAt:new Date()},
+    {name:"Grand Wedding Affairs",phone:"9567000010",whatsapp:"9567000010",email:"grandwedding.affairs@gmail.com",category:"Wedding",bio:"Full destination wedding packages. Catering, mehendi, sangeet, reception — ek hi team.",location:"Purulia, West Bengal",experience:"12",priceMin:75000,priceMax:750000,photo:"https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&q=80",photos:["https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&q=80"],owner:"seed@utsaav.com",rating:4.9,reviewCount:27,createdAt:new Date()}
   ];
 }
 
-/* ============== CATEGORY CHIP TOGGLE ============== */
+/* ===== CAT CHIP TOGGLE ===== */
 document.addEventListener('click',e=>{
   const chip=e.target.closest('.cat-chip');
-  if(chip && chip.closest('#catCheckboxes')){
+  if(chip && (chip.closest('#catCheckboxes')||chip.closest('#aoCatCheckboxes'))){
     const cb=chip.querySelector('input[type=checkbox]');
     cb.checked=!cb.checked;
     chip.classList.toggle('selected',cb.checked);
   }
 });
 
-
 let isLogin=true;
 let allOrganizers=[];
 let activeCategory='All';
 let currentUser=null;
 
-/* ============== THEME ============== */
+/* ===== THEME ===== */
 if(localStorage.getItem('esLight')==='1') document.body.classList.add('light');
 function toggleDark(){
   document.body.classList.toggle('light');
   localStorage.setItem('esLight', document.body.classList.contains('light')?'1':'0');
 }
 
-/* ============== TOAST ============== */
+/* ===== TOAST ===== */
 function showToast(msg, type='success'){
   const t=document.getElementById('toast');
-  t.textContent=msg; t.className='toast '+type+'-t show';
-  if(type==='success') t.className='toast success show';
+  t.textContent=msg; t.className='toast '+(type==='success'?'success':'error-t')+' show';
   setTimeout(()=>t.classList.remove('show'),3200);
 }
 
-/* ============== IMAGE PREVIEW ============== */
-function previewImg(input, previewId){
-  const prev=document.getElementById(previewId);
-  if(input.files && input.files[0]){
-    const r=new FileReader();
-    r.onload=e=>{prev.src=e.target.result; prev.style.display='block';};
-    r.readAsDataURL(input.files[0]);
-  }
-}
-
+/* ===== IMAGE HELPERS ===== */
 function previewMultipleImgs(input){
   const container=document.getElementById('orgImgsPreview');
   container.innerHTML='';
@@ -1153,16 +1309,44 @@ function previewMultipleImgs(input){
     r.onload=e=>{
       const wrap=document.createElement('div');
       wrap.style.cssText='position:relative;display:inline-block;';
-      wrap.innerHTML=`
-        <img src="${e.target.result}" style="width:80px;height:80px;object-fit:cover;border-radius:10px;border:2px solid var(--border);">
-        ${i===0?'<div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;">MAIN</div>':''}`;
+      wrap.innerHTML=`<img src="${e.target.result}" style="width:80px;height:80px;object-fit:cover;border-radius:10px;border:2px solid var(--border);">${i===0?'<div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;">MAIN</div>':''}`;
       container.appendChild(wrap);
     };
     r.readAsDataURL(file);
   });
 }
 
-/* ============== AUTH ============== */
+function previewAdminOrgPhotos(input){
+  const container=document.getElementById('aoImgsPreview');
+  container.innerHTML='';
+  Array.from(input.files).forEach((file,i)=>{
+    const r=new FileReader();
+    r.onload=e=>{
+      const wrap=document.createElement('div');
+      wrap.style.cssText='position:relative;display:inline-block;';
+      wrap.innerHTML=`<img src="${e.target.result}" style="width:80px;height:80px;object-fit:cover;border-radius:10px;border:2px solid var(--border);">${i===0?'<div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;">MAIN</div>':''}`;
+      container.appendChild(wrap);
+    };
+    r.readAsDataURL(file);
+  });
+}
+
+function previewAdminVendorPhotos(input){
+  const container=document.getElementById('avPhotosPreview');
+  container.innerHTML='';
+  Array.from(input.files).slice(0,5).forEach((file,i)=>{
+    const r=new FileReader();
+    r.onload=e=>{
+      const wrap=document.createElement('div');
+      wrap.style.cssText='position:relative;display:inline-block;';
+      wrap.innerHTML=`<img src="${e.target.result}" style="width:80px;height:80px;object-fit:cover;border-radius:10px;border:2px solid var(--border);">${i===0?'<div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;">MAIN</div>':''}`;
+      container.appendChild(wrap);
+    };
+    r.readAsDataURL(file);
+  });
+}
+
+/* ===== AUTH ===== */
 function togglePass(){
   const p=document.getElementById('authPass');
   p.type=p.type==='password'?'text':'password';
@@ -1188,8 +1372,8 @@ document.getElementById('authForm').addEventListener('submit',async e=>{
   try{
     if(isLogin){
       const cred=await auth.signInWithEmailAndPassword(email,pass);
-      if(!cred.user.emailVerified){
-        // Force show verify screen
+      // Admin bypasses email verification requirement
+      if(!cred.user.emailVerified && cred.user.email!==ADMIN_EMAIL){
         showVerifyScreen(cred.user);
         btn.textContent='Login →'; btn.disabled=false;
         return;
@@ -1201,24 +1385,24 @@ document.getElementById('authForm').addEventListener('submit',async e=>{
       btn.textContent='Register →'; btn.disabled=false;
       return;
     }
-  }catch(err){
-    errEl.textContent='⚠ '+err.message;
-  }
+  }catch(err){ errEl.textContent='⚠ '+err.message; }
   btn.textContent=isLogin?'Login →':'Register →'; btn.disabled=false;
 });
 
 auth.onAuthStateChanged(user=>{
   currentUser=user;
   if(user){
-    if(!user.emailVerified){
-      // Signed in but not verified — show verify screen
+    const isAdmin = user.email===ADMIN_EMAIL;
+    if(!user.emailVerified && !isAdmin){
       showVerifyScreen(user);
       return;
     }
-    // Fully verified
     hideAllPages();
     document.getElementById('home').classList.remove('hidden');
-    updateHeaderUser(user.email);
+    updateHeaderUser(user.email, isAdmin);
+    // Show admin button on home page
+    const adminBtn = document.getElementById('adminHomeBtn');
+    if(adminBtn) adminBtn.classList.toggle('hidden', !isAdmin);
   } else {
     hideAllPages();
     document.getElementById('auth').classList.remove('hidden');
@@ -1227,14 +1411,17 @@ auth.onAuthStateChanged(user=>{
 });
 
 function hideAllPages(){
-  ['auth','verifyEmail','home','organizer','customer','profilePage','vendor'].forEach(id=>document.getElementById(id)?.classList.add('hidden'));
+  ['auth','verifyEmail','home','organizer','customer','admin','profilePage','vendor'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.classList.add('hidden');
+  });
 }
 
 function showVerifyScreen(user){
   hideAllPages();
   document.getElementById('verifyEmail').classList.remove('hidden');
   document.getElementById('verifyEmailBadge').textContent=user.email;
-  updateHeaderUser(user.email);
+  updateHeaderUser(user.email, false);
 }
 
 let resendCooldown=null;
@@ -1250,11 +1437,7 @@ async function resendVerification(){
     resendCooldown=setInterval(()=>{
       secs--;
       timer.textContent=`Resend available in ${secs}s`;
-      if(secs<=0){
-        clearInterval(resendCooldown);
-        btn.disabled=false;
-        timer.textContent='';
-      }
+      if(secs<=0){ clearInterval(resendCooldown); btn.disabled=false; timer.textContent=''; }
     },1000);
   }catch(err){ showToast('Could not resend: '+err.message,'error'); }
 }
@@ -1268,40 +1451,50 @@ async function checkVerified(){
     showToast('✦ Email verified! Welcome aboard.');
     hideAllPages();
     document.getElementById('home').classList.remove('hidden');
-    updateHeaderUser(currentUser.email);
+    updateHeaderUser(currentUser.email, currentUser.email===ADMIN_EMAIL);
+    const adminBtn=document.getElementById('adminHomeBtn');
+    if(adminBtn) adminBtn.classList.add('hidden');
   } else {
     showToast('⚠ Not verified yet. Check your inbox.','error');
   }
-  btn.textContent='✓ I\'ve verified my email'; btn.disabled=false;
+  btn.textContent="✓ I've verified my email"; btn.disabled=false;
 }
 
-function updateHeaderUser(email){
+function updateHeaderUser(email, isAdmin){
+  const adminBadge = isAdmin ? `<span class="badge-red badge" style="margin:0;font-size:10px;padding:3px 8px;">👑 ADMIN</span>` : '';
   document.getElementById('headerRight').innerHTML=`
-    <div class="user-chip"><div class="dot"></div>${email.split('@')[0]}</div>
+    <div class="user-chip"><div class="dot"></div>${email.split('@')[0]} ${adminBadge}</div>
     <div class="icon-btn" onclick="toggleDark()" title="Toggle theme">🌙</div>`;
 }
 
 function logout(){ auth.signOut(); }
 function handleLogoClick(){ if(currentUser) showSection('home'); }
 
-/* ============== SECTION NAVIGATION ============== */
-const sections=['auth','verifyEmail','home','organizer','customer'];
+/* ===== NAVIGATION ===== */
 function showSection(id){
+  // Guard admin panel
+  if(id==='admin' && currentUser?.email!==ADMIN_EMAIL){
+    showToast('Access denied.','error'); return;
+  }
+  if(id==='vendor'){
+    hideAllPages();
+    document.getElementById('vendor').classList.remove('hidden');
+    window.scrollTo(0,0);
+    loadMyVendorListings();
+    return;
+  }
   hideAllPages();
   document.getElementById(id).classList.remove('hidden');
-  document.getElementById(id).querySelector('.fade-in')?.classList.remove('fade-in');
-  void document.getElementById(id).offsetWidth;
-  document.getElementById(id).querySelector('[class*="wrap"],[class*="Wrap"]')?.classList.add('fade-in');
+  window.scrollTo(0,0);
 
   if(id==='organizer'){ loadOrgStats(); loadMyEvents(); }
   if(id==='customer'){ seedOrganizers().then(()=>loadOrganizers()); }
+  if(id==='admin'){ loadAdminStats(); loadAdminOrganizers(); }
 }
 
-/* ============== ORG TABS ============== */
+/* ===== ORG TABS ===== */
 function switchOrgTab(name, btn){
-  document.querySelectorAll('.tabs .tab').forEach((t,i,a)=>{
-    if(a[0].parentElement.id===undefined||a[0].closest('#organizer'))t.classList.remove('active');
-  });
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
   ['orgTabProfile','orgTabEvents','orgTabInbox'].forEach(id=>document.getElementById(id)?.classList.add('hidden'));
   document.getElementById('orgTab'+name.charAt(0).toUpperCase()+name.slice(1))?.classList.remove('hidden');
@@ -1309,7 +1502,7 @@ function switchOrgTab(name, btn){
   if(name==='events') loadMyEvents();
 }
 
-/* ============== CUST TABS ============== */
+/* ===== CUST TABS ===== */
 function switchCustTab(name, btn){
   btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
@@ -1320,58 +1513,413 @@ function switchCustTab(name, btn){
   if(name==='vendors') loadVendors('all');
 }
 
-/* ============== ORGANIZER PROFILE FORM ============== */
+/* ===== ADMIN TABS ===== */
+function switchAdminTab(name, btn){
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  ['adminTabOrganizers','adminTabVendors','adminTabEvents','adminTabEnquiries','adminTabAddlisting'].forEach(id=>document.getElementById(id)?.classList.add('hidden'));
+  document.getElementById('adminTab'+name.charAt(0).toUpperCase()+name.slice(1))?.classList.remove('hidden');
+  if(name==='organizers') loadAdminOrganizers();
+  if(name==='vendors') loadAdminVendors();
+  if(name==='events') loadAdminEvents();
+  if(name==='enquiries') loadAdminEnquiries();
+}
+
+/* ===== ADMIN STATS ===== */
+async function loadAdminStats(){
+  try{
+    const [orgs,vendors,events,enq,reviews]=await Promise.all([
+      db.collection('organizers').get(),
+      db.collection('vendors').get(),
+      db.collection('events').get(),
+      db.collection('enquiries').get(),
+      db.collection('reviews').get()
+    ]);
+    document.getElementById('adStatOrg').textContent=orgs.size;
+    document.getElementById('adStatVendors').textContent=vendors.size;
+    document.getElementById('adStatEvents').textContent=events.size;
+    document.getElementById('adStatEnq').textContent=enq.size;
+    document.getElementById('adStatReviews').textContent=reviews.size;
+  }catch(e){console.error(e);}
+}
+
+/* ===== ADMIN: ALL ORGANIZERS ===== */
+async function loadAdminOrganizers(){
+  const el=document.getElementById('adminOrgList');
+  el.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
+  const snap=await db.collection('organizers').orderBy('createdAt','desc').get();
+  el.innerHTML='';
+  if(snap.empty){el.innerHTML='<div class="empty-state"><span class="empty-icon">🎭</span><p>No organizers yet.</p></div>'; return;}
+  snap.forEach(doc=>{
+    const o={id:doc.id,...doc.data()};
+    const div=document.createElement('div');
+    div.className='admin-item';
+    div.innerHTML=`
+      <div style="display:flex;gap:12px;align-items:center;flex:1;min-width:200px;">
+        ${o.photo?`<img src="${o.photo}" style="width:60px;height:60px;object-fit:cover;border-radius:10px;border:1px solid var(--border);flex-shrink:0;">`:'<div style="width:60px;height:60px;background:var(--surface3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">🎭</div>'}
+        <div class="admin-item-info">
+          <div class="admin-item-name">${o.name} ${o.owner==='seed@utsaav.com'?'<span style="font-size:11px;color:var(--muted);">[sample]</span>':''}</div>
+          <div class="admin-item-meta">
+            📍 ${o.location||'—'} &nbsp;|&nbsp; 📁 ${o.category||'—'}<br>
+            📞 ${o.phone} &nbsp;|&nbsp; ✉ ${o.email}<br>
+            ⭐ ${o.rating?o.rating.toFixed(1):0} (${o.reviewCount||0} reviews) &nbsp;|&nbsp; Added by: ${o.owner}
+          </div>
+        </div>
+      </div>
+      <div class="admin-item-actions">
+        <button class="btn-secondary btn-sm" onclick="adminEditOrg('${o.id}')">✏️ Edit</button>
+        <button class="btn-danger btn-sm" onclick="adminDeleteOrg('${o.id}','${o.name.replace(/'/g,"\\'")}')">🗑 Delete</button>
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+/* ===== ADMIN: ALL VENDORS ===== */
+async function loadAdminVendors(){
+  const el=document.getElementById('adminVendorList');
+  el.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
+  const snap=await db.collection('vendors').get();
+  el.innerHTML='';
+  if(snap.empty){el.innerHTML='<div class="empty-state"><span class="empty-icon">📸</span><p>No vendors yet.</p></div>'; return;}
+  const typeIcon={photographer:'📸',makeup:'💄',gifts:'🎁'};
+  snap.forEach(doc=>{
+    const v={id:doc.id,...doc.data()};
+    const div=document.createElement('div');
+    div.className='admin-item';
+    div.innerHTML=`
+      <div style="display:flex;gap:12px;align-items:center;flex:1;min-width:200px;">
+        ${v.photo?`<img src="${v.photo}" style="width:60px;height:60px;object-fit:cover;border-radius:10px;border:1px solid var(--border);flex-shrink:0;">`:`<div style="width:60px;height:60px;background:var(--surface3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">${typeIcon[v.type]||'✨'}</div>`}
+        <div class="admin-item-info">
+          <div class="admin-item-name">${typeIcon[v.type]||''} ${v.name}${v.company?' — '+v.company:''}</div>
+          <div class="admin-item-meta">
+            📍 ${v.location||'—'} &nbsp;|&nbsp; Type: ${v.type}<br>
+            📞 ${v.phone} &nbsp;|&nbsp; ✉ ${v.email}<br>
+            Specialty: ${v.specialty||'—'} &nbsp;|&nbsp; Added by: ${v.owner}
+          </div>
+        </div>
+      </div>
+      <div class="admin-item-actions">
+        <button class="btn-danger btn-sm" onclick="adminDeleteVendor('${v.id}','${v.name.replace(/'/g,"\\'")}')">🗑 Delete</button>
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+/* ===== ADMIN: ALL EVENTS ===== */
+async function loadAdminEvents(){
+  const el=document.getElementById('adminEventList');
+  el.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
+  const snap=await db.collection('events').get();
+  el.innerHTML='';
+  if(snap.empty){el.innerHTML='<div class="empty-state"><span class="empty-icon">🎪</span><p>No events yet.</p></div>'; return;}
+  snap.forEach(doc=>{
+    const ev={id:doc.id,...doc.data()};
+    const d=new Date(ev.date);
+    const div=document.createElement('div');
+    div.className='admin-item';
+    div.innerHTML=`
+      <div class="admin-item-info">
+        <div class="admin-item-name">🎪 ${ev.name}</div>
+        <div class="admin-item-meta">
+          📅 ${d.toDateString()} &nbsp;|&nbsp; 📁 ${ev.category} &nbsp;|&nbsp; 📍 ${ev.venue}<br>
+          💰 ${ev.price?'₹'+ev.price.toLocaleString():'Free'} &nbsp;|&nbsp; Posted by: ${ev.owner}
+        </div>
+      </div>
+      <div class="admin-item-actions">
+        <button class="btn-danger btn-sm" onclick="adminDeleteEvent('${ev.id}','${ev.name.replace(/'/g,"\\'")}')">🗑 Delete</button>
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+/* ===== ADMIN: ALL ENQUIRIES ===== */
+async function loadAdminEnquiries(){
+  const el=document.getElementById('adminEnquiryList');
+  el.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
+  const snap=await db.collection('enquiries').orderBy('createdAt','desc').get();
+  el.innerHTML='';
+  if(snap.empty){el.innerHTML='<div class="empty-state"><span class="empty-icon">📬</span><p>No enquiries yet.</p></div>'; return;}
+  snap.forEach(doc=>{
+    const q={id:doc.id,...doc.data()};
+    const d=q.createdAt?.toDate?.()?.toLocaleDateString()||'';
+    const div=document.createElement('div');
+    div.className='admin-item';
+    div.innerHTML=`
+      <div class="admin-item-info">
+        <div class="admin-item-name">📬 To: ${q.toName}</div>
+        <div class="admin-item-meta">
+          From: ${q.fromName||q.fromEmail} (${q.fromEmail}) &nbsp;|&nbsp; ${d}<br>
+          ${q.fromPhone?'📞 '+q.fromPhone+'<br>':''}<em>${q.message?.slice(0,120)}${q.message?.length>120?'...':''}</em>
+        </div>
+      </div>
+      <div class="admin-item-actions">
+        <button class="btn-danger btn-sm" onclick="adminDeleteEnquiry('${q.id}')">🗑 Delete</button>
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+/* ===== ADMIN DELETE FUNCTIONS ===== */
+async function adminDeleteOrg(id, name){
+  if(!confirm(`Delete organizer "${name}"? This cannot be undone.`)) return;
+  await db.collection('organizers').doc(id).delete();
+  showToast('🗑 Organizer deleted.');
+  loadAdminOrganizers();
+  loadAdminStats();
+}
+
+async function adminDeleteVendor(id, name){
+  if(!confirm(`Delete vendor "${name}"?`)) return;
+  await db.collection('vendors').doc(id).delete();
+  showToast('🗑 Vendor deleted.');
+  loadAdminVendors();
+  loadAdminStats();
+}
+
+async function adminDeleteEvent(id, name){
+  if(!confirm(`Delete event "${name}"?`)) return;
+  await db.collection('events').doc(id).delete();
+  showToast('🗑 Event deleted.');
+  loadAdminEvents();
+  loadAdminStats();
+}
+
+async function adminDeleteEnquiry(id){
+  if(!confirm('Delete this enquiry?')) return;
+  await db.collection('enquiries').doc(id).delete();
+  showToast('🗑 Enquiry deleted.');
+  loadAdminEnquiries();
+  loadAdminStats();
+}
+
+/* ===== ADMIN EDIT ORGANIZER ===== */
+async function adminEditOrg(id){
+  const doc=await db.collection('organizers').doc(id).get();
+  const o=doc.data();
+  document.getElementById('modalContainer').innerHTML=`
+  <div class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" style="max-width:640px;">
+      <div class="modal-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;">✏️ Edit: ${o.name}</div>
+          <div class="modal-close" style="position:static;width:32px;height:32px;" onclick="closeModalDirect()">✕</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Name</label><input type="text" id="editOrgName" value="${o.name||''}"></div>
+          <div class="form-group"><label>Category</label>
+            <select id="editOrgCat">
+              <option>Wedding</option><option>Corporate</option><option>Birthday</option>
+              <option>Concert</option><option>Sports</option><option>Conference</option>
+              <option>Social</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Phone</label><input type="text" id="editOrgPhone" value="${o.phone||''}"></div>
+          <div class="form-group"><label>WhatsApp</label><input type="text" id="editOrgWhatsapp" value="${o.whatsapp||''}"></div>
+        </div>
+        <div class="form-group"><label>Email</label><input type="email" id="editOrgEmail" value="${o.email||''}"></div>
+        <div class="form-group"><label>Location</label><input type="text" id="editOrgLocation" value="${o.location||''}"></div>
+        <div class="form-group"><label>Bio</label><textarea id="editOrgBio" rows="3">${o.bio||''}</textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Min Price (₹)</label><input type="number" id="editOrgPriceMin" value="${o.priceMin||0}"></div>
+          <div class="form-group"><label>Max Price (₹)</label><input type="number" id="editOrgPriceMax" value="${o.priceMax||0}"></div>
+        </div>
+        <div class="form-group"><label>Experience (years)</label><input type="number" id="editOrgExp" value="${o.experience||''}"></div>
+        <div style="display:flex;gap:10px;margin-top:8px;">
+          <button class="btn-primary btn-sm" onclick="saveEditOrg('${id}')">💾 Save Changes</button>
+          <button class="btn-secondary btn-sm" onclick="closeModalDirect()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  // Set category select value
+  const sel=document.getElementById('editOrgCat');
+  if(sel && o.category) sel.value=o.category;
+}
+
+async function saveEditOrg(id){
+  try{
+    await db.collection('organizers').doc(id).update({
+      name: document.getElementById('editOrgName').value,
+      category: document.getElementById('editOrgCat').value,
+      phone: document.getElementById('editOrgPhone').value,
+      whatsapp: document.getElementById('editOrgWhatsapp').value,
+      email: document.getElementById('editOrgEmail').value,
+      location: document.getElementById('editOrgLocation').value,
+      bio: document.getElementById('editOrgBio').value,
+      priceMin: Number(document.getElementById('editOrgPriceMin').value)||0,
+      priceMax: Number(document.getElementById('editOrgPriceMax').value)||0,
+      experience: document.getElementById('editOrgExp').value
+    });
+    showToast('✅ Organizer updated!');
+    closeModalDirect();
+    loadAdminOrganizers();
+  }catch(e){ showToast('Error: '+e.message,'error'); }
+}
+
+/* ===== ADMIN VENDOR TYPE SELECTOR ===== */
+let adminVendorType = 'photographer';
+function adminSelectVendorType(type, btn){
+  adminVendorType = type;
+  document.querySelectorAll('#adminVendorTypeBtns .vendor-type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const labels = {
+    photographer: { title:'📸 Adding: Photographer', specialty:'Specialty', sp:'e.g. Wedding, Portrait' },
+    makeup:       { title:'💄 Adding: Makeup Artist', specialty:'Makeup Specialty', sp:'e.g. Bridal, HD Makeup' },
+    gifts:        { title:'🎁 Adding: Return Gifts Seller', specialty:'Products Offered', sp:'e.g. Gift hampers, Dry fruits' }
+  };
+  const l=labels[type];
+  document.getElementById('adminVendorTypeLabel').textContent=l.title;
+  document.getElementById('avSpecialtyLabel').textContent=l.specialty;
+  document.getElementById('avSpecialty').placeholder=l.sp;
+  const pg=document.getElementById('avPhotoGroup');
+  if(pg) pg.style.display=type==='gifts'?'none':'block';
+}
+
+/* ===== ADMIN: ADD VENDOR FORM ===== */
+document.getElementById('adminVendorForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const btn=e.target.querySelector('button[type=submit]');
+  btn.disabled=true; btn.textContent='Compressing...';
+
+  const compressPhoto=(file)=>new Promise(res=>{
+    const img=new Image(); const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const MAX=600; let w=img.width,h=img.height;
+      if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}
+      const canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(url); res(canvas.toDataURL('image/jpeg',0.5));
+    }; img.src=url;
+  });
+
+  let photos=[];
+  const files=document.getElementById('avPhotos').files;
+  if(files.length>0 && adminVendorType!=='gifts'){
+    photos=await Promise.all(Array.from(files).slice(0,5).map(compressPhoto));
+  }
+
+  btn.textContent='Saving...';
+  await db.collection('vendors').add({
+    type: adminVendorType,
+    name: document.getElementById('avName').value,
+    company: document.getElementById('avCompany').value||'',
+    phone: document.getElementById('avPhone').value,
+    whatsapp: document.getElementById('avWhatsapp').value||document.getElementById('avPhone').value,
+    email: document.getElementById('avEmail').value,
+    website: document.getElementById('avWebsite').value||'',
+    location: document.getElementById('avLocation').value,
+    bio: document.getElementById('avBio').value||'',
+    experience: document.getElementById('avExp').value||'',
+    specialty: document.getElementById('avSpecialty').value||'',
+    priceMin: document.getElementById('avPriceMin').value||0,
+    priceMax: document.getElementById('avPriceMax').value||0,
+    driveLink: document.getElementById('avDriveLink').value||'',
+    photos: photos, photo: photos[0]||'',
+    owner: ADMIN_EMAIL,
+    rating:0, reviewCount:0, createdAt:new Date()
+  });
+
+  document.getElementById('adminVendorForm').reset();
+  document.getElementById('avPhotosPreview').innerHTML='';
+  btn.textContent='✦ Publish Listing'; btn.disabled=false;
+  showToast('✅ Vendor listing published!');
+  loadAdminStats();
+});
+
+/* ===== ADMIN: ADD ORGANIZER FORM ===== */
+document.getElementById('adminOrgForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const files=document.getElementById('aoPhotos').files;
+  if(!files.length){showToast('Please select at least one photo','error'); return;}
+  const btn=e.target.querySelector('button[type=submit]');
+  btn.disabled=true;
+
+  const checkedCats=[...document.querySelectorAll('#aoCatCheckboxes input:checked')].map(c=>c.value);
+  if(!checkedCats.length){showToast('Please select at least one category','error'); btn.disabled=false; return;}
+
+  const compressPhoto=(file)=>new Promise(res=>{
+    const img=new Image(); const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const MAX=600; let w=img.width,h=img.height;
+      if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}
+      const canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(url); res(canvas.toDataURL('image/jpeg',0.5));
+    }; img.src=url;
+  });
+
+  btn.textContent='Compressing...';
+  const photos=await Promise.all(Array.from(files).slice(0,5).map(compressPhoto));
+  btn.textContent='Saving...';
+
+  await db.collection('organizers').add({
+    name: document.getElementById('aoName').value,
+    company: document.getElementById('aoCompany').value||'',
+    phone: document.getElementById('aoPhone').value,
+    whatsapp: document.getElementById('aoWhatsapp').value||document.getElementById('aoPhone').value,
+    email: document.getElementById('aoEmail').value,
+    category: checkedCats[0], categories: checkedCats,
+    bio: document.getElementById('aoBio').value,
+    location: document.getElementById('aoLocation').value,
+    experience: document.getElementById('aoExp').value||'',
+    priceMin: document.getElementById('aoPriceMin').value||0,
+    priceMax: document.getElementById('aoPriceMax').value||0,
+    photo: photos[0], photos: photos,
+    owner: ADMIN_EMAIL,
+    rating:0, reviewCount:0, createdAt:new Date()
+  });
+
+  document.getElementById('adminOrgForm').reset();
+  document.getElementById('aoImgsPreview').innerHTML='';
+  document.querySelectorAll('#aoCatCheckboxes .cat-chip').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('#aoCatCheckboxes input').forEach(c=>c.checked=false);
+  btn.textContent='✦ Publish Organizer Profile'; btn.disabled=false;
+  showToast('✅ Organizer profile published!');
+  loadAdminStats();
+});
+
+/* ===== ORGANIZER PROFILE FORM ===== */
 document.getElementById('orgForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const files=document.getElementById('orgPhoto').files;
   if(!files.length){showToast('Please select at least one photo','error'); return;}
   const btn=e.target.querySelector('button[type=submit]');
   btn.disabled=true;
-
   const checkedCats=[...document.querySelectorAll('#catCheckboxes input:checked')].map(c=>c.value);
-  if(!checkedCats.length){showToast('Please select at least one category','error'); return;}
+  if(!checkedCats.length){showToast('Please select at least one category','error'); btn.disabled=false; return;}
 
-  // Compress photos (max 800px, quality 0.72)
-  const compressPhoto = (file) => new Promise(res => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      const MAX = 600;
-      let w = img.width, h = img.height;
-      if(w > MAX){ h = Math.round(h * MAX / w); w = MAX; }
-      const canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      URL.revokeObjectURL(url);
-      res(canvas.toDataURL('image/jpeg', 0.5));
-    };
-    img.src = url;
+  const compressPhoto=(file)=>new Promise(res=>{
+    const img=new Image(); const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const MAX=600; let w=img.width,h=img.height;
+      if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}
+      const canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(url); res(canvas.toDataURL('image/jpeg',0.5));
+    }; img.src=url;
   });
 
-  btn.textContent = 'Compressing...';
-  const photos = await Promise.all(Array.from(files).slice(0,5).map(compressPhoto));
-
-  btn.textContent = 'Saving...';
+  btn.textContent='Compressing...';
+  const photos=await Promise.all(Array.from(files).slice(0,5).map(compressPhoto));
+  btn.textContent='Saving...';
   await db.collection('organizers').add({
     name:document.getElementById('orgName').value,
     company:document.getElementById('orgCompany').value||'',
     phone:document.getElementById('orgPhone').value,
     whatsapp:document.getElementById('orgWhatsapp').value||document.getElementById('orgPhone').value,
     email:document.getElementById('orgEmail').value,
-    category:checkedCats[0],
-    categories:checkedCats,
+    category:checkedCats[0], categories:checkedCats,
     bio:document.getElementById('orgBio').value,
     location:document.getElementById('orgLocation').value,
     experience:document.getElementById('orgExp').value||'',
     priceMin:document.getElementById('orgPriceMin').value||0,
     priceMax:document.getElementById('orgPriceMax').value||0,
-    photo:photos[0],
-    photos:photos,
+    photo:photos[0], photos:photos,
     owner:currentUser.email,
-    rating:0, reviewCount:0,
-    createdAt:new Date()
+    rating:0, reviewCount:0, createdAt:new Date()
   });
-
   document.getElementById('orgForm').reset();
   document.getElementById('orgImgsPreview').innerHTML='';
   document.querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('selected'));
@@ -1381,7 +1929,7 @@ document.getElementById('orgForm').addEventListener('submit',async e=>{
   loadOrgStats();
 });
 
-/* ============== ORG STATS ============== */
+/* ===== ORG STATS ===== */
 async function loadOrgStats(){
   const [profSnap,evtSnap,enqSnap]=await Promise.all([
     db.collection('organizers').where('owner','==',currentUser.email).get(),
@@ -1393,7 +1941,7 @@ async function loadOrgStats(){
   document.getElementById('statEnquiries').textContent=enqSnap.size;
 }
 
-/* ============== EVENTS ============== */
+/* ===== EVENTS ===== */
 document.getElementById('eventForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const price=parseInt(document.getElementById('evtPrice').value)||0;
@@ -1401,16 +1949,13 @@ document.getElementById('eventForm').addEventListener('submit',async e=>{
     name:document.getElementById('evtName').value,
     category:document.getElementById('evtCategory').value,
     date:document.getElementById('evtDate').value,
-    price:price,
-    venue:document.getElementById('evtVenue').value,
+    price, venue:document.getElementById('evtVenue').value,
     description:document.getElementById('evtDesc').value,
-    owner:currentUser.email,
-    createdAt:new Date()
+    owner:currentUser.email, createdAt:new Date()
   });
   document.getElementById('eventForm').reset();
   showToast('🎪 Event posted!');
-  loadMyEvents();
-  loadOrgStats();
+  loadMyEvents(); loadOrgStats();
 });
 
 async function loadMyEvents(){
@@ -1421,8 +1966,7 @@ async function loadMyEvents(){
   if(snap.empty){el.innerHTML='<p style="color:var(--muted);font-size:14px;">No events posted yet.</p>'; return;}
   el.innerHTML='';
   snap.forEach(doc=>{
-    const ev=doc.data();
-    const d=new Date(ev.date);
+    const ev=doc.data(); const d=new Date(ev.date);
     el.innerHTML+=`
     <div class="enquiry-item" style="display:flex;align-items:flex-start;gap:14px;">
       <div style="flex-shrink:0;text-align:center;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:8px 12px;">
@@ -1453,8 +1997,7 @@ async function loadAllEvents(){
   el.innerHTML='';
   if(snap.empty){el.innerHTML='<div class="empty-state"><span class="empty-icon">🎪</span><p>No events yet.</p></div>'; return;}
   snap.forEach(doc=>{
-    const ev=doc.data();
-    const d=new Date(ev.date);
+    const ev=doc.data(); const d=new Date(ev.date);
     const card=document.createElement('div');
     card.className='event-card';
     card.innerHTML=`
@@ -1472,7 +2015,7 @@ async function loadAllEvents(){
   });
 }
 
-/* ============== INBOX ============== */
+/* ===== INBOX ===== */
 async function loadInbox(){
   const el=document.getElementById('inboxList');
   el.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
@@ -1480,8 +2023,7 @@ async function loadInbox(){
   el.innerHTML='';
   if(snap.empty){el.innerHTML='<div class="empty-state"><span class="empty-icon">📬</span><p>No enquiries yet.</p></div>'; return;}
   snap.forEach(doc=>{
-    const q=doc.data();
-    const d=q.createdAt?.toDate?.()?.toLocaleDateString()||'';
+    const q=doc.data(); const d=q.createdAt?.toDate?.()?.toLocaleDateString()||'';
     el.innerHTML+=`
     <div class="enquiry-item">
       <div class="enquiry-to" style="display:flex;justify-content:space-between;">
@@ -1495,7 +2037,7 @@ async function loadInbox(){
   });
 }
 
-/* ============== MY ENQUIRIES ============== */
+/* ===== MY ENQUIRIES ===== */
 async function loadMyEnquiries(){
   const el=document.getElementById('myEnquiriesList');
   el.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
@@ -1503,8 +2045,7 @@ async function loadMyEnquiries(){
   el.innerHTML='';
   if(snap.empty){el.innerHTML='<div class="empty-state"><span class="empty-icon">📋</span><p>You haven\'t sent any enquiries yet.</p></div>'; return;}
   snap.forEach(doc=>{
-    const q=doc.data();
-    const d=q.createdAt?.toDate?.()?.toLocaleDateString()||'';
+    const q=doc.data(); const d=q.createdAt?.toDate?.()?.toLocaleDateString()||'';
     el.innerHTML+=`
     <div class="enquiry-item">
       <div class="enquiry-to" style="display:flex;justify-content:space-between;">
@@ -1517,7 +2058,7 @@ async function loadMyEnquiries(){
   });
 }
 
-/* ============== ORGANIZERS LOAD ============== */
+/* ===== ORGANIZERS LOAD ===== */
 async function loadOrganizers(){
   const el=document.getElementById('list');
   el.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
@@ -1525,31 +2066,23 @@ async function loadOrganizers(){
     const snap=await db.collection('organizers').get();
     allOrganizers=[];
     snap.forEach(doc=>allOrganizers.push({id:doc.id,...doc.data()}));
-    // Sort by createdAt client side — no index needed
-    allOrganizers.sort((a,b)=>{
-      const at=a.createdAt?.toDate?.()?.getTime()||0;
-      const bt=b.createdAt?.toDate?.()?.getTime()||0;
-      return bt-at;
-    });
-    // Hide seed banner if organizers exist
+    allOrganizers.sort((a,b)=>(b.createdAt?.toDate?.()?.getTime()||0)-(a.createdAt?.toDate?.()?.getTime()||0));
     const banner=document.getElementById('seedBanner');
     if(banner) banner.style.display=allOrganizers.length>0?'none':'flex';
     buildCatPills();
     renderOrganizers(allOrganizers);
   }catch(err){
-    el.innerHTML=`<p style="color:var(--muted);font-size:14px;">⚠️ Error loading: ${err.message}</p>`;
-    console.error(err);
+    el.innerHTML=`<p style="color:var(--muted);font-size:14px;">⚠️ Error: ${err.message}</p>`;
   }
 }
 
 function buildCatPills(){
   const cats=['All',...new Set(allOrganizers.map(o=>o.category).filter(Boolean))];
   document.getElementById('catPills').innerHTML=cats.map(c=>`
-    <div class="cat-pill${c==='All'?' active':''}" onclick="setCat('${c}',this)">${c}</div>
-  `).join('');
+    <div class="cat-pill${c==='All'?' active':''}" onclick="setCat('${c}',this)">${c}</div>`).join('');
 }
 
-function setCat(cat, el){
+function setCat(cat,el){
   document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
   activeCategory=cat;
@@ -1584,7 +2117,6 @@ function renderOrganizers(list){
     const stars=renderStars(o.rating||0);
     const card=document.createElement('div');
     card.className='org-card';
-    card.style.cursor='pointer';
     card.onclick=()=>openProfilePage(o);
     card.innerHTML=`
       <div class="org-img-wrap">
@@ -1599,12 +2131,12 @@ function renderOrganizers(list){
         ${o.whatsapp?`<div class="org-meta" style="color:#25d366;">💬 ${o.whatsapp}</div>`:''}
         <div style="display:flex;align-items:center;gap:6px;margin-top:6px;">
           <span class="stars">${stars}</span>
-          <span class="stars-count">${o.rating?o.rating.toFixed(1)+' ('+o.reviewCount+')':(o.reviewCount?o.rating.toFixed(1)+' ('+o.reviewCount+')':'No reviews')}</span>
+          <span class="stars-count">${o.rating?o.rating.toFixed(1)+' ('+o.reviewCount+')':'No reviews'}</span>
         </div>
       </div>
-      <div class="org-footer" onclick="openProfilePage(allOrganizers.find(x=>x.id==='${o.id}'))" style="cursor:pointer;">
+      <div class="org-footer" style="cursor:pointer;">
         <span style="font-size:12px;color:var(--muted);">${o.email.split('@')[0]}@…</span>
-        <span style="font-size:12px;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:4px;">View <span style="font-size:16px;">→</span></span>
+        <span style="font-size:12px;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:4px;">View →</span>
       </div>`;
     el.appendChild(card);
   });
@@ -1612,16 +2144,14 @@ function renderOrganizers(list){
 
 function renderStars(r){
   const full=Math.round(r);
-  return Array.from({length:5},(_, i)=>i<full?'★':'☆').join('');
+  return Array.from({length:5},(_,i)=>i<full?'★':'☆').join('');
 }
 
-/* ============== ORGANIZER MODAL ============== */
+/* ===== MODAL ===== */
 async function openOrgModal(o){
   const isOwner=o.owner===currentUser?.email;
   const snap=await db.collection('reviews').where('orgId','==',o.id).orderBy('createdAt','desc').limit(10).get();
-  const reviews=[];
-  snap.forEach(d=>reviews.push(d.data()));
-
+  const reviews=[]; snap.forEach(d=>reviews.push(d.data()));
   const stars=renderStars(o.rating||0);
   let reviewsHtml=reviews.length?reviews.map(rv=>`
     <div class="review-card">
@@ -1630,8 +2160,7 @@ async function openOrgModal(o){
         <span>${renderStars(rv.rating)} <span class="review-date">${rv.createdAt?.toDate?.()?.toLocaleDateString()||''}</span></span>
       </div>
       <div class="review-text">${rv.text}</div>
-    </div>`).join('')
-    :'<p style="font-size:13px;color:var(--muted);">No reviews yet. Be the first!</p>';
+    </div>`).join(''):'<p style="font-size:13px;color:var(--muted);">No reviews yet.</p>';
 
   document.getElementById('modalContainer').innerHTML=`
   <div class="modal-overlay" onclick="closeModal(event)">
@@ -1640,14 +2169,7 @@ async function openOrgModal(o){
         <img class="modal-img" id="modalMainImg" src="${o.photo}" alt="${o.name}">
         <div class="modal-close" onclick="closeModalDirect()">✕</div>
       </div>
-      ${o.photos && o.photos.length>1?`
-      <div style="display:flex;gap:8px;padding:12px 16px 0;overflow-x:auto;">
-        ${o.photos.map((p,i)=>`
-          <img src="${p}" onclick="document.getElementById('modalMainImg').src='${p}'"
-            style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid ${i===0?'var(--accent)':'var(--border)'};flex-shrink:0;transition:all 0.2s;"
-            onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='${i===0?'var(--accent)':'var(--border)'}'">
-        `).join('')}
-      </div>`:''}
+      ${o.photos&&o.photos.length>1?`<div style="display:flex;gap:8px;padding:12px 16px 0;overflow-x:auto;">${o.photos.map((p,i)=>`<img src="${p}" onclick="document.getElementById('modalMainImg').src='${p}'" style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid ${i===0?'var(--accent)':'var(--border)'};flex-shrink:0;">`).join('')}</div>`:''}
       <div class="modal-body">
         ${o.category?`<div class="badge" style="margin-bottom:12px;">${o.category}</div>`:''}
         <div class="modal-name">${o.name}</div>
@@ -1666,15 +2188,12 @@ async function openOrgModal(o){
           ${!isOwner?`<button class="btn-primary btn-sm" onclick="scrollToEnquiry()">📩 Send Enquiry</button>`:''}
           <button class="btn-secondary btn-sm" onclick="window.open('tel:${o.phone}')">📞 Call</button>
           ${!isOwner?`<button class="btn-secondary btn-sm" style="background:rgba(37,211,102,0.1);border-color:rgba(37,211,102,0.3);color:#25d366;" onclick="window.open('https://wa.me/91${(o.whatsapp||o.phone).replace(/\D/g,'')}','_blank')">💬 WhatsApp</button>`:''}
-          ${isOwner?`<button class="btn-danger btn-sm" onclick="deleteOrg('${o.id}')">Delete</button>`:''}
+          ${isOwner||currentUser?.email===ADMIN_EMAIL?`<button class="btn-danger btn-sm" onclick="deleteOrg('${o.id}')">Delete</button>`:''}
         </div>
-
-        <!-- REVIEWS -->
         <div class="reviews-section">
           <h4>Reviews & Ratings</h4>
           <div id="reviewsList">${reviewsHtml}</div>
-          ${!isOwner?`
-          <div class="review-form">
+          ${!isOwner?`<div class="review-form">
             <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Leave a review</div>
             <div class="star-picker" id="starPicker">
               <span onclick="setStar(1)">★</span><span onclick="setStar(2)">★</span>
@@ -1685,10 +2204,7 @@ async function openOrgModal(o){
             <button class="btn-purple btn-sm" onclick="submitReview('${o.id}','${o.owner}','${o.name}')">Submit Review</button>
           </div>`:''}
         </div>
-
-        <!-- ENQUIRY FORM -->
-        ${!isOwner?`
-        <div class="enquiry-form" id="enquiryFormSection">
+        ${!isOwner?`<div class="enquiry-form" id="enquiryFormSection">
           <h4>📩 Send Enquiry</h4>
           <div class="form-group"><input type="text" id="enqName" placeholder="Your name" value="${currentUser.email.split('@')[0]}"></div>
           <div class="form-group"><input type="tel" id="enqPhone" placeholder="Your phone number"></div>
@@ -1698,73 +2214,45 @@ async function openOrgModal(o){
       </div>
     </div>
   </div>`;
-
   selectedStar=0;
 }
 
 let selectedStar=0;
-function setStar(n){
-  selectedStar=n;
-  document.querySelectorAll('#starPicker span').forEach((s,i)=>s.classList.toggle('lit',i<n));
-}
-function scrollToEnquiry(){
-  document.getElementById('enquiryFormSection')?.scrollIntoView({behavior:'smooth',block:'start'});
-}
+function setStar(n){ selectedStar=n; document.querySelectorAll('#starPicker span').forEach((s,i)=>s.classList.toggle('lit',i<n)); }
+function scrollToEnquiry(){ document.getElementById('enquiryFormSection')?.scrollIntoView({behavior:'smooth',block:'start'}); }
 function closeModal(e){ if(e.target.classList.contains('modal-overlay')) closeModalDirect(); }
 function closeModalDirect(){ document.getElementById('modalContainer').innerHTML=''; }
 
-/* ============== SUBMIT REVIEW ============== */
-async function submitReview(orgId, orgOwner, orgName){
+/* ===== SUBMIT REVIEW ===== */
+async function submitReview(orgId,orgOwner,orgName){
   if(!selectedStar){showToast('Please select a star rating','error'); return;}
   const text=document.getElementById('reviewText').value.trim();
   if(!text){showToast('Please write a review','error'); return;}
-  await db.collection('reviews').add({
-    orgId, orgOwner, orgName,
-    rating:selectedStar,
-    text,
-    authorEmail:currentUser.email,
-    authorName:currentUser.email.split('@')[0],
-    createdAt:new Date()
-  });
-  // Update avg rating on organizer doc
-  const orgRef=db.collection('organizers').doc(orgId);
+  await db.collection('reviews').add({orgId,orgOwner,orgName,rating:selectedStar,text,authorEmail:currentUser.email,authorName:currentUser.email.split('@')[0],createdAt:new Date()});
   const allRev=await db.collection('reviews').where('orgId','==',orgId).get();
   let total=0; allRev.forEach(d=>total+=d.data().rating);
-  await orgRef.update({rating:total/allRev.size, reviewCount:allRev.size});
+  await db.collection('organizers').doc(orgId).update({rating:total/allRev.size,reviewCount:allRev.size});
   showToast('⭐ Review submitted!');
-  closeModalDirect();
-  loadOrganizers();
+  closeModalDirect(); loadOrganizers();
 }
 
-/* ============== SEND ENQUIRY ============== */
-async function sendEnquiry(orgId, toEmail, toName){
+/* ===== SEND ENQUIRY ===== */
+async function sendEnquiry(orgId,toEmail,toName){
   const msg=document.getElementById('enqMsg').value.trim();
   if(!msg){showToast('Please write a message','error'); return;}
-  const name=document.getElementById('enqName').value.trim();
-  const phone=document.getElementById('enqPhone').value.trim();
-  await db.collection('enquiries').add({
-    orgId, toEmail, toName,
-    fromEmail:currentUser.email,
-    fromName:name||currentUser.email.split('@')[0],
-    fromPhone:phone,
-    message:msg,
-    createdAt:new Date()
-  });
+  await db.collection('enquiries').add({orgId,toEmail,toName,fromEmail:currentUser.email,fromName:document.getElementById('enqName').value.trim(),fromPhone:document.getElementById('enqPhone').value.trim(),message:msg,createdAt:new Date()});
   showToast('📩 Enquiry sent!');
   closeModalDirect();
 }
 
-/* ============== DELETE ORG ============== */
+/* ===== DELETE ORG ===== */
 async function deleteOrg(id){
   if(!confirm('Delete this organizer profile?')) return;
   await db.collection('organizers').doc(id).delete();
   showToast('Listing removed.','error');
-  closeModalDirect();
-  loadOrganizers();
-  loadOrgStats();
+  closeModalDirect(); loadOrganizers(); loadOrgStats();
 }
 
-/* ============== CATEGORY COLOR HELPER ============== */
 function getCatColor(cat){
   const map={Wedding:'',Corporate:'blue',Birthday:'purple',Concert:'green',Sports:'blue',Conference:'blue',Social:'purple'};
   return map[cat]||'';
@@ -1795,16 +2283,19 @@ function getCatColor(cat){
     <div style="margin-top:4px;">
       CEO &amp; Founder — <strong style="color:var(--text);">Ritam Mitra</strong> &nbsp;|&nbsp;
       <a href="tel:7384949090" style="color:var(--accent);text-decoration:none;">📞 7384949090</a> &nbsp;|&nbsp;
-      <a href="/cdn-cgi/l/email-protection#650817170c110408080c111704250208040c094b060a08" style="color:var(--accent);text-decoration:none;">✉ <span class="__cf_email__" data-cfemail="bdd0cfcfd4c9dcd0d0d4c9cfdcfddad0dcd4d193ded2d0">[email&#160;protected]</span></a
-<!-- ===== PROFILE VIEW PAGE ===== -->
+      <a href="mailto:mrritammitra@gmail.com" style="color:var(--accent);text-decoration:none;">✉ mrritammitra@gmail.com</a>
+    </div>
+  </div>
+</footer>
+
+<!-- PROFILE PAGE -->
 <div class="hidden" id="profilePage" style="position:relative;z-index:5;min-height:calc(100vh - 67px);padding:0 0 80px;">
   <div id="profileHero" style="position:relative;height:300px;overflow:hidden;background:var(--surface2);">
     <img id="profileHeroImg" src="" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.45);">
     <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 20%,var(--bg) 100%);"></div>
-    <button onclick="closeProfilePage()" style="position:absolute;top:20px;left:20px;background:rgba(0,0,0,0.55);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 20px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;">← Back</button>
+    <button onclick="closeProfilePage()" style="position:absolute;top:20px;left:20px;background:rgba(0,0,0,0.55);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 20px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;">← Back</button>
     <div id="profileThumbs" style="position:absolute;bottom:16px;right:20px;display:flex;gap:8px;"></div>
   </div>
-
   <div style="max-width:940px;margin:0 auto;padding:0 20px;">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:-40px;position:relative;z-index:2;margin-bottom:26px;">
       <div>
@@ -1821,31 +2312,22 @@ function getCatColor(cat){
         <div id="profilePriceText" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--accent);"></div>
       </div>
     </div>
-
     <div id="profileActions" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;"></div>
-
     <div style="display:grid;grid-template-columns:1fr 320px;gap:22px;align-items:start;">
       <div>
-        <!-- ABOUT -->
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:18px;">
           <h3 style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:12px;">About</h3>
           <p id="profileBio" style="font-size:14px;color:var(--muted);line-height:1.8;"></p>
         </div>
-
-        <!-- SERVICES -->
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:18px;">
           <h3 style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:14px;">🎭 Specialization</h3>
           <div id="profileServices" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
         </div>
-
-        <!-- GALLERY -->
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:18px;">
           <h3 style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:14px;">📸 Work Gallery</h3>
           <div id="profileGallery" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;"></div>
           <div id="profileNoGallery" style="display:none;font-size:13px;color:var(--muted);">No photos uploaded yet.</div>
         </div>
-
-        <!-- REVIEWS -->
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
             <h3 style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;">⭐ Reviews</h3>
@@ -1855,8 +2337,6 @@ function getCatColor(cat){
           <div id="profileReviewForm"></div>
         </div>
       </div>
-
-      <!-- RIGHT STICKY -->
       <div style="position:sticky;top:90px;display:flex;flex-direction:column;gap:16px;">
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;">
           <h3 style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;margin-bottom:16px;">📩 Send Enquiry</h3>
@@ -1872,86 +2352,51 @@ function getCatColor(cat){
 </div>
 
 <script>
-/* ====== PROFILE PAGE ====== */
 let currentProfileOrg=null;
-
 function openProfilePage(o){
   currentProfileOrg=o;
   hideAllPages();
   document.getElementById('profilePage').classList.remove('hidden');
   window.scrollTo(0,0);
-
-  // HERO IMAGE
   document.getElementById('profileHeroImg').src=o.photo||'';
-
-  // THUMBNAILS
   const thumbs=document.getElementById('profileThumbs');
   thumbs.innerHTML='';
   if(o.photos&&o.photos.length>1){
     o.photos.forEach((p,i)=>{
       const img=document.createElement('img');
       img.src=p;
-      img.style.cssText=`width:52px;height:52px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid ${i===0?'var(--accent)':'rgba(255,255,255,0.3)'};transition:all 0.2s;`;
-      img.onclick=()=>{
-        document.getElementById('profileHeroImg').src=p;
-        thumbs.querySelectorAll('img').forEach(t=>t.style.borderColor='rgba(255,255,255,0.3)');
-        img.style.borderColor='var(--accent)';
-      };
+      img.style.cssText=`width:52px;height:52px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid ${i===0?'var(--accent)':'rgba(255,255,255,0.3)'};`;
+      img.onclick=()=>{ document.getElementById('profileHeroImg').src=p; thumbs.querySelectorAll('img').forEach(t=>t.style.borderColor='rgba(255,255,255,0.3)'); img.style.borderColor='var(--accent)'; };
       thumbs.appendChild(img);
     });
   }
-
-  // CATEGORY
   document.getElementById('profileCategory').innerHTML=o.category?`<span class="badge">${o.category}</span>`:'';
-
-  // NAME
   document.getElementById('profileName').textContent=o.name;
-
-  // META
   document.getElementById('profileLocation').innerHTML=o.location?`📍 ${o.location}`:'';
   document.getElementById('profileExp').innerHTML=o.experience?`🏆 ${o.experience} yrs experience`:'';
-
-  // STARS
   const stars=renderStars(o.rating||0);
   document.getElementById('profileStars').innerHTML=`<span style="color:var(--accent);font-size:15px;letter-spacing:2px;">${stars}</span> <span style="font-size:12px;color:var(--muted);">${o.rating?o.rating.toFixed(1)+' ('+o.reviewCount+' reviews)':'No reviews yet'}</span>`;
-
-  // PRICE
   const p=document.getElementById('profilePriceText');
-  if(o.priceMin||o.priceMax){
-    p.textContent=`₹${Number(o.priceMin||0).toLocaleString()} – ₹${Number(o.priceMax||0).toLocaleString()}`;
-  } else {
-    p.textContent='Contact for pricing';
-    p.style.fontSize='14px';
-  }
+  if(o.priceMin||o.priceMax){ p.textContent=`₹${Number(o.priceMin||0).toLocaleString()} – ₹${Number(o.priceMax||0).toLocaleString()}`; }
+  else { p.textContent='Contact for pricing'; p.style.fontSize='14px'; }
 
-  // ACTION BUTTONS
   const isOwner=o.owner===currentUser?.email;
+  const isAdmin=currentUser?.email===ADMIN_EMAIL;
   document.getElementById('profileActions').innerHTML=`
     ${!isOwner?`<button class="btn-primary btn-sm" onclick="document.getElementById('profileEnquiryForm').scrollIntoView({behavior:'smooth'})">📩 Send Enquiry</button>`:''}
     <a href="tel:${o.phone}" class="btn-secondary btn-sm" style="text-decoration:none;">📞 Call Now</a>
     <a href="https://wa.me/91${(o.whatsapp||o.phone).replace(/\D/g,'')}" target="_blank" class="btn-secondary btn-sm" style="background:rgba(37,211,102,0.1);border-color:rgba(37,211,102,0.3);color:#25d366;text-decoration:none;">💬 WhatsApp</a>
-    ${isOwner?`<button class="btn-danger btn-sm" onclick="deleteOrg('${o.id}')">🗑 Delete</button>`:''}
-  `;
+    ${isOwner||isAdmin?`<button class="btn-danger btn-sm" onclick="deleteOrg('${o.id}')">🗑 Delete</button>`:''}
+    ${isAdmin&&!isOwner?`<button class="btn-admin btn-sm" onclick="adminEditOrg('${o.id}')">✏️ Edit (Admin)</button>`:''}`;
 
-  // BIO
   document.getElementById('profileBio').textContent=o.bio||'No description provided.';
-
-  // SERVICES
   const allCats=['Wedding','Corporate','Birthday','Concert','Sports','Conference','Social'];
-  const svcs=document.getElementById('profileServices');
-  if(o.category){
-    svcs.innerHTML=allCats.map(c=>`
-      <span style="padding:7px 16px;border-radius:20px;font-size:13px;font-weight:500;
-        background:${c===o.category?'var(--accent)':'var(--surface2)'};
-        color:${c===o.category?'#0a0a0f':'var(--muted)'};
-        border:1px solid ${c===o.category?'var(--accent)':'var(--border)'};">
-        ${c}
-      </span>`).join('');
-  } else {
-    svcs.innerHTML='<span style="color:var(--muted);font-size:13px;">Not specified</span>';
-  }
+  document.getElementById('profileServices').innerHTML=allCats.map(c=>`
+    <span style="padding:7px 16px;border-radius:20px;font-size:13px;font-weight:500;
+      background:${c===o.category?'var(--accent)':'var(--surface2)'};
+      color:${c===o.category?'#0a0a0f':'var(--muted)'};
+      border:1px solid ${c===o.category?'var(--accent)':'var(--border)'};">${c}</span>`).join('');
 
-  // GALLERY
   const gallery=document.getElementById('profileGallery');
   const noGallery=document.getElementById('profileNoGallery');
   gallery.innerHTML='';
@@ -1963,39 +2408,18 @@ function openProfilePage(o){
       div.innerHTML=`<img src="${p}" style="width:100%;height:100%;object-fit:cover;transition:transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="document.getElementById('profileHeroImg').src='${p}';window.scrollTo(0,0);">`;
       gallery.appendChild(div);
     });
-  } else {
-    noGallery.style.display='block';
-  }
+  } else { noGallery.style.display='block'; }
 
-  // CONTACT INFO
   document.getElementById('profileContactInfo').innerHTML=`
     <div style="display:flex;flex-direction:column;gap:12px;">
-      <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;">
-        <span style="font-size:18px;">📞</span>
-        <div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Phone</div>
-        <div style="font-size:14px;font-weight:600;">${o.phone}</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;">
-        <span style="font-size:18px;">💬</span>
-        <div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">WhatsApp</div>
-        <div style="font-size:14px;font-weight:600;color:#25d366;">${o.whatsapp||o.phone}</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;">
-        <span style="font-size:18px;">✉</span>
-        <div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Email</div>
-        <div style="font-size:13px;font-weight:600;word-break:break-all;">${o.email}</div></div>
-      </div>
-      ${o.location?`<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;">
-        <span style="font-size:18px;">📍</span>
-        <div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Location</div>
-        <div style="font-size:14px;font-weight:600;">${o.location}</div></div>
-      </div>`:''}
+      <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;"><span style="font-size:18px;">📞</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Phone</div><div style="font-size:14px;font-weight:600;">${o.phone}</div></div></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;"><span style="font-size:18px;">💬</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">WhatsApp</div><div style="font-size:14px;font-weight:600;color:#25d366;">${o.whatsapp||o.phone}</div></div></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;"><span style="font-size:18px;">✉</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Email</div><div style="font-size:13px;font-weight:600;word-break:break-all;">${o.email}</div></div></div>
+      ${o.location?`<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;"><span style="font-size:18px;">📍</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Location</div><div style="font-size:14px;font-weight:600;">${o.location}</div></div></div>`:''}
     </div>`;
 
-  // LOAD REVIEWS
   loadProfileReviews(o);
 
-  // ENQUIRY FORM
   if(!isOwner){
     document.getElementById('profileEnquiryForm').innerHTML=`
       <div class="form-group"><input type="text" id="penqName" placeholder="Your name" value="${currentUser.email.split('@')[0]}" style="width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;"></div>
@@ -2010,12 +2434,8 @@ function openProfilePage(o){
 async function loadProfileReviews(o){
   const isOwner=o.owner===currentUser?.email;
   const snap=await db.collection('reviews').where('orgId','==',o.id).orderBy('createdAt','desc').limit(10).get();
-  const reviews=[];
-  snap.forEach(d=>reviews.push(d.data()));
-
-  const ratingBig=document.getElementById('profileRatingBig');
-  ratingBig.textContent=o.rating?o.rating.toFixed(1)+' ★':'—';
-
+  const reviews=[]; snap.forEach(d=>reviews.push(d.data()));
+  document.getElementById('profileRatingBig').textContent=o.rating?o.rating.toFixed(1)+' ★':'—';
   const rv=document.getElementById('profileReviews');
   rv.innerHTML=reviews.length?reviews.map(r=>`
     <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;">
@@ -2025,18 +2445,16 @@ async function loadProfileReviews(o){
       </div>
       <div style="font-size:13px;color:var(--muted);line-height:1.6;">${r.text}</div>
     </div>`).join('')
-  :'<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">No reviews yet. Be the first!</p>';
+  :'<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">No reviews yet.</p>';
 
   if(!isOwner){
     document.getElementById('profileReviewForm').innerHTML=`
       <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
         <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Leave a Review</div>
         <div style="display:flex;gap:6px;margin-bottom:10px;font-size:24px;cursor:pointer;" id="pStarPicker">
-          <span onclick="setPStar(1)" style="opacity:0.3;transition:0.15s;">★</span>
-          <span onclick="setPStar(2)" style="opacity:0.3;transition:0.15s;">★</span>
-          <span onclick="setPStar(3)" style="opacity:0.3;transition:0.15s;">★</span>
-          <span onclick="setPStar(4)" style="opacity:0.3;transition:0.15s;">★</span>
-          <span onclick="setPStar(5)" style="opacity:0.3;transition:0.15s;">★</span>
+          <span onclick="setPStar(1)" style="opacity:0.3;">★</span><span onclick="setPStar(2)" style="opacity:0.3;">★</span>
+          <span onclick="setPStar(3)" style="opacity:0.3;">★</span><span onclick="setPStar(4)" style="opacity:0.3;">★</span>
+          <span onclick="setPStar(5)" style="opacity:0.3;">★</span>
         </div>
         <textarea id="pReviewText" rows="3" placeholder="Share your experience..." style="width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;resize:vertical;margin-bottom:10px;"></textarea>
         <button class="btn-purple btn-sm" onclick="submitProfileReview('${o.id}','${o.owner}','${o.name}')">Submit Review</button>
@@ -2047,43 +2465,27 @@ async function loadProfileReviews(o){
 let pSelectedStar=0;
 function setPStar(n){
   pSelectedStar=n;
-  document.querySelectorAll('#pStarPicker span').forEach((s,i)=>{
-    s.style.opacity=i<n?'1':'0.3';
-    s.style.color=i<n?'var(--accent)':'var(--text)';
-  });
+  document.querySelectorAll('#pStarPicker span').forEach((s,i)=>{ s.style.opacity=i<n?'1':'0.3'; s.style.color=i<n?'var(--accent)':'var(--text)'; });
 }
 
 async function submitProfileReview(orgId,orgOwner,orgName){
   if(!pSelectedStar){showToast('Please select a star rating','error'); return;}
   const text=document.getElementById('pReviewText').value.trim();
   if(!text){showToast('Please write something','error'); return;}
-  await db.collection('reviews').add({
-    orgId,orgOwner,orgName,rating:pSelectedStar,text,
-    authorEmail:currentUser.email,
-    authorName:currentUser.email.split('@')[0],
-    createdAt:new Date()
-  });
+  await db.collection('reviews').add({orgId,orgOwner,orgName,rating:pSelectedStar,text,authorEmail:currentUser.email,authorName:currentUser.email.split('@')[0],createdAt:new Date()});
   const allRev=await db.collection('reviews').where('orgId','==',orgId).get();
   let total=0; allRev.forEach(d=>total+=d.data().rating);
   await db.collection('organizers').doc(orgId).update({rating:total/allRev.size,reviewCount:allRev.size});
   showToast('⭐ Review submitted!');
   const updated={...currentProfileOrg,rating:total/allRev.size,reviewCount:allRev.size};
   currentProfileOrg=updated;
-  loadProfileReviews(updated);
-  loadOrganizers();
+  loadProfileReviews(updated); loadOrganizers();
 }
 
 async function sendProfileEnquiry(orgId,toEmail,toName){
   const msg=document.getElementById('penqMsg').value.trim();
   if(!msg){showToast('Please write a message','error'); return;}
-  await db.collection('enquiries').add({
-    orgId,toEmail,toName,
-    fromEmail:currentUser.email,
-    fromName:document.getElementById('penqName').value.trim(),
-    fromPhone:document.getElementById('penqPhone').value.trim(),
-    message:msg,
-    createdAt:new Date()
-  });
+  await db.collection('enquiries').add({orgId,toEmail,toName,fromEmail:currentUser.email,fromName:document.getElementById('penqName').value.trim(),fromPhone:document.getElementById('penqPhone').value.trim(),message:msg,createdAt:new Date()});
   showToast('📩 Enquiry sent!');
   document.getElementById('penqMsg').value='';
   document.getElementById('penqPhone').value='';
@@ -2096,105 +2498,58 @@ function closeProfilePage(){
 }
 </script>
 
-<!-- ===== VENDOR PAGE (Photographer / Makeup / Return Gifts) ===== -->
+<!-- VENDOR PAGE -->
 <div class="hidden" id="vendor" style="position:relative;z-index:5;padding:20px 12px 80px;display:flex;justify-content:center;">
   <div style="width:100%;max-width:720px;">
     <div class="panel-header">
       <div class="panel-back" onclick="showSection('home')">←</div>
       <div><div class="panel-title">Creative <span>Professionals</span></div></div>
     </div>
-
-    <!-- TYPE SELECTOR -->
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;">
       <button class="vendor-type-btn active" onclick="selectVendorType('photographer',this)">📸 Photographer</button>
       <button class="vendor-type-btn" onclick="selectVendorType('makeup',this)">💄 Makeup Artist</button>
       <button class="vendor-type-btn" onclick="selectVendorType('gifts',this)">🎁 Return Gifts</button>
     </div>
-
-    <!-- FORM -->
     <div class="glass-card">
       <div id="vendorTypeLabel" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:18px;color:var(--accent);">📸 Photographer Registration</div>
       <form id="vendorForm">
         <div class="form-row">
-          <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" id="vName" placeholder="Full name" required>
-          </div>
-          <div class="form-group">
-            <label>Company / Brand Name <span style="font-size:11px;color:var(--muted);">(optional)</span></label>
-            <input type="text" id="vCompany" placeholder="Studio / brand name">
-          </div>
+          <div class="form-group"><label>Your Name</label><input type="text" id="vName" placeholder="Full name" required></div>
+          <div class="form-group"><label>Company / Brand Name</label><input type="text" id="vCompany" placeholder="Studio / brand name"></div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" id="vPhone" placeholder="+91 00000 00000" required>
-          </div>
-          <div class="form-group">
-            <label>WhatsApp Number</label>
-            <input type="tel" id="vWhatsapp" placeholder="+91 WhatsApp number">
-          </div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" id="vPhone" placeholder="+91 00000 00000" required></div>
+          <div class="form-group"><label>WhatsApp Number</label><input type="tel" id="vWhatsapp" placeholder="+91 WhatsApp number"></div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="vEmail" placeholder="your@email.com" required>
-          </div>
-          <div class="form-group">
-            <label>Existing Website <span style="font-size:11px;color:var(--muted);">(optional)</span></label>
-            <input type="url" id="vWebsite" placeholder="https://yourwebsite.com">
-          </div>
+          <div class="form-group"><label>Email</label><input type="email" id="vEmail" placeholder="your@email.com" required></div>
+          <div class="form-group"><label>Existing Website</label><input type="url" id="vWebsite" placeholder="https://yourwebsite.com"></div>
         </div>
-        <div class="form-group">
-          <label>Location / City</label>
-          <input type="text" id="vLocation" placeholder="e.g. Midnapore, Kolkata..." required>
-        </div>
-        <div class="form-group">
-          <label>Bio / Description</label>
-          <textarea id="vBio" rows="3" placeholder="Tell clients about your work and experience..."></textarea>
+        <div class="form-group"><label>Location / City</label><input type="text" id="vLocation" placeholder="e.g. Midnapore, Kolkata..." required></div>
+        <div class="form-group"><label>Bio / Description</label><textarea id="vBio" rows="3" placeholder="Tell clients about your work..."></textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Years of Experience</label><input type="number" id="vExp" placeholder="e.g. 3" min="0"></div>
+          <div class="form-group" id="vSpecialtyGroup"><label id="vSpecialtyLabel">Specialty</label><input type="text" id="vSpecialty" placeholder="e.g. Wedding, Portrait"></div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Years of Experience</label>
-            <input type="number" id="vExp" placeholder="e.g. 3" min="0">
-          </div>
-          <div class="form-group" id="vSpecialtyGroup">
-            <label id="vSpecialtyLabel">Specialty</label>
-            <input type="text" id="vSpecialty" placeholder="e.g. Wedding, Portrait, Fashion">
-          </div>
+          <div class="form-group"><label>Min Price (₹)</label><input type="number" id="vPriceMin" placeholder="e.g. 5000" min="0"></div>
+          <div class="form-group"><label>Max Price (₹)</label><input type="number" id="vPriceMax" placeholder="e.g. 50000" min="0"></div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Min Price (₹)</label>
-            <input type="number" id="vPriceMin" placeholder="e.g. 5000" min="0">
-          </div>
-          <div class="form-group">
-            <label>Max Price (₹)</label>
-            <input type="number" id="vPriceMax" placeholder="e.g. 50000" min="0">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Work Portfolio — Google Drive Link <span style="font-size:11px;color:var(--muted);">(optional)</span></label>
-          <input type="url" id="vDriveLink" placeholder="https://drive.google.com/drive/folders/...">
-          <div style="font-size:12px;color:var(--muted);margin-top:6px;">📂 Set sharing to "Anyone with link" then paste here.</div>
-        </div>
+        <div class="form-group"><label>Work Portfolio — Google Drive Link</label><input type="url" id="vDriveLink" placeholder="https://drive.google.com/drive/folders/..."></div>
         <div class="form-group" id="vPhotoGroup">
-          <label>Work Photos <span style="font-size:11px;color:var(--muted);">(max 5 photos — only for Photographer & Makeup)</span></label>
-          <div id="vPhotoDropzone" onclick="document.getElementById('vPhotos').click()" style="border:2px dashed var(--border);border-radius:14px;padding:28px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--surface2);" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <label>Work Photos (max 5)</label>
+          <div id="vPhotoDropzone" onclick="document.getElementById('vPhotos').click()" style="border:2px dashed var(--border);border-radius:14px;padding:28px;text-align:center;cursor:pointer;background:var(--surface2);" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
             <div style="font-size:32px;margin-bottom:8px;">📷</div>
             <div style="font-size:14px;font-weight:600;margin-bottom:4px;">Click to select photos</div>
             <div style="font-size:12px;color:var(--muted);">JPG, PNG — max 5 photos</div>
             <input type="file" id="vPhotos" accept="image/*" multiple style="display:none;" onchange="previewVendorPhotos(this)">
           </div>
-          <!-- PREVIEW GRID -->
           <div id="vPhotosPreview" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px;"></div>
           <div id="vPhotoCount" style="font-size:12px;color:var(--muted);margin-top:6px;"></div>
         </div>
         <button type="submit" class="btn-primary" style="margin-top:8px;">✦ Publish Profile</button>
       </form>
     </div>
-
-    <!-- MY VENDOR LISTINGS -->
     <div style="margin-top:28px;">
       <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:14px;">My Listings</div>
       <div id="myVendorList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
@@ -2212,140 +2567,101 @@ function closeProfilePage(){
 .vendor-type-btn.active, .vendor-type-btn:hover {
   background: rgba(201,168,76,0.12); border-color: var(--accent); color: var(--accent);
 }
+.event-card { background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;transition:all 0.2s;cursor:pointer; }
+.event-card:hover { transform:translateY(-3px);border-color:var(--border2);box-shadow:0 12px 32px rgba(0,0,0,0.3); }
+.event-date-badge { display:inline-flex;flex-direction:column;align-items:center;width:52px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:6px 8px;margin-bottom:14px; }
+.event-date-badge .month { font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);font-weight:600; }
+.event-date-badge .day { font-size:22px;font-weight:900;font-family:'Playfair Display',serif;line-height:1; }
+.event-title { font-family:'Playfair Display',serif;font-size:17px;font-weight:700;margin-bottom:6px; }
+.event-meta { font-size:12px;color:var(--muted);margin-bottom:3px;display:flex;align-items:center;gap:5px; }
+.event-price { font-size:18px;font-weight:700;color:var(--accent);margin-top:12px; }
+.event-price span { font-size:12px;color:var(--muted);font-weight:400; }
+.events-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px; }
+.enquiry-item { background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px; }
+.enquiry-to { font-size:13px;color:var(--muted);margin-bottom:5px; }
+.enquiry-msg { font-size:14px;line-height:1.5; }
+.enquiry-status { display:inline-block;margin-top:10px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(201,168,76,0.1);color:var(--accent);border:1px solid rgba(201,168,76,0.2); }
 </style>
 
 <script>
-/* ====== VENDOR PAGE ====== */
-let currentVendorType = 'photographer';
+let currentVendorType='photographer';
 
 function selectVendorType(type, btn){
-  currentVendorType = type;
-  document.querySelectorAll('.vendor-type-btn').forEach(b=>b.classList.remove('active'));
+  currentVendorType=type;
+  document.querySelectorAll('#vendor .vendor-type-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  const labels = {
-    photographer: { title:'📸 Photographer Registration', specialty:'Specialty', specialtyPlaceholder:'e.g. Wedding, Portrait, Fashion' },
-    makeup:       { title:'💄 Makeup Artist Registration', specialty:'Makeup Specialty', specialtyPlaceholder:'e.g. Bridal, Party, HD Makeup' },
-    gifts:        { title:'🎁 Return Gifts / Wedding Favors Registration', specialty:'Products Offered', specialtyPlaceholder:'e.g. Gift hampers, Dry fruits, Customized gifts' }
+  const labels={
+    photographer:{title:'📸 Photographer Registration',specialty:'Specialty',sp:'e.g. Wedding, Portrait'},
+    makeup:{title:'💄 Makeup Artist Registration',specialty:'Makeup Specialty',sp:'e.g. Bridal, HD Makeup'},
+    gifts:{title:'🎁 Return Gifts / Wedding Favors Registration',specialty:'Products Offered',sp:'e.g. Gift hampers, Dry fruits'}
   };
-  const l = labels[type];
-  document.getElementById('vendorTypeLabel').textContent = l.title;
-  document.getElementById('vSpecialtyLabel').textContent = l.specialty;
-  document.getElementById('vSpecialty').placeholder = l.specialtyPlaceholder;
-  // Hide photo upload for gifts, show for photographer & makeup
-  const photoGroup = document.getElementById('vPhotoGroup');
-  if(photoGroup) photoGroup.style.display = type==='gifts' ? 'none' : 'block';
+  const l=labels[type];
+  document.getElementById('vendorTypeLabel').textContent=l.title;
+  document.getElementById('vSpecialtyLabel').textContent=l.specialty;
+  document.getElementById('vSpecialty').placeholder=l.sp;
+  const pg=document.getElementById('vPhotoGroup');
+  if(pg) pg.style.display=type==='gifts'?'none':'block';
   loadMyVendorListings();
 }
 
 function previewVendorPhotos(input){
-  const files = Array.from(input.files);
-  if(files.length > 5){
-    showToast('Max 5 photos allowed!','error');
-    input.value='';
-    return;
-  }
-  const preview = document.getElementById('vPhotosPreview');
-  const count = document.getElementById('vPhotoCount');
-  preview.innerHTML = '';
-  count.textContent = `${files.length} photo${files.length>1?'s':''} selected`;
-
-  files.forEach((file, i) => {
-    const reader = new FileReader();
-    reader.onload = e => {
-      const wrap = document.createElement('div');
-      wrap.style.cssText = 'position:relative;aspect-ratio:1;overflow:hidden;border-radius:10px;border:2px solid var(--border);';
-      wrap.innerHTML = `
-        <img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;">
-        ${i===0?'<div style="position:absolute;bottom:3px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;">COVER</div>':''}
-        <button type="button" onclick="removeVendorPhoto(${i})" style="position:absolute;top:3px;right:3px;background:rgba(0,0,0,0.6);border:none;color:#fff;width:20px;height:20px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>`;
+  const files=Array.from(input.files);
+  if(files.length>5){showToast('Max 5 photos allowed!','error');input.value='';return;}
+  const preview=document.getElementById('vPhotosPreview');
+  const count=document.getElementById('vPhotoCount');
+  preview.innerHTML='';
+  count.textContent=`${files.length} photo${files.length>1?'s':''} selected`;
+  files.forEach((file,i)=>{
+    const r=new FileReader();
+    r.onload=e=>{
+      const wrap=document.createElement('div');
+      wrap.style.cssText='position:relative;aspect-ratio:1;overflow:hidden;border-radius:10px;border:2px solid var(--border);';
+      wrap.innerHTML=`<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;">${i===0?'<div style="position:absolute;bottom:3px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;">COVER</div>':''}`;
       preview.appendChild(wrap);
     };
-    reader.readAsDataURL(file);
+    r.readAsDataURL(file);
   });
 }
 
-function removeVendorPhoto(index){
-  const input = document.getElementById('vPhotos');
-  const dt = new DataTransfer();
-  Array.from(input.files).forEach((f, i) => { if(i !== index) dt.items.add(f); });
-  input.files = dt.files;
-  previewVendorPhotos(input);
-}
-
-document.getElementById('showSection') || null;
-
-// Show vendor page
-const _origShowSection = window.showSection;
-window.showSection = function(id){
-  if(id==='vendor'){
-    hideAllPages();
-    document.getElementById('vendor').classList.remove('hidden');
-    window.scrollTo(0,0);
-    loadMyVendorListings();
-    return;
-  }
-  _origShowSection(id);
-};
-
-// Vendor form submit
-document.getElementById('vendorForm').addEventListener('submit', async e=>{
+document.getElementById('vendorForm').addEventListener('submit',async e=>{
   e.preventDefault();
-  const driveLink = document.getElementById('vDriveLink').value.trim();
-  if(driveLink && !driveLink.includes('drive.google.com')){
-    showToast('Please enter a valid Google Drive link','error'); return;
-  }
-  const btn = e.target.querySelector('button[type=submit]');
-  btn.disabled=true;
-
-  // Read + COMPRESS photos (max 800px wide, quality 0.7)
-  let photos = [];
-  const photoFiles = document.getElementById('vPhotos').files;
-  if(photoFiles.length > 0 && currentVendorType !== 'gifts'){
-    // max 5 photos, all parallel
-    btn.textContent = "Compressing...";
-
-    const compressPhoto = (file) => new Promise(res => {
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-      img.onload = () => {
-        const MAX = 600;
-        let w = img.width, h = img.height;
-        if(w > MAX){ h = Math.round(h * MAX / w); w = MAX; }
-        const canvas = document.createElement('canvas');
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        URL.revokeObjectURL(url);
-        res(canvas.toDataURL('image/jpeg', 0.5));
-      };
-      img.src = url;
-    });
-
-    photos = await Promise.all(Array.from(photoFiles).slice(0,5).map(compressPhoto));
-  }
-
-  btn.textContent = 'Saving...';
-  await db.collection('vendors').add({
-    type: currentVendorType,
-    name: document.getElementById('vName').value,
-    company: document.getElementById('vCompany').value||'',
-    phone: document.getElementById('vPhone').value,
-    whatsapp: document.getElementById('vWhatsapp').value || document.getElementById('vPhone').value,
-    email: document.getElementById('vEmail').value,
-    website: document.getElementById('vWebsite').value||'',
-    location: document.getElementById('vLocation').value,
-    bio: document.getElementById('vBio').value||'',
-    experience: document.getElementById('vExp').value||'',
-    specialty: document.getElementById('vSpecialty').value||'',
-    priceMin: document.getElementById('vPriceMin').value||0,
-    priceMax: document.getElementById('vPriceMax').value||0,
-    driveLink: driveLink,
-    photos: photos,
-    photo: photos[0]||'',
-    owner: currentUser.email,
-    rating:0, reviewCount:0,
-    createdAt: new Date()
+  const btn=e.target.querySelector('button[type=submit]');
+  btn.disabled=true; btn.textContent='Compressing...';
+  const compressPhoto=(file)=>new Promise(res=>{
+    const img=new Image(); const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const MAX=600; let w=img.width,h=img.height;
+      if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}
+      const canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(url); res(canvas.toDataURL('image/jpeg',0.5));
+    }; img.src=url;
   });
-
+  let photos=[];
+  const photoFiles=document.getElementById('vPhotos').files;
+  if(photoFiles.length>0&&currentVendorType!=='gifts'){
+    photos=await Promise.all(Array.from(photoFiles).slice(0,5).map(compressPhoto));
+  }
+  btn.textContent='Saving...';
+  await db.collection('vendors').add({
+    type:currentVendorType,
+    name:document.getElementById('vName').value,
+    company:document.getElementById('vCompany').value||'',
+    phone:document.getElementById('vPhone').value,
+    whatsapp:document.getElementById('vWhatsapp').value||document.getElementById('vPhone').value,
+    email:document.getElementById('vEmail').value,
+    website:document.getElementById('vWebsite').value||'',
+    location:document.getElementById('vLocation').value,
+    bio:document.getElementById('vBio').value||'',
+    experience:document.getElementById('vExp').value||'',
+    specialty:document.getElementById('vSpecialty').value||'',
+    priceMin:document.getElementById('vPriceMin').value||0,
+    priceMax:document.getElementById('vPriceMax').value||0,
+    driveLink:document.getElementById('vDriveLink').value||'',
+    photos, photo:photos[0]||'',
+    owner:currentUser.email,
+    rating:0, reviewCount:0, createdAt:new Date()
+  });
   document.getElementById('vendorForm').reset();
   document.getElementById('vPhotosPreview').innerHTML='';
   document.getElementById('vPhotoCount').textContent='';
@@ -2384,13 +2700,10 @@ async function deleteVendor(id){
   showToast('Deleted!');
   loadMyVendorListings();
 }
-</script>
 
-<script>
-/* ====== VENDOR BROWSING (Customer Side) ====== */
+/* VENDOR BROWSING */
 let allVendors=[];
-
-function filterVendors(type, btn){
+function filterVendors(type,btn){
   document.querySelectorAll('#vendorFilterBtns .vendor-type-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   loadVendors(type);
@@ -2399,15 +2712,11 @@ function filterVendors(type, btn){
 async function loadVendors(type){
   const el=document.getElementById('vendorList');
   el.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
-  try{
-    const snap=await db.collection('vendors').get();
-    allVendors=[];
-    snap.forEach(doc=>allVendors.push({id:doc.id,...doc.data()}));
-    const filtered=type==='all'?allVendors:allVendors.filter(v=>v.type===type);
-    renderVendors(filtered);
-  }catch(err){
-    el.innerHTML=`<p style="color:var(--muted);font-size:14px;">Error: ${err.message}</p>`;
-  }
+  const snap=await db.collection('vendors').get();
+  allVendors=[];
+  snap.forEach(doc=>allVendors.push({id:doc.id,...doc.data()}));
+  const filtered=type==='all'?allVendors:allVendors.filter(v=>v.type===type);
+  renderVendors(filtered);
 }
 
 function renderVendors(list){
@@ -2421,11 +2730,7 @@ function renderVendors(list){
     card.style.cssText='background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;transition:all 0.2s;cursor:pointer;';
     card.onmouseover=()=>card.style.borderColor='rgba(201,168,76,0.3)';
     card.onmouseout=()=>card.style.borderColor='rgba(255,255,255,0.07)';
-    // Card click opens vendor profile
-    card.onclick=(e)=>{
-      if(e.target.tagName==='A'||e.target.closest('a')) return; // don't intercept link clicks
-      openVendorProfile(v);
-    };
+    card.onclick=(e)=>{ if(e.target.tagName==='A'||e.target.closest('a')) return; openVendorProfile(v); };
     const stars='★'.repeat(Math.round(v.rating||0))+'☆'.repeat(5-Math.round(v.rating||0));
     card.innerHTML=`
       <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;">
@@ -2436,15 +2741,11 @@ function renderVendors(list){
           </div>
           <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:4px;">${v.name}${v.company?` <span style="font-size:14px;font-weight:400;color:var(--muted);">— ${v.company}</span>`:''}</div>
           <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:10px;">
-            <span>📍 ${v.location}</span>
-            ${v.experience?`<span>🏆 ${v.experience} yrs</span>`:''}
+            <span>📍 ${v.location}</span>${v.experience?`<span>🏆 ${v.experience} yrs</span>`:''}
             <span style="color:var(--accent);">${stars} <span style="color:var(--muted);">${v.reviewCount?'('+v.reviewCount+')':'No reviews'}</span></span>
           </div>
           ${v.bio?`<p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">${v.bio.slice(0,120)}${v.bio.length>120?'...':''}</p>`:''}
-          ${v.photos&&v.photos.length>0?`
-          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
-            ${v.photos.slice(0,5).map((p,i)=>`<img src="${p}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;border:2px solid ${i===0?'var(--accent)':'var(--border)'};" title="Photo ${i+1}">`).join('')}
-          </div>`:''}
+          ${v.photos&&v.photos.length>0?`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">${v.photos.slice(0,5).map((p,i)=>`<img src="${p}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;border:2px solid ${i===0?'var(--accent)':'var(--border)'};">`).join('')}</div>`:''}
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             ${v.priceMin||v.priceMax?`<span style="font-size:13px;font-weight:600;color:var(--accent);">₹${Number(v.priceMin||0).toLocaleString()} – ₹${Number(v.priceMax||0).toLocaleString()}</span>`:''}
             ${v.driveLink?`<a href="${v.driveLink}" target="_blank" onclick="event.stopPropagation()" style="font-size:12px;color:#4ecb71;text-decoration:none;background:rgba(78,203,113,0.1);border:1px solid rgba(78,203,113,0.25);padding:5px 14px;border-radius:20px;font-weight:600;">📂 View Portfolio →</a>`:''}
@@ -2455,58 +2756,45 @@ function renderVendors(list){
           <a href="tel:${v.phone}" onclick="event.stopPropagation()" style="padding:8px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:var(--text);text-align:center;">📞 Call</a>
           <a href="https://wa.me/91${(v.whatsapp||v.phone).replace(/\D/g,'')}" target="_blank" onclick="event.stopPropagation()" style="padding:8px 16px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:#25d366;text-align:center;">💬 WhatsApp</a>
           ${v.email?`<a href="mailto:${v.email}" onclick="event.stopPropagation()" style="padding:8px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:var(--text);text-align:center;">✉ Email</a>`:''}
-          <button onclick="event.stopPropagation();openVendorProfile(allVendors.find(x=>x.id==='${v.id}'))" style="padding:8px 16px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:8px;font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;">View Profile →</button>
         </div>
       </div>`;
     el.appendChild(card);
   });
 }
 
-/* ====== VENDOR PROFILE PAGE ====== */
-let currentVendorProfile = null;
-
+let currentVendorProfile=null;
 function openVendorProfile(v){
-  currentVendorProfile = v;
+  currentVendorProfile=v;
   hideAllPages();
   const typeIcon={photographer:'📸',makeup:'💄',gifts:'🎁'};
   const stars='★'.repeat(Math.round(v.rating||0))+'☆'.repeat(5-Math.round(v.rating||0));
-
-  // Build page
-  let page = document.getElementById('vendorProfilePage');
+  let page=document.getElementById('vendorProfilePage');
   if(!page){
-    page = document.createElement('div');
-    page.id = 'vendorProfilePage';
+    page=document.createElement('div');
+    page.id='vendorProfilePage';
     page.style.cssText='position:relative;z-index:5;padding:20px 12px 80px;display:flex;justify-content:center;min-height:100vh;';
     document.body.appendChild(page);
   }
   page.style.display='flex';
-
-  const photosHtml = v.photos&&v.photos.length>0 ? `
+  const photosHtml=v.photos&&v.photos.length>0?`
     <div style="margin-bottom:24px;">
       <img id="vpMainPhoto" src="${v.photos[0]}" style="width:100%;max-height:360px;object-fit:cover;border-radius:16px;margin-bottom:10px;">
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        ${v.photos.map((p,i)=>`<img src="${p}" onclick="document.getElementById('vpMainPhoto').src='${p}'" style="width:70px;height:70px;object-fit:cover;border-radius:10px;border:2px solid ${i===0?'var(--accent)':'var(--border)'};cursor:pointer;transition:border 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='${i===0?'var(--accent)':'var(--border)'}'">`).join('')}
-      </div>
-    </div>` : '';
-
-  page.innerHTML = `
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">${v.photos.map((p,i)=>`<img src="${p}" onclick="document.getElementById('vpMainPhoto').src='${p}'" style="width:70px;height:70px;object-fit:cover;border-radius:10px;border:2px solid ${i===0?'var(--accent)':'var(--border)'};cursor:pointer;">`).join('')}</div>
+    </div>`:'';
+  page.innerHTML=`
   <div style="width:100%;max-width:780px;">
     <div class="panel-header">
       <div class="panel-back" onclick="closeVendorProfile()">←</div>
       <div><div class="panel-title">${typeIcon[v.type]||'✨'} <span>${v.type.charAt(0).toUpperCase()+v.type.slice(1)} Profile</span></div></div>
     </div>
-
     ${photosHtml}
-
     <div class="glass-card" style="margin-bottom:16px;">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
         <div>
           <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:900;margin-bottom:4px;">${v.name}</div>
           ${v.company?`<div style="font-size:14px;color:var(--muted);margin-bottom:8px;">${v.company}</div>`:''}
           <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);">
-            <span>📍 ${v.location}</span>
-            ${v.experience?`<span>🏆 ${v.experience} years exp</span>`:''}
-            ${v.specialty?`<span>🎯 ${v.specialty}</span>`:''}
+            <span>📍 ${v.location}</span>${v.experience?`<span>🏆 ${v.experience} years exp</span>`:''}${v.specialty?`<span>🎯 ${v.specialty}</span>`:''}
           </div>
         </div>
         ${v.priceMin||v.priceMax?`<div style="text-align:right;"><div style="font-size:11px;color:var(--muted);margin-bottom:2px;">Price Range</div><div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--accent);">₹${Number(v.priceMin||0).toLocaleString()} – ₹${Number(v.priceMax||0).toLocaleString()}</div></div>`:''}
@@ -2514,41 +2802,30 @@ function openVendorProfile(v){
       <div style="color:var(--accent);font-size:16px;margin-bottom:4px;">${stars} <span style="font-size:13px;color:var(--muted);">${v.reviewCount?'('+v.reviewCount+' reviews)':'No reviews yet'}</span></div>
       ${v.bio?`<p style="font-size:14px;color:var(--muted);line-height:1.7;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">${v.bio}</p>`:''}
     </div>
-
-    <!-- CONTACT CARD -->
     <div class="glass-card" style="margin-bottom:16px;">
       <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px;margin-bottom:16px;">Contact</div>
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <a href="tel:${v.phone}" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);">
-          <span style="font-size:18px;">📞</span><div><div style="font-size:11px;color:var(--muted);">Phone</div><div style="font-weight:600;">${v.phone}</div></div>
-        </a>
-        <a href="https://wa.me/91${(v.whatsapp||v.phone).replace(/\D/g,'')}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.2);border-radius:10px;text-decoration:none;color:#25d366;">
-          <span style="font-size:18px;">💬</span><div><div style="font-size:11px;color:var(--muted);">WhatsApp</div><div style="font-weight:600;">${v.whatsapp||v.phone}</div></div>
-        </a>
-        ${v.email?`<a href="mailto:${v.email}" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);">
-          <span style="font-size:18px;">✉</span><div><div style="font-size:11px;color:var(--muted);">Email</div><div style="font-weight:600;">${v.email}</div></div>
-        </a>`:''}
-        ${v.driveLink?`<a href="${v.driveLink}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(78,203,113,0.08);border:1px solid rgba(78,203,113,0.25);border-radius:10px;text-decoration:none;color:#4ecb71;">
-          <span style="font-size:18px;">📂</span><div><div style="font-size:11px;color:var(--muted);">Portfolio</div><div style="font-weight:600;">View on Google Drive →</div></div>
-        </a>`:''}
-        ${v.website?`<a href="${v.website}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);">
-          <span style="font-size:18px;">🌐</span><div><div style="font-size:11px;color:var(--muted);">Website</div><div style="font-weight:600;">${v.website}</div></div>
-        </a>`:''}
+        <a href="tel:${v.phone}" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);"><span style="font-size:18px;">📞</span><div><div style="font-size:11px;color:var(--muted);">Phone</div><div style="font-weight:600;">${v.phone}</div></div></a>
+        <a href="https://wa.me/91${(v.whatsapp||v.phone).replace(/\D/g,'')}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.2);border-radius:10px;text-decoration:none;color:#25d366;"><span style="font-size:18px;">💬</span><div><div style="font-size:11px;color:var(--muted);">WhatsApp</div><div style="font-weight:600;">${v.whatsapp||v.phone}</div></div></a>
+        ${v.email?`<a href="mailto:${v.email}" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);"><span style="font-size:18px;">✉</span><div><div style="font-size:11px;color:var(--muted);">Email</div><div style="font-weight:600;">${v.email}</div></div></a>`:''}
+        ${v.driveLink?`<a href="${v.driveLink}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(78,203,113,0.08);border:1px solid rgba(78,203,113,0.25);border-radius:10px;text-decoration:none;color:#4ecb71;"><span style="font-size:18px;">📂</span><div><div style="font-size:11px;color:var(--muted);">Portfolio</div><div style="font-weight:600;">View on Google Drive →</div></div></a>`:''}
+        ${v.website?`<a href="${v.website}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);"><span style="font-size:18px;">🌐</span><div><div style="font-size:11px;color:var(--muted);">Website</div><div style="font-weight:600;">${v.website}</div></div></a>`:''}
       </div>
     </div>
   </div>`;
-
   window.scrollTo(0,0);
 }
 
 function closeVendorProfile(){
-  const page = document.getElementById('vendorProfilePage');
+  const page=document.getElementById('vendorProfilePage');
   if(page) page.style.display='none';
   showSection('customer');
-  // Re-open vendors tab
   setTimeout(()=>{
-    const tabs = document.querySelectorAll('#customer .tab');
+    const tabs=document.querySelectorAll('#customer .tab');
     tabs.forEach(t=>{ if(t.textContent.includes('Photographers')) t.click(); });
-  }, 100);
+  },100);
 }
 </script>
+
+</body>
+</html>

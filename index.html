@@ -819,7 +819,8 @@ body.light header { background: rgba(240,236,228,0.85); }
     </div>
 
     <div class="tabs">
-      <button class="tab active" onclick="switchOrgTab('profile',this)">👤 Profile</button>
+      <button class="tab active" onclick="switchOrgTab('profile',this)">👤 New Profile</button>
+      <button class="tab" onclick="switchOrgTab('myprofiles',this)">✏️ My Profiles</button>
       <button class="tab" onclick="switchOrgTab('events',this)">🎪 Post Event</button>
       <button class="tab" onclick="switchOrgTab('inbox',this)">📬 Inbox</button>
     </div>
@@ -959,6 +960,12 @@ body.light header { background: rgba(240,236,228,0.85); }
     <div id="orgTabInbox" class="hidden">
       <div id="inboxList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
     </div>
+
+    <!-- MY PROFILES TAB — edit existing listings -->
+    <div id="orgTabMyprofiles" class="hidden">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:16px;">Apne published organizer profiles ko yahan edit karo.</div>
+      <div id="myProfilesList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+    </div>
   </div>
 </div>
 
@@ -990,10 +997,7 @@ body.light header { background: rgba(240,236,228,0.85); }
         </select>
       </div>
       <div class="cat-pills" id="catPills"></div>
-      <div id="seedBanner" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-        <span style="font-size:13px;color:var(--muted);">🎭 Platform abhi naya hai — sample organizers add karo!</span>
-        <button id="seedBtn" onclick="forceSeed()" style="background:var(--accent);color:#0a0a0f;border:none;padding:8px 18px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">+ Add 10 Sample Organizers</button>
-      </div>
+
       <div class="org-grid" id="list">
         <div class="loading-dots"><span></span><span></span><span></span></div>
       </div>
@@ -1541,7 +1545,7 @@ function showSection(id) {
   document.getElementById(id).classList.remove('hidden');
   window.scrollTo(0, 0);
   if (id === 'organizer') { loadOrgStats(); loadMyEvents(); }
-  if (id === 'customer')  { seedOrganizers().then(() => loadOrganizers()); }
+  if (id === 'customer')  { loadOrganizers(); }
   if (id === 'admin')     { loadAdminStats(); loadAdminOrganizers(); }
 }
 
@@ -1549,10 +1553,11 @@ function showSection(id) {
 function switchOrgTab(name, btn) {
   btn.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  ['orgTabProfile','orgTabEvents','orgTabInbox'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+  ['orgTabProfile','orgTabMyprofiles','orgTabEvents','orgTabInbox'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
   document.getElementById('orgTab' + name.charAt(0).toUpperCase() + name.slice(1))?.classList.remove('hidden');
-  if (name === 'inbox')  loadInbox();
-  if (name === 'events') loadMyEvents();
+  if (name === 'inbox')      loadInbox();
+  if (name === 'events')     loadMyEvents();
+  if (name === 'myprofiles') loadMyProfiles();
 }
 
 function switchCustTab(name, btn) {
@@ -1576,50 +1581,52 @@ function switchAdminTab(name, btn) {
   if (name === 'enquiries')  loadAdminEnquiries();
 }
 
-// ===== SEED DATA =====
-async function seedOrganizers() {
+// ===== CLOUDINARY DELETE HELPER =====
+// Extracts public_id from a Cloudinary URL
+function getCloudinaryPublicId(url) {
+  if (!url || !url.includes('cloudinary.com')) return null;
   try {
-    const check = await db.collection('organizers').limit(1).get();
-    if (!check.empty) return;
-    const batch = db.batch();
-    getSeedData().forEach(o => { const ref = db.collection('organizers').doc(); batch.set(ref, o); });
-    await batch.commit();
-  } catch(err) { console.error('Seed error:', err); }
+    // URL format: https://res.cloudinary.com/CLOUD/image/upload/vXXXX/public_id.ext
+    const parts = url.split('/upload/');
+    if (parts.length < 2) return null;
+    const afterUpload = parts[1];
+    // Remove version prefix (v1234567/) if present
+    const withoutVersion = afterUpload.replace(/^v\d+\//, '');
+    // Remove file extension
+    return withoutVersion.replace(/\.[^/.]+$/, '');
+  } catch(e) { return null; }
 }
 
-async function forceSeed() {
-  const btn = document.getElementById('seedBtn');
-  if (btn) { btn.textContent = '⏳ Adding...'; btn.disabled = true; }
+// NOTE: Cloudinary unsigned preset cannot delete images from browser (security restriction).
+// Deletion requires a signed request from a backend/server.
+// We log the public_ids here — if you add a backend later, use these to clean up.
+function logCloudinaryDeletion(photos) {
+  const ids = (photos || []).map(getCloudinaryPublicId).filter(Boolean);
+  if (ids.length) console.log('🗑 Cloudinary images to clean up (requires backend):', ids);
+}
+
+// ===== PAGINATION CONFIG =====
+const PAGE_SIZE = 9;
+let currentPage = 1;
+let filteredOrgList = [];
+
+// ===== ORGANIZERS LOAD & FILTER =====
+async function loadOrganizers() {
+  const el = document.getElementById('list');
+  el.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
   try {
-    const batch = db.batch();
-    getSeedData().forEach(o => { const ref = db.collection('organizers').doc(); batch.set(ref, o); });
-    await batch.commit();
-    showToast('✅ 10 organizers added!');
-    const banner = document.getElementById('seedBanner');
-    if (banner) banner.style.display = 'none';
-    await loadOrganizers();
+    const snap = await db.collection('organizers').get();
+    allOrganizers = [];
+    snap.forEach(doc => allOrganizers.push({id: doc.id, ...doc.data()}));
+    allOrganizers.sort((a,b) => (b.createdAt?.toDate?.()?.getTime()||0) - (a.createdAt?.toDate?.()?.getTime()||0));
+    buildCatPills();
+    currentPage = 1;
+    filteredOrgList = allOrganizers;
+    renderOrganizers(filteredOrgList);
   } catch(err) {
-    showToast('❌ Error: ' + err.message, 'error');
-    if (btn) { btn.textContent = '+ Add 10 Sample Organizers'; btn.disabled = false; }
+    el.innerHTML = `<p style="color:var(--muted);font-size:14px;">⚠️ Error: ${err.message}</p>`;
   }
 }
-
-function getSeedData() {
-  return [
-    {name:"Sharma Wedding Planners",phone:"9832100001",whatsapp:"9832100001",email:"sharmaweddings@gmail.com",category:"Wedding",bio:"10+ saal ka experience. Midnapore aur West Bengal mein 500+ weddings successfully organize ki hain.",location:"Midnapore, West Bengal",experience:"10",priceMin:50000,priceMax:500000,photo:"https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80",photos:["https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80","https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&q=80"],owner:"seed@utsaav.com",rating:4.5,reviewCount:12,createdAt:new Date()},
-    {name:"Royal Events & Decorators",phone:"9733200002",whatsapp:"9733200002",email:"royalevents.wbg@gmail.com",category:"Wedding",bio:"Royal Events specializes in royal themed weddings. Best decorator in Kharagpur with 7 years.",location:"Kharagpur, West Bengal",experience:"7",priceMin:30000,priceMax:300000,photo:"https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&q=80",photos:["https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&q=80"],owner:"seed@utsaav.com",rating:4.2,reviewCount:8,createdAt:new Date()},
-    {name:"Star Corporate Events",phone:"9434300003",whatsapp:"9434300003",email:"starcorp.events@gmail.com",category:"Corporate",bio:"Corporate seminars, conferences, product launches specialist. Kolkata to Midnapore service.",location:"Kolkata, West Bengal",experience:"6",priceMin:20000,priceMax:200000,photo:"https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&q=80",photos:["https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&q=80"],owner:"seed@utsaav.com",rating:4.7,reviewCount:15,createdAt:new Date()},
-    {name:"Dream Birthday Studio",phone:"9635400004",whatsapp:"9635400004",email:"dreambirthday.wb@gmail.com",category:"Birthday",bio:"Bachon se lekar adults tak — har tarah ke birthday party themes.",location:"Paschim Medinipur, West Bengal",experience:"4",priceMin:5000,priceMax:50000,photo:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",photos:["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80"],owner:"seed@utsaav.com",rating:4.3,reviewCount:20,createdAt:new Date()},
-    {name:"Beats & Beyond Concert Co.",phone:"9800500005",whatsapp:"9800500005",email:"beatsbeyond.concerts@gmail.com",category:"Concert",bio:"Live concerts, music festivals aur cultural programs ke liye No.1 in West Bengal.",location:"Durgapur, West Bengal",experience:"8",priceMin:100000,priceMax:1000000,photo:"https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=80",photos:["https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=80"],owner:"seed@utsaav.com",rating:4.8,reviewCount:31,createdAt:new Date()},
-    {name:"Utsav Social Events",phone:"9123600006",whatsapp:"9123600006",email:"utsavsocial.events@gmail.com",category:"Social",bio:"Pujo, cultural programs, annual functions. 15 saal se Midnapore mein.",location:"Midnapore, West Bengal",experience:"15",priceMin:10000,priceMax:150000,photo:"https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=80",photos:["https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=80"],owner:"seed@utsaav.com",rating:4.6,reviewCount:18,createdAt:new Date()},
-    {name:"Elite Conference Solutions",phone:"9876700007",whatsapp:"9876700007",email:"eliteconf.wb@gmail.com",category:"Conference",bio:"Professional conference rooms, AV setup, speaker coordination expert.",location:"Howrah, West Bengal",experience:"9",priceMin:25000,priceMax:250000,photo:"https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&q=80",photos:["https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&q=80"],owner:"seed@utsaav.com",rating:4.4,reviewCount:9,createdAt:new Date()},
-    {name:"Champions Sports Events",phone:"9654800008",whatsapp:"9654800008",email:"championsports.events@gmail.com",category:"Sports",bio:"Cricket tournaments, football, kabaddi — complete sports event management.",location:"Medinipur, West Bengal",experience:"5",priceMin:15000,priceMax:100000,photo:"https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&q=80",photos:["https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&q=80"],owner:"seed@utsaav.com",rating:4.1,reviewCount:6,createdAt:new Date()},
-    {name:"Pink Celebration Studio",phone:"9345900009",whatsapp:"9345900009",email:"pinkcelebration.wb@gmail.com",category:"Birthday",bio:"Themed birthday parties, baby showers, anniversary — full package.",location:"Bankura, West Bengal",experience:"3",priceMin:8000,priceMax:60000,photo:"https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&q=80",photos:["https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&q=80"],owner:"seed@utsaav.com",rating:4.0,reviewCount:14,createdAt:new Date()},
-    {name:"Grand Wedding Affairs",phone:"9567000010",whatsapp:"9567000010",email:"grandwedding.affairs@gmail.com",category:"Wedding",bio:"Full destination wedding packages. Catering, mehendi, sangeet, reception — ek hi team.",location:"Purulia, West Bengal",experience:"12",priceMin:75000,priceMax:750000,photo:"https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&q=80",photos:["https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&q=80"],owner:"seed@utsaav.com",rating:4.9,reviewCount:27,createdAt:new Date()}
-  ];
-}
-
-// ===== ADMIN STATS =====
 async function loadAdminStats() {
   try {
     const [orgs, vendors, events, enq, reviews] = await Promise.all([
@@ -1756,6 +1763,8 @@ async function loadAdminEnquiries() {
 // ===== ADMIN DELETE FUNCTIONS =====
 async function adminDeleteOrg(id, name) {
   if (!confirm(`Delete organizer "${name}"? This cannot be undone.`)) return;
+  const doc = await db.collection('organizers').doc(id).get();
+  if (doc.exists) logCloudinaryDeletion(doc.data().photos);
   await db.collection('organizers').doc(id).delete();
   showToast('🗑 Organizer deleted.');
   loadAdminOrganizers(); loadAdminStats();
@@ -1763,6 +1772,8 @@ async function adminDeleteOrg(id, name) {
 
 async function adminDeleteVendor(id, name) {
   if (!confirm(`Delete vendor "${name}"?`)) return;
+  const doc = await db.collection('vendors').doc(id).get();
+  if (doc.exists) logCloudinaryDeletion(doc.data().photos);
   await db.collection('vendors').doc(id).delete();
   showToast('🗑 Vendor deleted.');
   loadAdminVendors(); loadAdminStats();
@@ -2176,27 +2187,26 @@ function setCat(cat, el) {
 function filterOrganizers() {
   const term = document.getElementById('search').value.toLowerCase();
   const sort = document.getElementById('sortBy').value;
-  let filtered = allOrganizers.filter(o => {
+  filteredOrgList = allOrganizers.filter(o => {
     const matchCat    = activeCategory === 'All' || o.category === activeCategory;
     const matchSearch = !term || [o.name,o.email,o.phone,o.location,o.bio].join(' ').toLowerCase().includes(term);
     return matchCat && matchSearch;
   });
-  if (sort === 'rating') filtered.sort((a,b) => (b.rating||0) - (a.rating||0));
-  else if (sort === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name));
-  renderOrganizers(filtered);
+  if (sort === 'rating') filteredOrgList.sort((a,b) => (b.rating||0) - (a.rating||0));
+  else if (sort === 'name') filteredOrgList.sort((a,b) => a.name.localeCompare(b.name));
+  currentPage = 1;
+  renderOrganizers(filteredOrgList);
 }
 
 function renderOrganizers(list) {
   const el = document.getElementById('list');
-  const banner = document.getElementById('seedBanner');
   el.innerHTML = '';
   if (!list.length) {
     el.innerHTML = '<div class="empty-state"><span class="empty-icon">🔍</span><p>No organizers found.</p></div>';
-    if (allOrganizers.length === 0 && banner) banner.style.display = 'flex';
     return;
   }
-  if (banner) banner.style.display = 'none';
-  list.forEach(o => {
+  const pageItems = list.slice(0, currentPage * PAGE_SIZE);
+  pageItems.forEach(o => {
     const isOwner = o.owner === currentUser?.email;
     const stars   = renderStars(o.rating || 0);
     const card    = document.createElement('div');
@@ -2224,6 +2234,30 @@ function renderOrganizers(list) {
       </div>`;
     el.appendChild(card);
   });
+
+  // Load More button
+  if (pageItems.length < list.length) {
+    const remaining = list.length - pageItems.length;
+    const loadMoreDiv = document.createElement('div');
+    loadMoreDiv.style.cssText = 'grid-column:1/-1;text-align:center;padding:10px 0 4px;';
+    loadMoreDiv.innerHTML = `
+      <button onclick="loadMoreOrganizers()" style="padding:12px 32px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text)'">
+        Load More (${remaining} more) ↓
+      </button>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">Showing ${pageItems.length} of ${list.length} organizers</div>`;
+    el.appendChild(loadMoreDiv);
+  } else if (list.length > PAGE_SIZE) {
+    // Show count when all loaded
+    const countDiv = document.createElement('div');
+    countDiv.style.cssText = 'grid-column:1/-1;text-align:center;font-size:12px;color:var(--muted);padding:8px 0;';
+    countDiv.textContent = `✓ All ${list.length} organizers loaded`;
+    el.appendChild(countDiv);
+  }
+}
+
+function loadMoreOrganizers() {
+  currentPage++;
+  renderOrganizers(filteredOrgList);
 }
 
 function renderStars(r) {
@@ -2329,9 +2363,179 @@ async function sendEnquiry(orgId, toEmail, toName) {
 
 async function deleteOrg(id) {
   if (!confirm('Delete this organizer profile?')) return;
+  // Log Cloudinary photos for manual cleanup if needed
+  const doc = await db.collection('organizers').doc(id).get();
+  if (doc.exists) logCloudinaryDeletion(doc.data().photos);
   await db.collection('organizers').doc(id).delete();
   showToast('Listing removed.', 'error');
-  closeModalDirect(); loadOrganizers(); loadOrgStats();
+  closeModalDirect();
+  // Refresh profile page back to customer if open
+  if (!document.getElementById('profilePage').classList.contains('hidden')) {
+    document.getElementById('profilePage').classList.add('hidden');
+    document.getElementById('customer').classList.remove('hidden');
+  }
+  loadOrganizers(); loadOrgStats();
+}
+
+// ===== MY PROFILES — organizer edit own listings =====
+async function loadMyProfiles() {
+  const el = document.getElementById('myProfilesList');
+  if (!el) return;
+  el.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+  const snap = await db.collection('organizers').where('owner','==',currentUser.email).orderBy('createdAt','desc').get();
+  if (snap.empty) {
+    el.innerHTML = '<div class="empty-state"><span class="empty-icon">🎭</span><p>Koi profile nahi hai abhi. "New Profile" tab se add karo.</p></div>';
+    return;
+  }
+  el.innerHTML = '';
+  snap.forEach(doc => {
+    const o = {id: doc.id, ...doc.data()};
+    const div = document.createElement('div');
+    div.style.cssText = 'background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:16px;';
+    div.innerHTML = `
+      <div style="display:flex;gap:14px;padding:16px;align-items:flex-start;flex-wrap:wrap;">
+        ${o.photo ? `<img src="${o.photo}" style="width:80px;height:80px;object-fit:cover;border-radius:12px;border:2px solid var(--border);flex-shrink:0;">` : '<div style="width:80px;height:80px;background:var(--surface2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;">🎭</div>'}
+        <div style="flex:1;min-width:200px;">
+          <div style="font-family:\'Playfair Display\',serif;font-size:18px;font-weight:700;margin-bottom:4px;">${o.name}</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">📍 ${o.location||'—'} &nbsp;|&nbsp; 📁 ${o.category||'—'} &nbsp;|&nbsp; ⭐ ${o.rating?o.rating.toFixed(1):0} (${o.reviewCount||0})</div>
+          ${o.photos&&o.photos.length>1?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;">${o.photos.slice(0,6).map(p=>`<img src="${p}" style="width:36px;height:36px;object-fit:cover;border-radius:6px;border:1px solid var(--border);">`).join('')}<span style="font-size:11px;color:var(--muted);align-self:center;">${o.photos.length} photos</span></div>`:''}
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-secondary btn-sm" onclick="openEditMyProfile('${o.id}')">✏️ Edit Profile</button>
+            <button class="btn-danger btn-sm" onclick="deleteOrg('${o.id}')">🗑 Delete</button>
+          </div>
+        </div>
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+async function openEditMyProfile(id) {
+  const docSnap = await db.collection('organizers').doc(id).get();
+  const o = {id, ...docSnap.data()};
+  // Build categories checkboxes with pre-selected
+  const allCatOptions = ['Wedding','Birthday','Corporate','Concert','Sports','Conference','Social','Other'];
+  const catEmojis     = {Wedding:'💍',Birthday:'🎂',Corporate:'🏢',Concert:'🎵',Sports:'🏅',Conference:'🎤',Social:'🎊',Other:'✨'};
+  const existingCats  = o.categories || (o.category ? [o.category] : []);
+  const catHtml = allCatOptions.map(c => `
+    <label class="cat-chip ${existingCats.includes(c)?'selected':''}" id="ecp_${c}">
+      <input type="checkbox" value="${c}" ${existingCats.includes(c)?'checked':''}> ${catEmojis[c]} ${c}
+    </label>`).join('');
+
+  document.getElementById('modalContainer').innerHTML = `
+  <div class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" style="max-width:660px;">
+      <div class="modal-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;">✏️ Edit: ${o.name}</div>
+          <div class="modal-close" style="position:static;" onclick="closeModalDirect()">✕</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Organizer Name</label><input type="text" id="eoName" value="${o.name||''}"></div>
+          <div class="form-group"><label>Company Name</label><input type="text" id="eoCompany" value="${o.company||''}"></div>
+        </div>
+        <div class="form-group">
+          <label>Categories</label>
+          <div id="eoCatCheckboxes" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">${catHtml}</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Phone</label><input type="tel" id="eoPhone" value="${o.phone||''}"></div>
+          <div class="form-group"><label>WhatsApp</label><input type="tel" id="eoWhatsapp" value="${o.whatsapp||''}"></div>
+        </div>
+        <div class="form-group"><label>Email</label><input type="email" id="eoEmail" value="${o.email||''}"></div>
+        <div class="form-group"><label>Location / City</label><input type="text" id="eoLocation" value="${o.location||''}"></div>
+        <div class="form-group"><label>Bio / Description</label><textarea id="eoBio" rows="3">${o.bio||''}</textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Min Price (₹)</label><input type="number" id="eoPriceMin" value="${o.priceMin||0}"></div>
+          <div class="form-group"><label>Max Price (₹)</label><input type="number" id="eoPriceMax" value="${o.priceMax||0}"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Years of Experience</label><input type="number" id="eoExp" value="${o.experience||''}"></div>
+          <div class="form-group"><label>WhatsApp Number</label><input type="tel" id="eoWhatsapp2" value="${o.whatsapp||''}"></div>
+        </div>
+        <div class="form-group">
+          <label>Add More Photos <span style="font-size:11px;color:var(--muted);">(existing photos kept, new ones added via Cloudinary)</span></label>
+          <input type="file" id="eoPhotos" accept="image/*" multiple onchange="previewMultipleImgs(this,'eoPhotosPreview')">
+          <div id="eoPhotosPreview" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;"></div>
+          <div class="upload-progress-wrap" id="eoUploadProgress">
+            <div class="upload-progress-text">
+              <span id="eoUploadStatusText">☁️ Uploading to Cloudinary...</span>
+              <span id="eoUploadIcon">⏳</span>
+            </div>
+            <div class="upload-progress-bar-bg"><div class="upload-progress-bar" id="eoUploadBar"></div></div>
+          </div>
+          ${o.photos&&o.photos.length?`<div style="margin-top:10px;"><div style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">Current Photos</div><div style="display:flex;flex-wrap:wrap;gap:6px;">${o.photos.map((p,i)=>`<div style="position:relative;"><img src="${p}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;border:2px solid ${i===0?'var(--accent)':'var(--border)}'};">${i===0?'<div style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:8px;font-weight:700;padding:1px 4px;border-radius:3px;white-space:nowrap;">MAIN</div>':''}</div>`).join('')}</div></div>`:''}
+        </div>
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+          <button class="btn-primary btn-sm" onclick="saveMyProfile('${id}')">💾 Save Changes</button>
+          <button class="btn-secondary btn-sm" onclick="closeModalDirect()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  // Wire up category chip clicks inside modal
+  document.querySelectorAll('#eoCatCheckboxes .cat-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const cb = chip.querySelector('input[type=checkbox]');
+      cb.checked = !cb.checked;
+      chip.classList.toggle('selected', cb.checked);
+    });
+  });
+}
+
+async function saveMyProfile(id) {
+  const btn = document.querySelector('#modalContainer .btn-primary');
+  btn.disabled = true; btn.textContent = '⏳ Saving...';
+
+  const checkedCats = [...document.querySelectorAll('#eoCatCheckboxes input:checked')].map(c => c.value);
+  if (!checkedCats.length) { showToast('Please select at least one category', 'error'); btn.disabled=false; btn.textContent='💾 Save Changes'; return; }
+
+  // Upload new photos if any
+  const newFiles = document.getElementById('eoPhotos').files;
+  let newPhotoUrls = [];
+  if (newFiles.length > 0) {
+    btn.textContent = '☁️ Uploading photos...';
+    try {
+      newPhotoUrls = await uploadMultipleToCloudinary(
+        Array.from(newFiles), 'eoUploadProgress', 'eoUploadBar', 'eoUploadStatusText', 'eoUploadIcon'
+      );
+    } catch(err) {
+      showToast('Photo upload failed: ' + err.message, 'error');
+      btn.disabled = false; btn.textContent = '💾 Save Changes';
+      return;
+    }
+  }
+
+  // Get existing photos from Firestore to append new ones
+  const existing = await db.collection('organizers').doc(id).get();
+  const existingPhotos = existing.data().photos || [];
+  const allPhotos = [...existingPhotos, ...newPhotoUrls];
+
+  btn.textContent = '💾 Saving...';
+  try {
+    await db.collection('organizers').doc(id).update({
+      name:       document.getElementById('eoName').value,
+      company:    document.getElementById('eoCompany').value || '',
+      phone:      document.getElementById('eoPhone').value,
+      whatsapp:   document.getElementById('eoWhatsapp').value || document.getElementById('eoPhone').value,
+      email:      document.getElementById('eoEmail').value,
+      location:   document.getElementById('eoLocation').value,
+      bio:        document.getElementById('eoBio').value,
+      priceMin:   Number(document.getElementById('eoPriceMin').value) || 0,
+      priceMax:   Number(document.getElementById('eoPriceMax').value) || 0,
+      experience: document.getElementById('eoExp').value || '',
+      category:   checkedCats[0],
+      categories: checkedCats,
+      photos:     allPhotos,
+      photo:      allPhotos[0] || '',
+    });
+    showToast('✅ Profile updated!');
+    closeModalDirect();
+    loadMyProfiles();
+    loadOrganizers();
+    loadOrgStats();
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+  btn.disabled = false; btn.textContent = '💾 Save Changes';
 }
 
 function getCatColor(cat) {

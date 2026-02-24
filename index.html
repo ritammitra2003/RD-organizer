@@ -1076,7 +1076,7 @@ body.light header { background: rgba(240,236,228,0.85); }
 
     <div class="admin-stats-row" id="adminStatsRow">
       <div class="admin-stat"><div class="admin-stat-num" id="adStatOrg">–</div><div class="admin-stat-label">Organizers</div></div>
-      <div class="admin-stat"><div class="admin-stat-num" id="adStatVendors">–</div><div class="admin-stat-label">Vendors</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" id="adStatVendors">–</div><div class="admin-stat-label">Professionals</div></div>
       <div class="admin-stat"><div class="admin-stat-num" id="adStatEvents">–</div><div class="admin-stat-label">Events</div></div>
       <div class="admin-stat"><div class="admin-stat-num" id="adStatEnq">–</div><div class="admin-stat-label">Enquiries</div></div>
       <div class="admin-stat"><div class="admin-stat-num" id="adStatReviews">–</div><div class="admin-stat-label">Reviews</div></div>
@@ -1084,9 +1084,10 @@ body.light header { background: rgba(240,236,228,0.85); }
 
     <div class="tabs" style="margin-bottom:26px;">
       <button class="tab active" onclick="switchAdminTab('organizers',this)">🎭 Organizers</button>
-      <button class="tab" onclick="switchAdminTab('vendors',this)">📸 Vendors</button>
+      <button class="tab" onclick="switchAdminTab('vendors',this)">📸 Professionals</button>
       <button class="tab" onclick="switchAdminTab('events',this)">🎪 Events</button>
       <button class="tab" onclick="switchAdminTab('enquiries',this)">📬 Enquiries</button>
+      <button class="tab" onclick="switchAdminTab('reviews',this)">⭐ Reviews</button>
       <button class="tab" onclick="switchAdminTab('addlisting',this)">➕ Add Listing</button>
     </div>
 
@@ -1095,7 +1096,7 @@ body.light header { background: rgba(240,236,228,0.85); }
       <div id="adminOrgList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
     </div>
     <div id="adminTabVendors" class="hidden">
-      <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">All vendor profiles.</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">All professional profiles.</div>
       <div id="adminVendorList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
     </div>
     <div id="adminTabEvents" class="hidden">
@@ -1107,9 +1108,19 @@ body.light header { background: rgba(240,236,228,0.85); }
       <div id="adminEnquiryList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
     </div>
 
+    <div id="adminTabReviews" class="hidden">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+        <button class="vendor-type-btn active" onclick="filterAdminReviews('all',this)">All Reviews</button>
+        <button class="vendor-type-btn" onclick="filterAdminReviews('organizer',this)">🎭 Organizers</button>
+        <button class="vendor-type-btn" onclick="filterAdminReviews('vendor',this)">📸 Professionals</button>
+      </div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">Manage all reviews — edit rating, name, text. Changes save immediately.</div>
+      <div id="adminReviewList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+    </div>
+
     <div id="adminTabAddlisting" class="hidden">
       <div class="admin-section">
-        <div class="admin-section-title">➕ Add Vendor Listing (on behalf of anyone)</div>
+        <div class="admin-section-title">➕ Add Professional Listing (on behalf of anyone)</div>
         <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">Use this to list a makeup artist, photographer, or gifts seller without them needing an account.</div>
         <div class="glass-card">
           <div class="cloudinary-info">☁️ Photos will be uploaded to Cloudinary — no Firebase storage used</div>
@@ -1142,7 +1153,23 @@ body.light header { background: rgba(240,236,228,0.85); }
               <div class="form-group"><label>Min Price (₹)</label><input type="number" id="avPriceMin" placeholder="e.g. 2000" min="0"></div>
               <div class="form-group"><label>Max Price (₹)</label><input type="number" id="avPriceMax" placeholder="e.g. 20000" min="0"></div>
             </div>
-            <div class="form-group"><label>Google Drive Portfolio Link <span style="font-size:11px;color:var(--muted);">(optional)</span></label><input type="url" id="avDriveLink" placeholder="https://drive.google.com/..."></div>
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;">
+              <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:12px;">🔗 Portfolio & Social Links <span style="font-size:11px;color:var(--muted);font-weight:400;">(optional)</span></div>
+              <div class="form-row">
+                <div class="form-group" style="margin:0;">
+                  <label style="display:flex;align-items:center;gap:6px;"><span style="font-size:16px;">📂</span> Google Drive</label>
+                  <input type="url" id="avDriveLink" placeholder="https://drive.google.com/...">
+                </div>
+                <div class="form-group" style="margin:0;">
+                  <label style="display:flex;align-items:center;gap:6px;"><span style="font-size:16px;">📸</span> Instagram</label>
+                  <input type="url" id="avInstagram" placeholder="https://instagram.com/...">
+                </div>
+              </div>
+              <div class="form-group" style="margin-top:12px;margin-bottom:0;">
+                <label style="display:flex;align-items:center;gap:6px;"><span style="font-size:16px;">📘</span> Facebook Page</label>
+                <input type="url" id="avFacebook" placeholder="https://facebook.com/...">
+              </div>
+            </div>
             <div class="form-group" id="avPhotoGroup">
               <label>Work Photos <span style="font-size:11px;color:var(--muted);">(multiple allowed — Cloudinary)</span></label>
               <input type="file" id="avPhotos" accept="image/*" multiple onchange="previewMultipleImgs(this,'avPhotosPreview')">
@@ -1557,10 +1584,11 @@ function switchCustTab(name, btn) {
 function switchAdminTab(name, btn) {
   btn.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  ['adminTabOrganizers','adminTabVendors','adminTabEvents','adminTabEnquiries','adminTabAddlisting'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+  ['adminTabOrganizers','adminTabVendors','adminTabEvents','adminTabEnquiries','adminTabReviews','adminTabAddlisting'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
   document.getElementById('adminTab' + name.charAt(0).toUpperCase() + name.slice(1))?.classList.remove('hidden');
   if (name === 'organizers') loadAdminOrganizers();
   if (name === 'vendors')    loadAdminVendors();
+  if (name === 'reviews')    loadAdminReviews();
   if (name === 'events')     loadAdminEvents();
   if (name === 'enquiries')  loadAdminEnquiries();
 }
@@ -1657,7 +1685,7 @@ async function loadAdminVendors() {
   el.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
   const snap = await db.collection('vendors').get();
   el.innerHTML = '';
-  if (snap.empty) { el.innerHTML = '<div class="empty-state"><span class="empty-icon">📸</span><p>No vendors yet.</p></div>'; return; }
+  if (snap.empty) { el.innerHTML = '<div class="empty-state"><span class="empty-icon">📸</span><p>No professionals yet.</p></div>'; return; }
   const typeIcon = {photographer:'📸', makeup:'💄', gifts:'🎁'};
   snap.forEach(doc => {
     const v = {id: doc.id, ...doc.data()};
@@ -1676,6 +1704,7 @@ async function loadAdminVendors() {
         </div>
       </div>
       <div class="admin-item-actions">
+        <button class="btn-secondary btn-sm" onclick="adminEditVendor('${v.id}')">✏️ Edit</button>
         <button class="btn-danger btn-sm" onclick="adminDeleteVendor('${v.id}','${v.name.replace(/'/g,"\\'")}')">🗑 Delete</button>
       </div>`;
     el.appendChild(div);
@@ -1744,11 +1773,11 @@ async function adminDeleteOrg(id, name) {
 }
 
 async function adminDeleteVendor(id, name) {
-  if (!confirm(`Delete vendor "${name}"?`)) return;
+  if (!confirm(`Delete professional "${name}"?`)) return;
   const doc = await db.collection('vendors').doc(id).get();
   if (doc.exists) logCloudinaryDeletion(doc.data().photos);
   await db.collection('vendors').doc(id).delete();
-  showToast('🗑 Vendor deleted.');
+  showToast('🗑 Professional deleted.');
   loadAdminVendors(); loadAdminStats();
 }
 
@@ -1883,6 +1912,8 @@ document.getElementById('adminVendorForm').addEventListener('submit', async e =>
     priceMin:  document.getElementById('avPriceMin').value || 0,
     priceMax:  document.getElementById('avPriceMax').value || 0,
     driveLink: document.getElementById('avDriveLink').value || '',
+    instagram: document.getElementById('avInstagram').value || '',
+    facebook:  document.getElementById('avFacebook').value || '',
     photos, photo: photos[0] || '',
     owner: ADMIN_EMAIL,
     rating: 0, reviewCount: 0, createdAt: new Date()
@@ -1891,7 +1922,7 @@ document.getElementById('adminVendorForm').addEventListener('submit', async e =>
   document.getElementById('adminVendorForm').reset();
   document.getElementById('avPhotosPreview').innerHTML = '';
   btn.textContent = '✦ Publish Listing'; btn.disabled = false;
-  showToast('✅ Vendor listing published!');
+  showToast('✅ Professional listing published!');
   loadAdminStats();
 });
 
@@ -2765,7 +2796,23 @@ function closeProfilePage() {
           <div class="form-group"><label>Min Price (₹)</label><input type="number" id="vPriceMin" placeholder="e.g. 5000" min="0"></div>
           <div class="form-group"><label>Max Price (₹)</label><input type="number" id="vPriceMax" placeholder="e.g. 50000" min="0"></div>
         </div>
-        <div class="form-group"><label>Work Portfolio — Google Drive Link</label><input type="url" id="vDriveLink" placeholder="https://drive.google.com/drive/folders/..."></div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;">
+          <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:12px;">🔗 Portfolio & Social Links <span style="font-size:11px;color:var(--muted);font-weight:400;">(optional — fill whichever you have)</span></div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0;">
+              <label style="display:flex;align-items:center;gap:6px;"><span style="font-size:16px;">📂</span> Google Drive Portfolio</label>
+              <input type="url" id="vDriveLink" placeholder="https://drive.google.com/...">
+            </div>
+            <div class="form-group" style="margin:0;">
+              <label style="display:flex;align-items:center;gap:6px;"><span style="font-size:16px;">📸</span> Instagram Profile</label>
+              <input type="url" id="vInstagram" placeholder="https://instagram.com/yourprofile">
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:12px;margin-bottom:0;">
+            <label style="display:flex;align-items:center;gap:6px;"><span style="font-size:16px;">📘</span> Facebook Page</label>
+            <input type="url" id="vFacebook" placeholder="https://facebook.com/yourpage">
+          </div>
+        </div>
         <div class="form-group" id="vPhotoGroup">
           <label>Work Photos <span style="font-size:11px;color:var(--muted);">(multiple allowed — Cloudinary)</span></label>
           <div id="vPhotoDropzone" onclick="document.getElementById('vPhotos').click()" style="border:2px dashed var(--border);border-radius:14px;padding:28px;text-align:center;cursor:pointer;background:var(--surface2);" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
@@ -2870,12 +2917,16 @@ document.getElementById('vendorForm').addEventListener('submit', async e => {
     priceMin:   document.getElementById('vPriceMin').value || 0,
     priceMax:   document.getElementById('vPriceMax').value || 0,
     driveLink:  document.getElementById('vDriveLink').value || '',
+    instagram:  document.getElementById('vInstagram').value || '',
+    facebook:   document.getElementById('vFacebook').value || '',
     photos, photo: photos[0] || '',
     owner: currentUser.email,
     rating: 0, reviewCount: 0, createdAt: new Date()
   });
 
   document.getElementById('vendorForm').reset();
+  document.getElementById('vInstagram').value = '';
+  document.getElementById('vFacebook').value  = '';
   document.getElementById('vPhotosPreview').innerHTML = '';
   document.getElementById('vPhotoCount').textContent  = '';
   btn.textContent = '✦ Publish Profile'; btn.disabled = false;
@@ -2901,7 +2952,11 @@ async function loadMyVendorListings() {
         <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px;">${v.name}${v.company?' — '+v.company:''}</div>
         <div style="font-size:13px;color:var(--muted);margin-top:3px;">📍 ${v.location} &nbsp;|&nbsp; 📞 ${v.phone}</div>
         ${v.photos&&v.photos.length>0?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">${v.photos.slice(0,5).map(p=>`<img src="${p}" style="width:36px;height:36px;object-fit:cover;border-radius:6px;border:1px solid var(--border);">`).join('')}</div>`:''}
-        ${v.driveLink?`<a href="${v.driveLink}" target="_blank" style="font-size:12px;color:var(--accent3);text-decoration:none;margin-top:4px;display:inline-block;">📂 View Portfolio →</a>`:''}
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+        ${v.driveLink?`<a href="${v.driveLink}" target="_blank" style="font-size:11px;color:#4ecb71;text-decoration:none;background:rgba(78,203,113,0.08);border:1px solid rgba(78,203,113,0.2);padding:3px 10px;border-radius:20px;font-weight:600;">📂 Portfolio</a>`:''}
+        ${v.instagram?`<a href="${v.instagram}" target="_blank" style="font-size:11px;color:#e1306c;text-decoration:none;background:rgba(225,48,108,0.08);border:1px solid rgba(225,48,108,0.2);padding:3px 10px;border-radius:20px;font-weight:600;">📸 Instagram</a>`:''}
+        ${v.facebook?`<a href="${v.facebook}" target="_blank" style="font-size:11px;color:#1877f2;text-decoration:none;background:rgba(24,119,242,0.08);border:1px solid rgba(24,119,242,0.2);padding:3px 10px;border-radius:20px;font-weight:600;">📘 Facebook</a>`:''}
+      </div>
       </div>
       <button onclick="deleteVendor('${v.id}')" class="btn-danger btn-sm">Delete</button>`;
     el.appendChild(div);
@@ -2961,7 +3016,9 @@ function renderVendors(list) {
           ${v.photos&&v.photos.length>0?`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">${v.photos.slice(0,5).map((p,i)=>`<img src="${p}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;border:2px solid ${i===0?'var(--accent)':'var(--border)'};">`).join('')}</div>`:''}
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             ${v.priceMin||v.priceMax?`<span style="font-size:13px;font-weight:600;color:var(--accent);">₹${Number(v.priceMin||0).toLocaleString()} – ₹${Number(v.priceMax||0).toLocaleString()}</span>`:''}
-            ${v.driveLink?`<a href="${v.driveLink}" target="_blank" onclick="event.stopPropagation()" style="font-size:12px;color:#4ecb71;text-decoration:none;background:rgba(78,203,113,0.1);border:1px solid rgba(78,203,113,0.25);padding:5px 14px;border-radius:20px;font-weight:600;">📂 View Portfolio →</a>`:''}
+            ${v.driveLink?`<a href="${v.driveLink}" target="_blank" onclick="event.stopPropagation()" style="font-size:12px;color:#4ecb71;text-decoration:none;background:rgba(78,203,113,0.1);border:1px solid rgba(78,203,113,0.25);padding:5px 14px;border-radius:20px;font-weight:600;">📂 Portfolio →</a>`:''}
+            ${v.instagram?`<a href="${v.instagram}" target="_blank" onclick="event.stopPropagation()" style="font-size:12px;color:#e1306c;text-decoration:none;background:rgba(225,48,108,0.1);border:1px solid rgba(225,48,108,0.25);padding:5px 14px;border-radius:20px;font-weight:600;">📸 Instagram →</a>`:''}
+            ${v.facebook?`<a href="${v.facebook}" target="_blank" onclick="event.stopPropagation()" style="font-size:12px;color:#1877f2;text-decoration:none;background:rgba(24,119,242,0.1);border:1px solid rgba(24,119,242,0.25);padding:5px 14px;border-radius:20px;font-weight:600;">📘 Facebook →</a>`:''}
             ${v.website?`<a href="${v.website}" target="_blank" onclick="event.stopPropagation()" style="font-size:12px;color:var(--muted);text-decoration:none;background:var(--surface2);border:1px solid var(--border);padding:5px 14px;border-radius:20px;">🌐 Website</a>`:''}
           </div>
         </div>
@@ -3022,10 +3079,27 @@ function openVendorProfile(v) {
         <a href="https://wa.me/91${waNumber(v.whatsapp||v.phone)}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.2);border-radius:10px;text-decoration:none;color:#25d366;"><span style="font-size:18px;">💬</span><div><div style="font-size:11px;color:var(--muted);">WhatsApp</div><div style="font-weight:600;">${v.whatsapp||v.phone}</div></div></a>
         ${v.email?`<a href="mailto:${v.email}" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);"><span style="font-size:18px;">✉</span><div><div style="font-size:11px;color:var(--muted);">Email</div><div style="font-weight:600;">${v.email}</div></div></a>`:''}
         ${v.driveLink?`<a href="${v.driveLink}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(78,203,113,0.08);border:1px solid rgba(78,203,113,0.25);border-radius:10px;text-decoration:none;color:#4ecb71;"><span style="font-size:18px;">📂</span><div><div style="font-size:11px;color:var(--muted);">Portfolio</div><div style="font-weight:600;">View on Google Drive →</div></div></a>`:''}
+        ${v.instagram?`<a href="${v.instagram}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(225,48,108,0.08);border:1px solid rgba(225,48,108,0.25);border-radius:10px;text-decoration:none;color:#e1306c;"><span style="font-size:18px;">📸</span><div><div style="font-size:11px;color:var(--muted);">Instagram</div><div style="font-weight:600;">View Profile →</div></div></a>`:''}
+        ${v.facebook?`<a href="${v.facebook}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(24,119,242,0.08);border:1px solid rgba(24,119,242,0.25);border-radius:10px;text-decoration:none;color:#1877f2;"><span style="font-size:18px;">📘</span><div><div style="font-size:11px;color:var(--muted);">Facebook</div><div style="font-weight:600;">View Page →</div></div></a>`:''}
         ${v.website?`<a href="${v.website}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);"><span style="font-size:18px;">🌐</span><div><div style="font-size:11px;color:var(--muted);">Website</div><div style="font-weight:600;">${v.website}</div></div></a>`:''}
       </div>
     </div>
+    <!-- REVIEWS SECTION FOR PROFESSIONAL -->
+    <div class="glass-card" id="vpReviewsCard" style="margin-bottom:16px;">
+      <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px;margin-bottom:16px;">⭐ Reviews</div>
+      <div id="vpReviewList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+      <div id="vpReviewFormWrap" style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border);">
+        <div style="font-size:14px;font-weight:600;margin-bottom:12px;">Leave a Review</div>
+        <div style="display:flex;gap:8px;margin-bottom:12px;" id="vpStarRow">
+          ${[1,2,3,4,5].map(n=>`<button type="button" onclick="setVpStar(${n})" id="vpStar${n}" style="width:40px;height:40px;border-radius:50%;border:2px solid var(--border);background:var(--surface2);font-size:18px;cursor:pointer;transition:all 0.15s;">☆</button>`).join('')}
+        </div>
+        <input type="hidden" id="vpRating" value="0">
+        <textarea id="vpReviewText" rows="3" placeholder="Share your experience..." style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:14px;resize:vertical;outline:none;margin-bottom:10px;"></textarea>
+        <button class="btn-primary btn-sm" onclick="submitVendorReview('${v.id}','${v.name.replace(/'/g,"\'")}','${v.owner||''}')">Submit Review</button>
+      </div>
+    </div>
   </div>`;
+  loadVendorProfileReviews('${v.id}');
   window.scrollTo(0,0);
 }
 
@@ -3037,6 +3111,318 @@ function closeVendorProfile() {
     const tabs = document.querySelectorAll('#customer .tab');
     tabs.forEach(t => { if (t.textContent.includes('Photographers')) t.click(); });
   }, 100);
+}
+
+
+// ═══════════════════════════════════════════
+// PROFESSIONAL (VENDOR) REVIEWS
+// ═══════════════════════════════════════════
+
+let vpSelectedStar = 0;
+function setVpStar(n) {
+  vpSelectedStar = n;
+  document.getElementById('vpRating').value = n;
+  for (let i = 1; i <= 5; i++) {
+    const b = document.getElementById('vpStar' + i);
+    if (!b) continue;
+    b.textContent       = i <= n ? '★' : '☆';
+    b.style.color       = i <= n ? 'var(--accent)' : '';
+    b.style.borderColor = i <= n ? 'var(--accent)' : 'var(--border)';
+    b.style.background  = i <= n ? 'rgba(201,168,76,0.12)' : 'var(--surface2)';
+  }
+}
+
+async function loadVendorProfileReviews(vendorId) {
+  const el = document.getElementById('vpReviewList');
+  if (!el) return;
+  el.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+  let snap;
+  try { snap = await db.collection('reviews').where('vendorId','==',vendorId).orderBy('createdAt','desc').get(); }
+  catch(e) { snap = await db.collection('reviews').where('vendorId','==',vendorId).get(); }
+  if (snap.empty) { el.innerHTML = '<p style="color:var(--muted);font-size:13px;">No reviews yet — be the first!</p>'; return; }
+  el.innerHTML = '';
+  snap.forEach(doc => {
+    const r = doc.data();
+    const filled = '★'.repeat(r.rating||0);
+    const empty  = '☆'.repeat(5-(r.rating||0));
+    const date   = r.createdAt?.toDate ? r.createdAt.toDate().toLocaleDateString('en-IN') : '';
+    const div = document.createElement('div');
+    div.style.cssText = 'padding:14px 0;border-bottom:1px solid var(--border);';
+    div.innerHTML = `
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+        <span style="color:var(--accent);font-size:14px;">${filled}<span style="color:var(--muted);">${empty}</span></span>
+        <span style="font-size:13px;font-weight:600;">${r.reviewer||'Anonymous'}</span>
+        ${date?`<span style="font-size:11px;color:var(--muted);">${date}</span>`:''}
+      </div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;font-style:italic;">"${r.comment||r.text||''}"</div>`;
+    el.appendChild(div);
+  });
+}
+
+async function submitVendorReview(vendorId, vendorName, vendorOwner) {
+  const rating = vpSelectedStar;
+  const text   = document.getElementById('vpReviewText')?.value?.trim();
+  if (!rating)  { showToast('⚠ Please select a star rating', 'error'); return; }
+  if (!text)    { showToast('⚠ Please write a review', 'error');       return; }
+  const authorName = currentUser.displayName || currentUser.email.split('@')[0];
+  await db.collection('reviews').add({
+    vendorId, vendorOwner, vendorName,
+    reviewer: authorName,
+    rating, comment: text, text,
+    authorEmail: currentUser.email,
+    type: 'vendor',
+    createdAt: new Date()
+  });
+  // Update vendor rating
+  const allRevs = await db.collection('reviews').where('vendorId','==',vendorId).get();
+  let total = 0, count = 0;
+  allRevs.forEach(d => { total += (d.data().rating||0); count++; });
+  const avg = count > 0 ? Math.round((total/count)*10)/10 : 0;
+  await db.collection('vendors').doc(vendorId).update({ rating: avg, reviewCount: count });
+  showToast('⭐ Review submitted!');
+  document.getElementById('vpReviewText').value = '';
+  vpSelectedStar = 0;
+  for (let i = 1; i <= 5; i++) {
+    const b = document.getElementById('vpStar' + i);
+    if (b) { b.textContent='☆'; b.style.color=''; b.style.borderColor='var(--border)'; b.style.background='var(--surface2)'; }
+  }
+  loadVendorProfileReviews(vendorId);
+}
+
+// ═══════════════════════════════════════════
+// ADMIN EDIT VENDOR / PROFESSIONAL
+// ═══════════════════════════════════════════
+async function adminEditVendor(id) {
+  const doc = await db.collection('vendors').doc(id).get();
+  const v = doc.data();
+  document.getElementById('modalContainer').innerHTML = `
+  <div class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" style="max-width:680px;">
+      <div class="modal-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;">✏️ Edit: ${v.name}</div>
+          <div class="modal-close" style="position:static;width:32px;height:32px;" onclick="closeModalDirect()">✕</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Name</label><input type="text" id="evName" value="${v.name||''}"></div>
+          <div class="form-group"><label>Company / Brand</label><input type="text" id="evCompany" value="${v.company||''}"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Phone</label><input type="tel" id="evPhone" value="${v.phone||''}"></div>
+          <div class="form-group"><label>WhatsApp</label><input type="tel" id="evWhatsapp" value="${v.whatsapp||''}"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Email</label><input type="email" id="evEmail" value="${v.email||''}"></div>
+          <div class="form-group"><label>Location</label><input type="text" id="evLocation" value="${v.location||''}"></div>
+        </div>
+        <div class="form-group"><label>Bio</label><textarea id="evBio" rows="3">${v.bio||''}</textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Specialty</label><input type="text" id="evSpecialty" value="${v.specialty||''}"></div>
+          <div class="form-group"><label>Experience (years)</label><input type="number" id="evExp" value="${v.experience||''}"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Min Price (₹)</label><input type="number" id="evPriceMin" value="${v.priceMin||0}"></div>
+          <div class="form-group"><label>Max Price (₹)</label><input type="number" id="evPriceMax" value="${v.priceMax||0}"></div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
+          <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:10px;">🔗 Portfolio & Social Links</div>
+          <div class="form-group"><label>📂 Google Drive Portfolio</label><input type="url" id="evDriveLink" value="${v.driveLink||''}"></div>
+          <div class="form-row">
+            <div class="form-group"><label>📸 Instagram</label><input type="url" id="evInstagram" value="${v.instagram||''}"></div>
+            <div class="form-group"><label>📘 Facebook</label><input type="url" id="evFacebook" value="${v.facebook||''}"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:8px;">
+          <button class="btn-primary btn-sm" onclick="saveEditVendor('${id}')">💾 Save Changes</button>
+          <button class="btn-secondary btn-sm" onclick="closeModalDirect()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+async function saveEditVendor(id) {
+  try {
+    await db.collection('vendors').doc(id).update({
+      name:       document.getElementById('evName').value,
+      company:    document.getElementById('evCompany').value || '',
+      phone:      document.getElementById('evPhone').value,
+      whatsapp:   document.getElementById('evWhatsapp').value || '',
+      email:      document.getElementById('evEmail').value,
+      location:   document.getElementById('evLocation').value,
+      bio:        document.getElementById('evBio').value || '',
+      specialty:  document.getElementById('evSpecialty').value || '',
+      experience: document.getElementById('evExp').value || '',
+      priceMin:   Number(document.getElementById('evPriceMin').value) || 0,
+      priceMax:   Number(document.getElementById('evPriceMax').value) || 0,
+      driveLink:  document.getElementById('evDriveLink').value || '',
+      instagram:  document.getElementById('evInstagram').value || '',
+      facebook:   document.getElementById('evFacebook').value || '',
+    });
+    showToast('✅ Professional updated!');
+    closeModalDirect();
+    loadAdminVendors();
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+// ═══════════════════════════════════════════
+// ADMIN REVIEWS — Full control: edit, star, delete
+// ═══════════════════════════════════════════
+
+function filterAdminReviews(type, btn) {
+  document.querySelectorAll('#adminTabReviews .vendor-type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadAdminReviews(type);
+}
+
+async function loadAdminReviews(filterType) {
+  filterType = filterType || 'all';
+  const el = document.getElementById('adminReviewList');
+  el.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+  let snap;
+  try {
+    let q = db.collection('reviews');
+    if (filterType === 'vendor')    q = q.where('type','==','vendor');
+    if (filterType === 'organizer') q = q.where('type','!=','vendor');
+    try { snap = await q.orderBy('createdAt','desc').get(); }
+    catch(e) { snap = await q.get(); }
+  } catch(e2) { snap = await db.collection('reviews').get(); }
+  el.innerHTML = '';
+  if (snap.empty) {
+    el.innerHTML = '<div class="empty-state"><span class="empty-icon">⭐</span><p>No reviews yet.</p></div>';
+    return;
+  }
+  snap.forEach(doc => {
+    const r = {id: doc.id, ...doc.data()};
+    const filled = '★'.repeat(r.rating||0);
+    const empty  = '☆'.repeat(5-(r.rating||0));
+    const date   = r.createdAt?.toDate ? r.createdAt.toDate().toLocaleDateString('en-IN') : '—';
+    const div = document.createElement('div');
+    div.className = 'admin-item';
+    div.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;width:100%;gap:12px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+            <span style="color:var(--accent);font-size:18px;letter-spacing:2px;">${filled}<span style="color:var(--border2);">${empty}</span></span>
+            <span style="font-size:13px;font-weight:700;color:var(--text);">${r.reviewer||'Anonymous'}</span>
+            ${r.type==='vendor'
+              ? `<span class="badge" style="font-size:10px;padding:2px 8px;margin:0;background:rgba(76,154,201,0.15);color:#4c9ac9;border-color:rgba(76,154,201,0.3);">📸 Professional: ${r.vendorName||'—'}</span>`
+              : `<span class="badge" style="font-size:10px;padding:2px 8px;margin:0;background:rgba(123,94,167,0.15);color:#a88fd4;border-color:rgba(123,94,167,0.3);">🎭 Organizer: ${r.orgName||'—'}</span>`}
+            <span style="font-size:11px;color:var(--muted);">${date}</span>
+          </div>
+          <div style="font-size:13px;color:var(--muted);font-style:italic;line-height:1.6;padding-left:4px;">"${r.comment||'—'}"</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-shrink:0;">
+          <button class="btn-secondary btn-sm" onclick="adminEditReview('${r.id}')">✏️ Edit</button>
+          <button class="btn-danger btn-sm" onclick="adminDeleteReview('${r.id}','${(r.reviewer||'review').replace(/'/g,"\\'")}','${r.orgId||''}')">🗑</button>
+        </div>
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+async function adminEditReview(id, vendorId) {
+  const doc = await db.collection('reviews').doc(id).get();
+  const r   = doc.data();
+  vendorId  = vendorId || r.vendorId || '';
+  const curRating = r.rating || 5;
+  document.getElementById('modalContainer').innerHTML = `
+  <div class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" style="max-width:500px;">
+      <div class="modal-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;">⭐ Edit Review</div>
+          <div class="modal-close" style="position:static;width:32px;height:32px;" onclick="closeModalDirect()">✕</div>
+        </div>
+        <div class="form-group">
+          <label>Reviewer Name</label>
+          <input type="text" id="erName" value="${r.reviewer||''}">
+        </div>
+        <div class="form-group">
+          <label>Rating</label>
+          <div style="display:flex;gap:6px;margin-top:8px;">
+            ${[1,2,3,4,5].map(n=>`<button type="button" onclick="setErStar(${n})" id="erStar${n}" style="width:44px;height:44px;border-radius:50%;border:2px solid ${n<=curRating?'var(--accent)':'var(--border)'};background:${n<=curRating?'rgba(201,168,76,0.12)':'var(--surface2)'};font-size:20px;cursor:pointer;transition:all 0.15s;color:${n<=curRating?'var(--accent)':''}">${n<=curRating?'★':'☆'}</button>`).join('')}
+          </div>
+          <input type="hidden" id="erRating" value="${curRating}">
+        </div>
+        <div class="form-group">
+          <label>Review Text</label>
+          <textarea id="erComment" rows="4">${r.comment||''}</textarea>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:14px;padding:8px 12px;background:var(--surface2);border-radius:8px;">
+          ${r.type==='vendor'
+            ? `📸 Professional: <strong style="color:var(--text);">${r.vendorName||vendorId||'—'}</strong>`
+            : `🎭 Organizer: <strong style="color:var(--text);">${r.orgName||r.orgId||'—'}</strong>`}
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="btn-primary btn-sm" onclick="saveEditReview('${id}','${r.orgId||''}',vendorId)">💾 Save Changes</button>
+          <button class="btn-secondary btn-sm" onclick="closeModalDirect()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function setErStar(n) {
+  document.getElementById('erRating').value = n;
+  for (let i = 1; i <= 5; i++) {
+    const b = document.getElementById('erStar' + i);
+    if (!b) continue;
+    b.textContent    = i <= n ? '★' : '☆';
+    b.style.color    = i <= n ? 'var(--accent)' : '';
+    b.style.borderColor = i <= n ? 'var(--accent)' : 'var(--border)';
+    b.style.background  = i <= n ? 'rgba(201,168,76,0.12)' : 'var(--surface2)';
+  }
+}
+
+async function saveEditReview(id, orgId, vendorId) {
+  try {
+    const rating = Number(document.getElementById('erRating').value) || 5;
+    const name   = document.getElementById('erName').value.trim();
+    const text   = document.getElementById('erComment').value.trim();
+    if (!name) { showToast('Name required', 'error'); return; }
+    await db.collection('reviews').doc(id).update({ reviewer: name, rating, comment: text, text });
+    // Recalculate organizer average
+    if (orgId) {
+      const allRevs = await db.collection('reviews').where('orgId','==',orgId).get();
+      let total = 0, count = 0;
+      allRevs.forEach(d => { total += (d.data().rating||0); count++; });
+      const avg = count > 0 ? Math.round((total/count)*10)/10 : 0;
+      await db.collection('organizers').doc(orgId).update({ rating: avg, reviewCount: count });
+    }
+    // Recalculate professional/vendor average
+    if (vendorId) {
+      const allRevs = await db.collection('reviews').where('vendorId','==',vendorId).get();
+      let total = 0, count = 0;
+      allRevs.forEach(d => { total += (d.data().rating||0); count++; });
+      const avg = count > 0 ? Math.round((total/count)*10)/10 : 0;
+      await db.collection('vendors').doc(vendorId).update({ rating: avg, reviewCount: count });
+    }
+    showToast('✅ Review saved!');
+    closeModalDirect();
+    loadAdminReviews();
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+async function adminDeleteReview(id, name, orgId, vendorId) {
+  if (!confirm('Delete review by "' + name + '"?')) return;
+  await db.collection('reviews').doc(id).delete();
+  if (orgId) {
+    const allRevs = await db.collection('reviews').where('orgId','==',orgId).get();
+    let total = 0, count = 0;
+    allRevs.forEach(d => { total += (d.data().rating||0); count++; });
+    const avg = count > 0 ? Math.round((total/count)*10)/10 : 0;
+    await db.collection('organizers').doc(orgId).update({ rating: avg, reviewCount: count });
+  }
+  if (vendorId) {
+    const allRevs = await db.collection('reviews').where('vendorId','==',vendorId).get();
+    let total = 0, count = 0;
+    allRevs.forEach(d => { total += (d.data().rating||0); count++; });
+    const avg = count > 0 ? Math.round((total/count)*10)/10 : 0;
+    await db.collection('vendors').doc(vendorId).update({ rating: avg, reviewCount: count });
+  }
+  showToast('🗑 Review deleted.');
+  loadAdminReviews(); loadAdminStats();
 }
 </script>
 

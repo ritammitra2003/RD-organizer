@@ -770,7 +770,7 @@ body.light header { background: rgba(240,236,228,0.85); }
     <span class="verify-icon">📧</span>
     <h1 class="verify-title">Check your <em>inbox.</em></h1>
     <p class="verify-sub">We've sent a verification link to:</p>
-    <div class="verify-email-badge" id="verifyEmailBadge">email@example.com</div>
+    <div class="verify-email-badge" id="verifyEmailBadge">mrritammitra@gmail.com</div>
     <div class="glass-card" style="margin-bottom:20px;">
       <div class="verify-steps">
         <div class="verify-step">
@@ -1088,6 +1088,7 @@ body.light header { background: rgba(240,236,228,0.85); }
       <button class="tab" onclick="switchAdminTab('events',this)">🎪 Events</button>
       <button class="tab" onclick="switchAdminTab('enquiries',this)">📬 Enquiries</button>
       <button class="tab" onclick="switchAdminTab('reviews',this)">⭐ Reviews</button>
+      <button class="tab" onclick="switchAdminTab('claims',this)" id="claimTabBtn">🔔 Claims</button>
       <button class="tab" onclick="switchAdminTab('addlisting',this)">➕ Add Listing</button>
     </div>
 
@@ -1116,6 +1117,17 @@ body.light header { background: rgba(240,236,228,0.85); }
       </div>
       <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">Manage all reviews — edit rating, name, text. Changes save immediately.</div>
       <div id="adminReviewList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+    </div>
+
+    <div id="adminTabClaims" class="hidden">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">Users ke ownership claim requests.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+        <button class="vendor-type-btn active" onclick="filterAdminClaims('all',this)">All</button>
+        <button class="vendor-type-btn" onclick="filterAdminClaims('pending',this)">⏳ Pending</button>
+        <button class="vendor-type-btn" onclick="filterAdminClaims('approved',this)">✅ Approved</button>
+        <button class="vendor-type-btn" onclick="filterAdminClaims('rejected',this)">❌ Rejected</button>
+      </div>
+      <div id="adminClaimList"><div class="loading-dots"><span></span><span></span><span></span></div></div>
     </div>
 
     <div id="adminTabAddlisting" class="hidden">
@@ -1584,11 +1596,12 @@ function switchCustTab(name, btn) {
 function switchAdminTab(name, btn) {
   btn.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  ['adminTabOrganizers','adminTabVendors','adminTabEvents','adminTabEnquiries','adminTabReviews','adminTabAddlisting'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+  ['adminTabOrganizers','adminTabVendors','adminTabEvents','adminTabEnquiries','adminTabReviews','adminTabClaims','adminTabAddlisting'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
   document.getElementById('adminTab' + name.charAt(0).toUpperCase() + name.slice(1))?.classList.remove('hidden');
   if (name === 'organizers') loadAdminOrganizers();
   if (name === 'vendors')    loadAdminVendors();
   if (name === 'reviews')    loadAdminReviews();
+  if (name === 'claims')     loadAdminClaims('all');
   if (name === 'events')     loadAdminEvents();
   if (name === 'enquiries')  loadAdminEnquiries();
 }
@@ -1674,6 +1687,7 @@ async function loadAdminOrganizers() {
       </div>
       <div class="admin-item-actions">
         <button class="btn-secondary btn-sm" onclick="adminEditOrg('${o.id}')">✏️ Edit</button>
+        <button onclick="openTransferModal('${o.id}','organizer','${o.name}','${o.owner}')" style="padding:7px 14px;background:rgba(76,154,201,0.12);color:#7fc3e8;border:1px solid rgba(76,154,201,0.3);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">🔄 Transfer</button>
         <button class="btn-danger btn-sm" onclick="adminDeleteOrg('${o.id}','${o.name.replace(/'/g,"\\'")}')">🗑 Delete</button>
       </div>`;
     el.appendChild(div);
@@ -1705,6 +1719,7 @@ async function loadAdminVendors() {
       </div>
       <div class="admin-item-actions">
         <button class="btn-secondary btn-sm" onclick="adminEditVendor('${v.id}')">✏️ Edit</button>
+        <button onclick="openTransferModal('${v.id}','vendor','${v.name}','${v.owner}')" style="padding:7px 14px;background:rgba(76,154,201,0.12);color:#7fc3e8;border:1px solid rgba(76,154,201,0.3);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">🔄 Transfer</button>
         <button class="btn-danger btn-sm" onclick="adminDeleteVendor('${v.id}','${v.name.replace(/'/g,"\\'")}')">🗑 Delete</button>
       </div>`;
     el.appendChild(div);
@@ -2355,7 +2370,12 @@ async function loadMyProfiles() {
   const el = document.getElementById('myProfilesList');
   if (!el) return;
   el.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
-  const snap = await db.collection('organizers').where('owner','==',currentUser.email).orderBy('createdAt','desc').get();
+  let snap;
+  try {
+    snap = await db.collection('organizers').where('owner','==',currentUser.email).orderBy('createdAt','desc').get();
+  } catch(e) {
+    snap = await db.collection('organizers').where('owner','==',currentUser.email).get();
+  }
   if (snap.empty) {
     el.innerHTML = '<div class="empty-state"><span class="empty-icon">🎭</span><p>Koi profile nahi hai abhi. "New Profile" tab se add karo.</p></div>';
     return;
@@ -2505,6 +2525,216 @@ async function saveMyProfile(id) {
     loadOrgStats();
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
   btn.disabled = false; btn.textContent = '💾 Save Changes';
+}
+
+
+function openTransferModal(docId, docType, docName, currentOwner) {
+  document.getElementById('modalContainer').innerHTML = `
+  <div class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" style="max-width:460px;">
+      <div class="modal-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;">🔄 Transfer Ownership</div>
+          <div class="modal-close" style="position:static;width:32px;height:32px;" onclick="closeModalDirect()">✕</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">LISTING</div>
+          <div style="font-weight:700;font-size:15px;">${docName}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px;">Current Owner: ${currentOwner}</div>
+        </div>
+        <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--muted);">
+          ✅ <strong style="color:var(--accent);">Tumhara admin access hamesha rahega</strong>
+        </div>
+        <div class="form-group">
+          <label>New Owner Email</label>
+          <input type="email" id="t_e1" placeholder="newowner@email.com" style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:14px;outline:none;box-sizing:border-box;">
+        </div>
+        <div class="form-group">
+          <label>Confirm Email</label>
+          <input type="email" id="t_e2" placeholder="Dobara likho..." style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:14px;outline:none;box-sizing:border-box;">
+        </div>
+        <div id="t_err" style="color:#e07070;font-size:12px;min-height:16px;margin-bottom:8px;"></div>
+        <div style="display:flex;gap:10px;">
+          <button onclick="confirmTransfer('${docId}','${docType}')" id="t_btn" style="flex:1;padding:12px;background:linear-gradient(135deg,var(--accent),#b8912f);color:#0a0a0f;border:none;border-radius:10px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">✅ Transfer Karo</button>
+          <button class="btn-secondary btn-sm" onclick="closeModalDirect()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+async function confirmTransfer(docId, docType) {
+  const e1 = document.getElementById('t_e1').value.trim().toLowerCase();
+  const e2 = document.getElementById('t_e2').value.trim().toLowerCase();
+  const err = document.getElementById('t_err');
+  const btn = document.getElementById('t_btn');
+  if (!e1.includes('@')) { err.textContent = '⚠ Valid email daalo'; return; }
+  if (e1 !== e2) { err.textContent = '⚠ Emails match nahi kar rahe!'; return; }
+  if (e1 === ADMIN_EMAIL) { err.textContent = '⚠ Admin email pe transfer nahi hoga'; return; }
+  btn.disabled = true; btn.textContent = '⏳ Please wait...';
+  try {
+    const col = docType === 'vendor' ? 'vendors' : 'organizers';
+    const snap = await db.collection(col).doc(docId).get();
+    await db.collection(col).doc(docId).update({ owner: e1, previousOwner: snap.data()?.owner || '', transferredBy: ADMIN_EMAIL, transferredAt: new Date() });
+    showToast('✅ ' + e1 + ' ab owner hai!');
+    closeModalDirect();
+    if (docType === 'vendor') loadAdminVendors(); else loadAdminOrganizers();
+  } catch(ex) { err.textContent = 'Error: ' + ex.message; btn.disabled = false; btn.textContent = '✅ Transfer Karo'; }
+}
+
+function openClaimModal(docId, docType, docName, currentOwner) {
+  if (!currentUser) { showToast('Pehle login karo', 'error'); return; }
+  document.getElementById('modalContainer').innerHTML = `
+  <div class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" style="max-width:460px;">
+      <div class="modal-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;">🔑 Claim Listing</div>
+          <div class="modal-close" style="position:static;width:32px;height:32px;" onclick="closeModalDirect()">✕</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">LISTING</div>
+          <div style="font-weight:700;font-size:15px;">${docName}</div>
+        </div>
+        <div style="background:rgba(92,184,92,0.07);border:1px solid rgba(92,184,92,0.2);border-radius:10px;padding:11px 14px;margin-bottom:14px;font-size:12px;color:#7ed37e;">
+          Request admin ke paas jaayegi. Approve hone par yeh listing teri ho jaayegi.
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:14px;">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Tumhara account</div>
+          <div style="font-weight:600;">${currentUser.email}</div>
+        </div>
+        <div class="form-group">
+          <label>Reason / Proof <span style="text-transform:none;font-weight:400;font-size:11px;">(zaroori hai)</span></label>
+          <textarea id="c_reason" rows="3" placeholder="e.g. mera hi naam/number hai..." style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:13px;outline:none;resize:vertical;box-sizing:border-box;"></textarea>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button id="c_btn" onclick="submitClaimRequest('${docId}','${docType}','${docName}','${currentOwner}')" style="flex:1;padding:12px;background:rgba(92,184,92,0.15);color:#7ed37e;border:1px solid rgba(92,184,92,0.35);border-radius:10px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;">🔑 Send Claim Request</button>
+          <button class="btn-secondary btn-sm" onclick="closeModalDirect()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+async function submitClaimRequest(docId, docType, docName, currentOwner) {
+  const reason = document.getElementById('c_reason').value.trim();
+  if (!reason) { showToast('Reason likhna zaroori hai', 'error'); return; }
+  const btn = document.getElementById('c_btn');
+  btn.textContent = '⏳ Sending...'; btn.disabled = true;
+  try {
+    const dup = await db.collection('claimRequests').where('targetId','==',docId).where('claimantEmail','==',currentUser.email).where('status','==','pending').get();
+    if (!dup.empty) { showToast('⚠ Already claim request bhej di hai!', 'error'); btn.disabled=false; btn.textContent='🔑 Send Claim Request'; return; }
+    await db.collection('claimRequests').add({ targetId:docId, targetType:docType, targetName:docName, targetOwner:currentOwner, claimantEmail:currentUser.email, claimantName:currentUser.displayName||currentUser.email.split('@')[0], reason:reason, status:'pending', createdAt:new Date() });
+    showToast('✅ Claim request bhej di! Admin jald review karega.');
+    closeModalDirect();
+    loadAdminClaimsCount();
+  } catch(ex) { showToast('Error: '+ex.message,'error'); btn.disabled=false; btn.textContent='🔑 Send Claim Request'; }
+}
+
+function filterAdminClaims(status, btn) {
+  document.querySelectorAll('#adminTabClaims .vendor-type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadAdminClaims(status);
+}
+
+async function loadAdminClaims(filterStatus) {
+  filterStatus = filterStatus || 'all';
+  const el = document.getElementById('adminClaimList');
+  if (!el) return;
+  el.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+  let q = db.collection('claimRequests');
+  if (filterStatus !== 'all') q = q.where('status','==',filterStatus);
+  let snap;
+  try { snap = await q.orderBy('createdAt','desc').get(); } catch(e) { snap = await q.get(); }
+  el.innerHTML = '';
+  if (snap.empty) { el.innerHTML = '<div class="empty-state"><span class="empty-icon">🔑</span><p>Koi claim requests nahi hain.</p></div>'; return; }
+  snap.forEach(doc => {
+    const c = { id: doc.id, ...doc.data() };
+    const date = c.createdAt && c.createdAt.toDate ? c.createdAt.toDate().toLocaleDateString('en-IN') : '';
+    const sc = { pending:'#f0c060', approved:'#7ed37e', rejected:'#e88e8e' }[c.status] || '#aaa';
+    const div = document.createElement('div');
+    div.className = 'admin-item';
+    if (c.status === 'pending') div.style.borderLeft = '3px solid #f0c060';
+    div.dataset.claimId = c.id;
+    div.dataset.targetId = c.targetId;
+    div.dataset.targetType = c.targetType;
+    div.dataset.claimantEmail = c.claimantEmail;
+    div.dataset.targetName = c.targetName || '';
+    div.innerHTML =
+      '<div style="flex:1;min-width:180px;">'
+      + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">'
+      + '<span style="font-weight:700;">' + (c.targetType==='vendor'?'📸':'🎭') + ' ' + (c.targetName||'—') + '</span>'
+      + '<span style="padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;color:' + sc + ';border:1px solid ' + sc + '44;">' + (c.status||'').toUpperCase() + '</span>'
+      + '<span style="font-size:11px;color:var(--muted);">' + date + '</span>'
+      + '</div>'
+      + '<div style="font-size:13px;color:var(--muted);line-height:1.7;">'
+      + '🙋 <strong style="color:var(--text);">' + (c.claimantName||'') + '</strong> (' + (c.claimantEmail||'') + ')<br>'
+      + '📋 Current owner: ' + (c.targetOwner||'—') + '<br>'
+      + '💬 <em style="color:var(--text);">"' + (c.reason||'') + '"</em>'
+      + '</div></div>'
+      + '<div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">'
+      + (c.status === 'pending'
+        ? '<button onclick="approveClaimFromDiv(this)" style="padding:8px 16px;background:rgba(92,184,92,0.15);color:#7ed37e;border:1px solid rgba(92,184,92,0.35);border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">✅ Approve</button>'
+        + '<button onclick="rejectClaimFromDiv(this)" style="padding:8px 16px;background:transparent;color:var(--danger);border:1px solid rgba(224,92,92,0.3);border-radius:8px;font-family:inherit;font-size:13px;cursor:pointer;">❌ Reject</button>'
+        : '<span style="font-size:12px;color:' + sc + ';font-weight:600;">' + c.status + '</span>')
+      + '<button onclick="deleteClaimFromDiv(this)" class="btn-danger btn-sm">🗑 Delete</button>'
+      + '</div>';
+    el.appendChild(div);
+  });
+}
+
+function approveClaimFromDiv(btn) {
+  const d = btn.closest('[data-claim-id]');
+  approveClaim(d.dataset.claimId, d.dataset.targetId, d.dataset.targetType, d.dataset.claimantEmail, d.dataset.targetName);
+}
+function rejectClaimFromDiv(btn) {
+  rejectClaim(btn.closest('[data-claim-id]').dataset.claimId);
+}
+function deleteClaimFromDiv(btn) {
+  deleteClaimRequest(btn.closest('[data-claim-id]').dataset.claimId);
+}
+
+async function approveClaim(claimId, targetId, targetType, newEmail, targetName) {
+  if (!confirm('Approve: "' + targetName + '" ka ownership "' + newEmail + '" ko transfer karo?\nAdmin ka access hamesha rahega.')) return;
+  try {
+    const col = targetType === 'vendor' ? 'vendors' : 'organizers';
+    const snap = await db.collection(col).doc(targetId).get();
+    await db.collection(col).doc(targetId).update({ owner: newEmail, previousOwner: snap.data()?.owner||'', transferredBy: ADMIN_EMAIL, transferredAt: new Date() });
+    await db.collection('claimRequests').doc(claimId).update({ status:'approved', approvedAt: new Date(), approvedBy: ADMIN_EMAIL });
+    const others = await db.collection('claimRequests').where('targetId','==',targetId).where('status','==','pending').get();
+    if (!others.empty) {
+      const batch = db.batch();
+      others.forEach(d => { if (d.id !== claimId) batch.update(d.ref, { status:'rejected', rejectedAt: new Date() }); });
+      await batch.commit();
+    }
+    showToast('✅ Approved! ' + newEmail + ' ab owner hai.');
+    loadAdminClaims('all');
+    loadAdminStats();
+  } catch(ex) { showToast('Error: ' + ex.message, 'error'); }
+}
+
+async function rejectClaim(claimId) {
+  if (!confirm('Yeh claim reject karo?')) return;
+  await db.collection('claimRequests').doc(claimId).update({ status:'rejected', rejectedAt: new Date(), rejectedBy: ADMIN_EMAIL });
+  showToast('❌ Claim reject kar diya.');
+  loadAdminClaims('all');
+}
+
+async function deleteClaimRequest(id) {
+  if (!confirm('Delete this claim request?')) return;
+  await db.collection('claimRequests').doc(id).delete();
+  showToast('🗑 Deleted.');
+  loadAdminClaims('all');
+}
+
+async function loadAdminClaimsCount() {
+  try {
+    const snap = await db.collection('claimRequests').where('status','==','pending').get();
+    const btn = document.getElementById('claimTabBtn');
+    if (btn) btn.innerHTML = snap.size > 0
+      ? '🔔 Claims <span style="background:#e05c5c;color:#fff;border-radius:20px;padding:1px 7px;font-size:11px;font-weight:700;margin-left:4px;">' + snap.size + '</span>'
+      : '🔔 Claims';
+  } catch(e) {}
 }
 
 function getCatColor(cat) {
@@ -3026,6 +3256,7 @@ function renderVendors(list) {
           <a href="tel:${v.phone}" onclick="event.stopPropagation()" style="padding:8px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:var(--text);text-align:center;">📞 Call</a>
           <a href="https://wa.me/91${waNumber(v.whatsapp||v.phone)}" target="_blank" onclick="event.stopPropagation()" style="padding:8px 16px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:#25d366;text-align:center;">💬 WhatsApp</a>
           ${v.email?`<a href="mailto:${v.email}" onclick="event.stopPropagation()" style="padding:8px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:var(--text);text-align:center;">✉ Email</a>`:''}
+          ${currentUser && currentUser.email !== v.owner && currentUser.email !== ADMIN_EMAIL ? `<button onclick="event.stopPropagation();openClaimModal('${v.id}','vendor','${v.name}','${v.owner}')" style="padding:8px 14px;background:rgba(92,184,92,0.1);color:#7ed37e;border:1px solid rgba(92,184,92,0.3);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">🔑 Claim</button>` : ''}
         </div>
       </div>`;
     el.appendChild(card);
@@ -3412,19 +3643,16 @@ async function adminDeleteReview(id, name, orgId, vendorId) {
     let total = 0, count = 0;
     allRevs.forEach(d => { total += (d.data().rating||0); count++; });
     const avg = count > 0 ? Math.round((total/count)*10)/10 : 0;
-    await db.collection('organizers').doc(orgId).update({ rating: avg, reviewCount: count });
-  }
-  if (vendorId) {
-    const allRevs = await db.collection('reviews').where('vendorId','==',vendorId).get();
-    let total = 0, count = 0;
-    allRevs.forEach(d => { total += (d.data().rating||0); count++; });
-    const avg = count > 0 ? Math.round((total/count)*10)/10 : 0;
-    await db.collection('vendors').doc(vendorId).update({ rating: avg, reviewCount: count });
-  }
-  showToast('🗑 Review deleted.');
-  loadAdminReviews(); loadAdminStats();
+      await db.collection('organizers').doc(orgId).update({ rating: avg, reviewCount: count });
+    }
+    if (vendorId) {
+      const allRevs = await db.collection('reviews').where('vendorId','==',vendorId).get();
+      let total = 0, count = 0;
+      allRevs.forEach(d => { total += (d.data().rating||0); count++; });
+      const avg = count > 0 ? Math.round((total/count)*10)/10 : 0;
+      await db.collection('vendors').doc(vendorId).update({ rating: avg, reviewCount: count });
+    }
 }
 </script>
-
 </body>
 </html>

@@ -2622,12 +2622,9 @@ async function submitClaimRequest(docId, docType, docName, currentOwner) {
   const btn = document.getElementById('c_btn');
   btn.textContent = '⏳ Sending...'; btn.disabled = true;
   try {
-    const dup = await db.collection('claimRequests').where('targetId','==',docId).where('claimantEmail','==',currentUser.email).where('status','==','pending').get();
-    if (!dup.empty) { showToast('⚠ Already claim request bhej di hai!', 'error'); btn.disabled=false; btn.textContent='🔑 Send Claim Request'; return; }
     await db.collection('claimRequests').add({ targetId:docId, targetType:docType, targetName:docName, targetOwner:currentOwner, claimantEmail:currentUser.email, claimantName:currentUser.displayName||currentUser.email.split('@')[0], reason:reason, status:'pending', createdAt:new Date() });
     showToast('✅ Claim request bhej di! Admin jald review karega.');
     closeModalDirect();
-    loadAdminClaimsCount();
   } catch(ex) { showToast('Error: '+ex.message,'error'); btn.disabled=false; btn.textContent='🔑 Send Claim Request'; }
 }
 

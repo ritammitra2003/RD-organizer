@@ -957,6 +957,14 @@ body.light header { background: rgba(240,236,228,0.85); }
             <label>Website <span style="font-size:11px;color:var(--muted);">(optional)</span></label>
             <input type="url" id="orgWebsite" placeholder="https://yourwebsite.com">
           </div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;">
+            <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:12px;">🔗 Social & Portfolio Links <span style="font-size:11px;color:var(--muted);font-weight:400;">(optional)</span></div>
+            <div class="form-row">
+              <div class="form-group" style="margin:0;"><label style="display:flex;align-items:center;gap:6px;"><span style="font-size:16px;">📂</span> Google Drive</label><input type="url" id="orgDriveLink" placeholder="https://drive.google.com/..."></div>
+              <div class="form-group" style="margin:0;"><label style="display:flex;align-items:center;gap:6px;"><span style="font-size:16px;">📸</span> Instagram</label><input type="url" id="orgInstagram" placeholder="https://instagram.com/..."></div>
+            </div>
+            <div class="form-group" style="margin-top:12px;margin-bottom:0;"><label style="display:flex;align-items:center;gap:6px;"><span style="font-size:16px;">📘</span> Facebook Page</label><input type="url" id="orgFacebook" placeholder="https://facebook.com/..."></div>
+          </div>
           <div class="form-group">
             <label>Photos <span style="font-size:11px;color:var(--muted);">(select multiple — uploaded to Cloudinary)</span></label>
             <input type="file" id="orgPhoto" accept="image/*" multiple onchange="previewMultipleImgs(this,'orgImgsPreview')">
@@ -2094,6 +2102,9 @@ document.getElementById('orgForm').addEventListener('submit', async e => {
     phone:      document.getElementById('orgPhone').value,
     whatsapp:   document.getElementById('orgWhatsapp').value || document.getElementById('orgPhone').value,
     website:    document.getElementById('orgWebsite').value || '',
+    driveLink:  document.getElementById('orgDriveLink').value || '',
+    instagram:  document.getElementById('orgInstagram').value || '',
+    facebook:   document.getElementById('orgFacebook').value || '',
     email:      document.getElementById('orgEmail').value,
     category:   checkedCats[0], categories: checkedCats,
     bio:        document.getElementById('orgBio').value,
@@ -3060,8 +3071,7 @@ function openProfilePage(o) {
       <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;"><span style="font-size:18px;">💬</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">WhatsApp</div><div style="font-size:14px;font-weight:600;color:#25d366;">${o.whatsapp||o.phone}</div></div></div>
       <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;"><span style="font-size:18px;">✉</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Email</div><div style="font-size:13px;font-weight:600;word-break:break-all;">${o.email}</div></div></div>
       ${o.location?`<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;"><span style="font-size:18px;">📍</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Location</div><div style="font-size:14px;font-weight:600;">${o.location}</div></div></div>`:''}
-      ${o.website?`<a href="${o.website}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;text-decoration:none;color:var(--text);border:1px solid rgba(201,168,76,0.2);"><span style="font-size:18px;">🌐</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Website</div><div style="font-size:13px;font-weight:600;color:var(--accent);word-break:break-all;">${o.website}</div></div></a>`:''}
-    </div>`;
+      ${o.website?`<a href="${o.website}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;text-decoration:none;color:var(--text);border:1px solid rgba(201,168,76,0.2);"><span style="font-size:18px;">🌐</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Website</div><div style="font-size:13px;font-weight:600;color:var(--accent);word-break:break-all;">${o.website}</div></div></a>`:''}      ${o.instagram?`<a href="${o.instagram}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;text-decoration:none;color:var(--text);"><span style="font-size:18px;">📸</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Instagram</div><div style="font-size:13px;font-weight:600;color:#e1306c;">${o.instagram.replace('https://','')}</div></div></a>`:''}      ${o.facebook?`<a href="${o.facebook}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;text-decoration:none;color:var(--text);"><span style="font-size:18px;">📘</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Facebook</div><div style="font-size:13px;font-weight:600;color:#4267B2;">${o.facebook.replace('https://','')}</div></div></a>`:''}      ${o.driveLink?`<a href="${o.driveLink}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:10px;text-decoration:none;color:var(--text);"><span style="font-size:18px;">📂</span><div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Portfolio (Drive)</div><div style="font-size:13px;font-weight:600;color:var(--accent);">View Portfolio →</div></div></a>`:''}    </div>`;
 
   loadProfileReviews(o);
 

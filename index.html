@@ -825,16 +825,11 @@ body.light header { background: rgba(240,236,228,0.85); }
     <div class="badge">✦ Welcome back</div>
     <h1 class="home-title" id="homeTitle">Welcome to <em>Utsaav.</em></h1>
     <p class="home-sub">India's event organizer discovery platform. What would you like to do?</p>
-    <div class="option-cards" style="grid-template-columns:1fr 1fr;">
+    <div class="option-cards" style="grid-template-columns:1fr;">
       <div class="option-card o-opt" onclick="showRolePopup('organizer')">
         <span class="opt-icon">🎭</span>
         <div class="opt-title">Organizer</div>
-        <div class="opt-desc">Event planning & management</div>
-      </div>
-      <div class="option-card c-opt" onclick="showRolePopup('customer')">
-        <span class="opt-icon">🔍</span>
-        <div class="opt-title">Customer</div>
-        <div class="opt-desc">Find & contact event organizers</div>
+        <div class="opt-desc">List your event business, post events & get enquiries</div>
       </div>
     </div>
     <div class="option-cards" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:18px;">
@@ -1619,8 +1614,13 @@ function switchOrgTab(name, btn) {
 }
 
 function switchCustTab(name, btn) {
-  btn.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('#customer .tabs .tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    // Auto-find the tab button by matching onclick text
+    const allTabs = document.querySelectorAll('#customer .tabs .tab');
+    allTabs.forEach(t => { if (t.getAttribute('onclick') && t.getAttribute('onclick').includes("'" + name + "'")) t.classList.add('active'); });
+  }
   ['custTabBrowse','custTabEvents','custTabVendors','custTabMyenquiries'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
   document.getElementById('custTab' + name.charAt(0).toUpperCase() + name.slice(1))?.classList.remove('hidden');
   if (name === 'events')      loadAllEvents();
@@ -2847,19 +2847,19 @@ function showRolePopup(type) {
       icon: '📸',
       title: 'Photographer',
       a: { label: "I'm a Photographer", desc: 'List your photography services', action: () => { showSection('vendor'); } },
-      b: { label: 'Book a Photographer', desc: 'Find photographers near you', action: () => { showSection('customer'); setTimeout(() => { const b = document.querySelector('#customer .vendor-type-btn'); if(b) b.click(); filterVendors('photographer', document.querySelector('[onclick*="photographer"]')); }, 300); } }
+      b: { label: 'Book a Photographer', desc: 'Find photographers near you', action: () => { closeModalDirect(); showSection('customer'); setTimeout(() => { switchCustTab('vendors', null); setTimeout(() => { document.querySelectorAll('#vendorFilterBtns .vendor-type-btn').forEach(b=>b.classList.remove('active')); const pb=document.querySelector('#vendorFilterBtns [onclick*="photographer"]'); if(pb){pb.classList.add('active'); loadVendors('photographer');} }, 100); }, 300); } }
     },
     makeup: {
       icon: '💄',
       title: 'Makeup Artist',
       a: { label: "I'm a Makeup Artist", desc: 'Showcase your makeup work', action: () => showSection('vendor') },
-      b: { label: 'Book a Makeup Artist', desc: 'Find makeup artists near you', action: () => { showSection('customer'); setTimeout(() => filterVendors('makeup', document.querySelector('[onclick*="makeup"]')), 300); } }
+      b: { label: 'Book a Makeup Artist', desc: 'Find makeup artists near you', action: () => { closeModalDirect(); showSection('customer'); setTimeout(() => { switchCustTab('vendors', null); setTimeout(() => { document.querySelectorAll('#vendorFilterBtns .vendor-type-btn').forEach(b=>b.classList.remove('active')); const mb=document.querySelector('#vendorFilterBtns [onclick*="makeup"]'); if(mb){mb.classList.add('active'); loadVendors('makeup');} }, 100); }, 300); } }
     },
     gifts: {
       icon: '🎁',
       title: 'Return Gifts',
       a: { label: 'I Sell Return Gifts', desc: 'List your gift & hamper services', action: () => showSection('vendor') },
-      b: { label: 'Book Return Gifts', desc: 'Find wedding favors & hampers', action: () => { showSection('customer'); setTimeout(() => filterVendors('gifts', document.querySelector('[onclick*="gifts"]')), 300); } }
+      b: { label: 'Book Return Gifts', desc: 'Find wedding favors & hampers', action: () => { closeModalDirect(); showSection('customer'); setTimeout(() => { switchCustTab('vendors', null); setTimeout(() => { document.querySelectorAll('#vendorFilterBtns .vendor-type-btn').forEach(b=>b.classList.remove('active')); const gb=document.querySelector('#vendorFilterBtns [onclick*="gifts"]'); if(gb){gb.classList.add('active'); loadVendors('gifts');} }, 100); }, 300); } }
     }
   };
 

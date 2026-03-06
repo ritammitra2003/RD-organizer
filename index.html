@@ -1224,6 +1224,83 @@ header { border-bottom: 1px solid rgba(212,67,122,0.12) !important; }
     </div>
 
     <div id="adminTabReviews" class="hidden">
+
+      <!-- ════ FAKE REVIEW GENERATOR ════ -->
+      <div style="background:linear-gradient(135deg,rgba(212,67,122,0.07),rgba(232,160,80,0.05));border:1.5px solid rgba(212,67,122,0.22);border-radius:18px;padding:22px;margin-bottom:24px;">
+        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;color:var(--accent);margin-bottom:4px;">🎭 Fake Review Generator</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:18px;">Organizer ya vendor ko fake reviews do — count, rating sab control karo</div>
+
+        <!-- Type toggle -->
+        <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+          <button class="vendor-type-btn active" id="frgBtnOrg" onclick="frgType('organizer',this)">🎭 Organizer</button>
+          <button class="vendor-type-btn" id="frgBtnPho" onclick="frgType('vendor',this,'photographer')">📸 Photographer</button>
+          <button class="vendor-type-btn" id="frgBtnMak" onclick="frgType('vendor',this,'makeup')">💄 Makeup Artist</button>
+          <button class="vendor-type-btn" id="frgBtnGif" onclick="frgType('vendor',this,'gifts')">🎁 Gifts</button>
+        </div>
+
+        <!-- Target dropdown -->
+        <div style="margin-bottom:14px;">
+          <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;">Kisko dena hai?</label>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <select id="frgTargetSel" style="flex:1;min-width:180px;padding:9px 12px;background:#fff5f7;border:1px solid rgba(212,67,122,0.2);border-radius:10px;color:var(--text);font-size:13px;">
+              <option value="">-- Load karo pehle --</option>
+            </select>
+            <button onclick="frgLoadList()" style="padding:9px 14px;background:rgba(212,67,122,0.1);border:1px solid rgba(212,67,122,0.2);border-radius:9px;color:var(--accent);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🔄 Load List</button>
+          </div>
+        </div>
+
+        <!-- Count slider -->
+        <div style="margin-bottom:14px;">
+          <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;">
+            Kitne reviews? &nbsp;<span id="frgCntLbl" style="color:var(--accent);font-size:18px;font-weight:900;">5</span>
+          </label>
+          <input type="range" id="frgCntSlider" min="1" max="10" value="5"
+            style="width:100%;accent-color:var(--accent);"
+            oninput="document.getElementById('frgCntLbl').textContent=this.value">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:2px;"><span>1</span><span>5</span><span>10</span></div>
+        </div>
+
+        <!-- Rating range -->
+        <div style="margin-bottom:18px;">
+          <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:8px;">Rating range (random between min–max)</label>
+          <div style="display:flex;gap:20px;flex-wrap:wrap;">
+            <div>
+              <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-align:center;">MIN</div>
+              <div id="frgMinRow" style="display:flex;gap:3px;">
+                <span class="frgS" data-g="min" data-v="1" onclick="frgStar('min',1)" style="font-size:26px;cursor:pointer;color:#e8a050;">★</span>
+                <span class="frgS" data-g="min" data-v="2" onclick="frgStar('min',2)" style="font-size:26px;cursor:pointer;color:#e8a050;">★</span>
+                <span class="frgS" data-g="min" data-v="3" onclick="frgStar('min',3)" style="font-size:26px;cursor:pointer;color:rgba(180,160,140,0.3);">★</span>
+                <span class="frgS" data-g="min" data-v="4" onclick="frgStar('min',4)" style="font-size:26px;cursor:pointer;color:rgba(180,160,140,0.3);">★</span>
+                <span class="frgS" data-g="min" data-v="5" onclick="frgStar('min',5)" style="font-size:26px;cursor:pointer;color:rgba(180,160,140,0.3);">★</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;padding-top:12px;color:var(--muted);">→</div>
+            <div>
+              <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-align:center;">MAX</div>
+              <div id="frgMaxRow" style="display:flex;gap:3px;">
+                <span class="frgS" data-g="max" data-v="1" onclick="frgStar('max',1)" style="font-size:26px;cursor:pointer;color:#e8a050;">★</span>
+                <span class="frgS" data-g="max" data-v="2" onclick="frgStar('max',2)" style="font-size:26px;cursor:pointer;color:#e8a050;">★</span>
+                <span class="frgS" data-g="max" data-v="3" onclick="frgStar('max',3)" style="font-size:26px;cursor:pointer;color:#e8a050;">★</span>
+                <span class="frgS" data-g="max" data-v="4" onclick="frgStar('max',4)" style="font-size:26px;cursor:pointer;color:#e8a050;">★</span>
+                <span class="frgS" data-g="max" data-v="5" onclick="frgStar('max',5)" style="font-size:26px;cursor:pointer;color:#e8a050;">★</span>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px;">Range: <b id="frgRngLbl" style="color:var(--accent);">2 ★ – 5 ★</b></div>
+        </div>
+
+        <!-- Preview box -->
+        <div id="frgPreviewBox" style="display:none;background:#fff5f7;border:1px solid rgba(212,67,122,0.12);border-radius:12px;padding:14px;margin-bottom:14px;max-height:280px;overflow-y:auto;"></div>
+
+        <!-- Action buttons -->
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <button onclick="frgPreview()" style="padding:11px 20px;background:rgba(212,67,122,0.1);border:1.5px solid rgba(212,67,122,0.25);border-radius:10px;color:var(--accent);font-weight:700;font-size:13px;cursor:pointer;">👁 Preview</button>
+          <button id="frgSaveBtn" onclick="frgSave()" style="display:none;padding:11px 20px;background:var(--accent);border:none;border-radius:10px;color:white;font-weight:700;font-size:13px;cursor:pointer;">🚀 Firestore mein Save</button>
+          <span id="frgMsg" style="font-size:12px;font-weight:600;"></span>
+        </div>
+      </div>
+      <!-- ════ END GENERATOR ════ -->
+
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
         <button class="vendor-type-btn active" onclick="filterAdminReviews('all',this)">All Reviews</button>
         <button class="vendor-type-btn" onclick="filterAdminReviews('organizer',this)">🎭 Organizers</button>
@@ -2430,16 +2507,18 @@ function renderStars(r) {
 // ===== MODAL =====
 async function openOrgModal(o) {
   const isOwner = o.owner === currentUser?.email;
-  const snap    = await db.collection('reviews').where('orgId','==',o.id).orderBy('createdAt','desc').limit(10).get();
+  let snap;
+  try { snap = await db.collection('reviews').where('orgId','==',o.id).orderBy('createdAt','desc').limit(10).get(); }
+  catch(e) { snap = await db.collection('reviews').where('orgId','==',o.id).get(); }
   const reviews = []; snap.forEach(d => reviews.push(d.data()));
   const stars   = renderStars(o.rating || 0);
   let reviewsHtml = reviews.length ? reviews.map(rv => `
     <div class="review-card">
       <div class="review-top">
-        <span class="review-author">${rv.authorName||rv.authorEmail.split('@')[0]}</span>
+        <span class="review-author">${rv.authorName||rv.reviewer||(rv.authorEmail?(rv.authorEmail||'').split('@')[0]:'Anonymous')}</span>
         <span>${renderStars(rv.rating)} <span class="review-date">${rv.createdAt?.toDate?.()?.toLocaleDateString()||''}</span></span>
       </div>
-      <div class="review-text">${rv.text}</div>
+      <div class="review-text">${rv.comment||rv.text||''}</div>
     </div>`).join('') : '<p style="font-size:13px;color:var(--muted);">No reviews yet.</p>';
 
   document.getElementById('modalContainer').innerHTML = `
@@ -3170,17 +3249,19 @@ function openProfilePage(o) {
 
 async function loadProfileReviews(o) {
   const isOwner = o.owner === currentUser?.email;
-  const snap    = await db.collection('reviews').where('orgId','==',o.id).orderBy('createdAt','desc').limit(10).get();
+  let snap;
+  try { snap = await db.collection('reviews').where('orgId','==',o.id).orderBy('createdAt','desc').limit(10).get(); }
+  catch(e) { snap = await db.collection('reviews').where('orgId','==',o.id).get(); }
   const reviews = []; snap.forEach(d => reviews.push(d.data()));
   document.getElementById('profileRatingBig').textContent = o.rating ? o.rating.toFixed(1) + ' ★' : '—';
   const rv = document.getElementById('profileReviews');
   rv.innerHTML = reviews.length ? reviews.map(r => `
     <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-        <span style="font-size:13px;font-weight:600;">${r.authorName||r.authorEmail.split('@')[0]}</span>
-        <span style="color:var(--accent);font-size:13px;">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)} <span style="color:var(--muted);font-size:11px;">${r.createdAt?.toDate?.()?.toLocaleDateString()||''}</span></span>
+        <span style="font-size:13px;font-weight:600;">${r.authorName||r.reviewer||(r.authorEmail?(r.authorEmail).split('@')[0]:'Anonymous')}</span>
+        <span style="color:var(--accent);font-size:13px;">${'★'.repeat(r.rating||0)}${'☆'.repeat(5-(r.rating||0))} <span style="color:var(--muted);font-size:11px;">${r.createdAt?.toDate?.()?.toLocaleDateString()||''}</span></span>
       </div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.6;">${r.text}</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;">${r.comment||r.text||''}</div>
     </div>`).join('')
   : '<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">No reviews yet.</p>';
 
@@ -3578,7 +3659,7 @@ function openVendorProfile(v) {
       </div>
     </div>
   </div>`;
-  loadVendorProfileReviews('${v.id}');
+  loadVendorProfileReviews(v.id);
   window.scrollTo(0,0);
 }
 
@@ -3616,28 +3697,42 @@ async function loadVendorProfileReviews(vendorId) {
   if (!el) return;
   el.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
   let snap;
-  try { snap = await db.collection('reviews').where('vendorId','==',vendorId).orderBy('createdAt','desc').get(); }
-  catch(e) { snap = await db.collection('reviews').where('vendorId','==',vendorId).get(); }
-  if (snap.empty) { el.innerHTML = '<p style="color:var(--muted);font-size:13px;">No reviews yet — be the first!</p>'; return; }
+  try {
+    snap = await db.collection('reviews').where('vendorId','==',vendorId).get();
+  } catch(e) {
+    el.innerHTML = '<p style="color:var(--muted);font-size:13px;">Could not load reviews.</p>';
+    return;
+  }
+  if (!snap || snap.empty) {
+    el.innerHTML = '<p style="color:var(--muted);font-size:13px;">No reviews yet — be the first!</p>';
+    return;
+  }
+  let docs = [];
+  snap.forEach(doc => docs.push({id: doc.id, ...doc.data()}));
+  docs.sort((a,b) => {
+    const ta = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : 0;
+    const tb = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : 0;
+    return tb - ta;
+  });
   el.innerHTML = '';
-  snap.forEach(doc => {
-    const r = doc.data();
-    const filled = '★'.repeat(r.rating||0);
-    const empty  = '☆'.repeat(5-(r.rating||0));
+  docs.forEach(r => {
+    const rating = r.rating || 0;
+    const filled = '&#9733;'.repeat(rating);
+    const empty  = '&#9734;'.repeat(5 - rating);
     const date   = r.createdAt?.toDate ? r.createdAt.toDate().toLocaleDateString('en-IN') : '';
+    const name   = r.reviewer || r.authorName || (r.authorEmail ? r.authorEmail.split('@')[0] : 'Anonymous');
+    const text   = r.comment || r.text || '';
     const div = document.createElement('div');
     div.style.cssText = 'padding:14px 0;border-bottom:1px solid var(--border);';
-    div.innerHTML = `
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
-        <span style="color:var(--accent);font-size:14px;">${filled}<span style="color:var(--muted);">${empty}</span></span>
-        <span style="font-size:13px;font-weight:600;">${r.reviewer||'Anonymous'}</span>
-        ${date?`<span style="font-size:11px;color:var(--muted);">${date}</span>`:''}
-      </div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.6;font-style:italic;">"${r.comment||r.text||''}"</div>`;
+    div.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">'
+      + '<span style="color:var(--accent);font-size:15px;letter-spacing:1px;">' + filled + '<span style="color:var(--muted);">' + empty + '</span></span>'
+      + '<span style="font-size:13px;font-weight:600;">' + name + '</span>'
+      + (date ? '<span style="font-size:11px;color:var(--muted);">' + date + '</span>' : '')
+      + '</div>'
+      + '<div style="font-size:13px;color:var(--muted);line-height:1.6;font-style:italic;">&ldquo;' + text + '&rdquo;</div>';
     el.appendChild(div);
   });
 }
-
 async function submitVendorReview(vendorId, vendorName, vendorOwner) {
   const rating = vpSelectedStar;
   const text   = document.getElementById('vpReviewText')?.value?.trim();
@@ -3785,7 +3880,7 @@ async function loadAdminReviews(filterType) {
             <span style="color:var(--accent);font-size:18px;letter-spacing:2px;">${filled}<span style="color:var(--border2);">${empty}</span></span>
             <span style="font-size:13px;font-weight:700;color:var(--text);">${r.reviewer||'Anonymous'}</span>
             ${r.type==='vendor'
-              ? `<span class="badge" style="font-size:10px;padding:2px 8px;margin:0;background:rgba(76,154,201,0.15);color:#4c9ac9;border-color:rgba(76,154,201,0.3);">📸 Professional: ${r.vendorName||'—'}</span>`
+              ? `<span class="badge" style="font-size:10px;padding:2px 8px;margin:0;background:rgba(76,154,201,0.15);color:#4c9ac9;border-color:rgba(76,154,201,0.3);">${r.vendorType==='makeup'?'💄 Makeup':r.vendorType==='gifts'?'🎁 Gifts':'📸 Photo'}: ${r.vendorName||'—'}</span>`
               : `<span class="badge" style="font-size:10px;padding:2px 8px;margin:0;background:rgba(123,94,167,0.15);color:#a88fd4;border-color:rgba(123,94,167,0.3);">🎭 Organizer: ${r.orgName||'—'}</span>`}
             <span style="font-size:11px;color:var(--muted);">${date}</span>
           </div>
@@ -3901,6 +3996,243 @@ async function adminDeleteReview(id, name, orgId, vendorId) {
     await db.collection('vendors').doc(vendorId).update({ rating: avg, reviewCount: count });
   }
 }
+
+/* ══════════════════════════════════════
+   FAKE REVIEW GENERATOR
+══════════════════════════════════════ */
+var _frgTargetType = 'organizer';
+var _frgMin = 2, _frgMax = 5;
+var _frgPending = [];
+
+var _frgNames = ['Priya Sharma','Rahul Das','Sunita Roy','Amit Kumar','Kavya Reddy',
+  'Debashis Ghosh','Ananya Sen','Vikram Mehta','Pooja Joshi','Arjun Bose',
+  'Riya Chatterjee','Suresh Patel','Neha Sinha','Manoj Dey','Tanvi Agarwal',
+  'Sourav Mondal','Ankita Mishra','Rajesh Yadav','Deepa Nair','Karthik Iyer',
+  'Rekha Banerjee','Nilesh Gupta','Smita Verma','Aditya Kapoor','Rupa Dutta',
+  'Sanjay Biswas','Monika Tiwari','Pranab Chakraborty','Swati Singh','Tarun Paul'];
+
+var _frgTextsOrg = {
+  5:['Bahut hi acha kaam kiya! Poora event perfect tha, sab log bahut khush the. Highly recommend!',
+     'Best organizer in the area! On time, professional, aur budget ke andar. 10/10 would book again.',
+     'Meri beti ki shaadi ke liye book kiya tha — koi complaint nahi. Sab kuch flawless tha!',
+     'Superb service! Decoration dekh ke aankhein bhar aayi. Highly professional team.',
+     'Outstanding performance! Event managed so smoothly. Very happy with results!',
+     'Ek baar use karo toh bar bar use karoge! Best in the business.'],
+  4:['Bahut acha service tha. Thodi si delay hui lekin overall great tha.',
+     'Nice experience overall. Professional team, responsive. Would recommend.',
+     'Very good service! Well managed. Some small hiccups but handled well.',
+     'Kaafi professional hai. Communication thoda better ho sakta tha.'],
+  3:['Average experience. Kuch cheezein time pe nahi hui but overall theek.',
+     'Decent work. Room for improvement but mostly satisfactory.'],
+  2:['Expected much better. Communication was poor, not as promised.',
+     'Disappointing. Late delivery and quality below expectations.'],
+  1:['Very poor. Would not recommend.','Terrible service, total waste.']
+};
+var _frgTextsPho = {
+  5:['Amazing photography! Saari memories perfectly capture hui. Ekdum pro photographer hai!',
+     'Best wedding photographer in the area. Every shot is a masterpiece. Loved it!',
+     'Photos dekhke aankhein bhar aayi. Itna beautiful coverage kiya. Highly recommend!',
+     'Candid shots bohot natural aur emotional the. Professional aur friendly team.',
+     'Outstanding quality! Editing bhi bahut acha tha. Will book again for sure!'],
+  4:['Good photography. Most photos great, kuch poses aur ho sakte the.',
+     'Nice work overall. Delivery thodi late thi but photos quality was excellent.',
+     'Professional photographer. Good communication. Satisfied with output.',
+     'Good shots! Editing could be better but overall happy with experience.'],
+  3:['Average photography. Kuch photos acha tha kuch not so great.',
+     'Okay work. Expected more creativity but manageable.'],
+  2:['Photos quality below expectations. Many blurry shots.',
+     'Disappointed with editing. Colors were off. Not worth the price.'],
+  1:['Very poor photography. Worst decision.','Would not recommend at all.']
+};
+var _frgTextsMak = {
+  5:['Bridal makeup ekdum perfect tha! Saari raat makeup fresh raha. Sab ne tarif ki!',
+     'Amazing makeup artist! Exactly my vision samjh ke execute kiya. Bohot khush hoon!',
+     'Best bridal makeup I have ever seen. Flawless finish, perfect blending. Highly recommend!',
+     'Meri beti ka makeup dekh ke rone lagi! Itna beautiful kiya. Thank you so much!',
+     'Superb work! Long-lasting makeup, skin friendly. Will definitely book again!'],
+  4:['Good makeup. Thodi si change mangwani padi but end result acha tha.',
+     'Nice work! Communication great, understanding of my preference was there.',
+     'Satisfied with the bridal look. Lipstick faded after some time but overall nice.',
+     'Professional artist. Punctual aur well-equipped. Happy with the outcome.'],
+  3:['Average makeup. Kuch shades meri skin se match nahi kiya.',
+     'Decent work. Not exactly what I wanted but okay for the event.'],
+  2:['Makeup was cakey and not long lasting. Disappointed.',
+     'Expected better for the price. Eyeshadow blending was poor.'],
+  1:['Very bad experience. Would not recommend.','Worst makeup ever.']
+};
+var _frgTextsGif = {
+  5:['Return gifts bohot hi unique aur premium the! Sab guests ne appreciate kiya!',
+     'Amazing quality gifts at great price. Packaging bhi bohot beautiful tha!',
+     'Exactly what I wanted. On-time delivery, perfect customization. Highly recommend!',
+     'Best gifts vendor! Creative ideas, affordable pricing. Will order again!'],
+  4:['Good quality gifts. Minor delay in delivery but overall satisfied.',
+     'Nice products. Customization was good. Would recommend.'],
+  3:['Average quality. Packaging could be better.','Okay gifts. Expected more variety.'],
+  2:['Quality below expectations.','Delivery was very late.'],
+  1:['Very poor quality.','Total waste of money.']
+};
+function _frgGetTexts(rating) {
+  var pool;
+  if (_frgVendorSubtype==='makeup') pool = _frgTextsMak;
+  else if (_frgVendorSubtype==='photographer') pool = _frgTextsPho;
+  else if (_frgVendorSubtype==='gifts') pool = _frgTextsGif;
+  else pool = _frgTextsOrg;
+  return (pool[rating]||pool[3]);
+}
+
+var _frgCities = ['Midnapore','Kolkata','Kharagpur','Haldia','Jhargram','Howrah',
+  'Durgapur','Asansol','Purulia','Siliguri','Delhi','Mumbai','Bangalore','Pune'];
+
+var _frgVendorSubtype = '';
+function frgType(t, btn, subtype) {
+  _frgTargetType = t;
+  _frgVendorSubtype = subtype || '';
+  document.querySelectorAll('#frgBtnOrg,#frgBtnPho,#frgBtnMak,#frgBtnGif').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('frgTargetSel').innerHTML = '<option value="">-- Load karo pehle --</option>';
+  document.getElementById('frgPreviewBox').style.display = 'none';
+  document.getElementById('frgSaveBtn').style.display = 'none';
+  document.getElementById('frgMsg').textContent = '';
+}
+
+function frgStar(grp, val) {
+  if (grp==='min') {
+    _frgMin = val;
+    if (_frgMax < val) _frgMax = val;
+  } else {
+    _frgMax = val;
+    if (_frgMin > val) _frgMin = val;
+  }
+  ['min','max'].forEach(function(g){
+    var cur = g==='min' ? _frgMin : _frgMax;
+    document.querySelectorAll('#frg'+g.charAt(0).toUpperCase()+g.slice(1)+'Row .frgS').forEach(function(s){
+      s.style.color = parseInt(s.dataset.v) <= cur ? '#e8a050' : 'rgba(180,160,140,0.3)';
+    });
+  });
+  document.getElementById('frgRngLbl').textContent = _frgMin+' \u2605 \u2013 '+_frgMax+' \u2605';
+}
+
+async function frgLoadList() {
+  var sel = document.getElementById('frgTargetSel');
+  sel.innerHTML = '<option>Loading...</option>';
+  var col = _frgTargetType === 'organizer' ? 'organizers' : 'vendors';
+  try {
+    var q = db.collection(col);
+    if (_frgVendorSubtype) q = q.where('type','==',_frgVendorSubtype);
+    var snap = await q.get();
+    // Sort client-side to avoid composite index requirement
+    var docs = [];
+    snap.forEach(function(doc){ docs.push(doc); });
+    docs.sort(function(a,b){ return (a.data().name||'').localeCompare(b.data().name||''); });
+    sel.innerHTML = '<option value="">-- Select karo --</option>';
+    docs.forEach(function(doc){
+      var d = doc.data();
+      var o = document.createElement('option');
+      o.value = doc.id;
+      o.dataset.name = d.name||'Unknown';
+      o.dataset.owner = d.userId||d.owner||'';
+      o.dataset.vtype = d.type||'';
+      var typeLabel = d.type ? ' ['+d.type.charAt(0).toUpperCase()+d.type.slice(1)+']' : '';
+      o.textContent = (d.name||'Unknown') + typeLabel + (d.city ? ' — '+d.city : '');
+      sel.appendChild(o);
+    });
+    showToast('\u2705 '+docs.length+' loaded');
+  } catch(e) {
+    sel.innerHTML = '<option value="">Error!</option>';
+    showToast('\u274c '+e.message);
+  }
+}
+
+function _frgRandInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function _frgRandFrom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function _frgRandDate(){
+  var d = new Date(Date.now() - Math.random()*180*24*3600*1000);
+  return d;
+}
+
+function frgPreview() {
+  var sel = document.getElementById('frgTargetSel');
+  var tid = sel.value;
+  if (!tid) { showToast('\u26a0\ufe0f Pehle target select karo!'); return; }
+  var tname = sel.options[sel.selectedIndex].dataset.name || '';
+  var towner = sel.options[sel.selectedIndex].dataset.owner || '';
+  var count = parseInt(document.getElementById('frgCntSlider').value);
+
+  _frgPending = [];
+  var box = document.getElementById('frgPreviewBox');
+  box.innerHTML = '<div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">'+count+' reviews preview:</div>';
+
+  for (var i=0; i<count; i++) {
+    var rating = _frgRandInt(_frgMin, _frgMax);
+    var name = _frgRandFrom(_frgNames);
+    var text = _frgRandFrom(_frgGetTexts(rating));
+    var city = _frgRandFrom(_frgCities);
+    var date = _frgRandDate();
+    var stars = '\u2605'.repeat(rating)+'\u2606'.repeat(5-rating);
+
+    var r = { rating:rating, reviewer:name, comment:text, text:text,
+      authorName:name, city:city, createdAt:date, fake:true,
+      authorEmail:name.toLowerCase().replace(/\s/g,'')+_frgRandInt(1,999)+'@gmail.com' };
+    if (_frgTargetType==='organizer') {
+      r.orgId=tid; r.orgOwner=towner; r.orgName=tname; r.type='organizer';
+    } else {
+      var vtype = sel.options[sel.selectedIndex].dataset.vtype || 'vendor';
+      r.vendorId=tid; r.vendorOwner=towner; r.vendorName=tname;
+      r.type='vendor'; r.vendorType=vtype;
+    }
+    _frgPending.push(r);
+
+    var card = document.createElement('div');
+    card.style.cssText = 'padding:9px 12px;background:white;border-radius:9px;border:1px solid rgba(212,67,122,0.1);margin-bottom:7px;';
+    card.innerHTML = '<div style="display:flex;justify-content:space-between;"><b style="font-size:13px;">'+name+'</b><span style="color:#e8a050;letter-spacing:1px;">'+stars+'</span></div>'
+      +'<div style="font-size:12px;color:var(--muted);font-style:italic;margin-top:3px;">&ldquo;'+text+'&rdquo;</div>'
+      +'<div style="font-size:10px;color:rgba(160,112,128,0.5);margin-top:3px;">'+city+' &middot; '+date.toLocaleDateString('en-IN')+'</div>';
+    box.appendChild(card);
+  }
+  box.style.display = 'block';
+  document.getElementById('frgSaveBtn').style.display = 'inline-block';
+  document.getElementById('frgMsg').textContent = '\u2764\ufe0f Preview ready! Save karo?';
+  document.getElementById('frgMsg').style.color = 'var(--accent)';
+}
+
+async function frgSave() {
+  if (!_frgPending.length) { showToast('\u26a0\ufe0f Pehle preview generate karo!'); return; }
+  var btn = document.getElementById('frgSaveBtn');
+  var msg = document.getElementById('frgMsg');
+  btn.textContent = '\u23f3 Saving...'; btn.disabled = true;
+  try {
+    var batch = db.batch();
+    _frgPending.forEach(function(r){
+      var ref = db.collection('reviews').doc();
+      var data = Object.assign({}, r);
+      data.createdAt = firebase.firestore.Timestamp.fromDate(r.createdAt);
+      batch.set(ref, data);
+    });
+    await batch.commit();
+
+    // Update avgRating on target doc
+    var tid = _frgPending[0].orgId || _frgPending[0].vendorId;
+    var col = _frgTargetType==='organizer' ? 'organizers' : 'vendors';
+    var fld = _frgTargetType==='organizer' ? 'orgId' : 'vendorId';
+    var allSnap = await db.collection('reviews').where(fld,'==',tid).get();
+    var total=0, cnt=0;
+    allSnap.forEach(function(d){ if(d.data().rating){ total+=d.data().rating; cnt++; }});
+    if(cnt>0) await db.collection(col).doc(tid).update({ avgRating:(total/cnt).toFixed(1), reviewCount:cnt });
+
+    var saved = _frgPending.length;
+    _frgPending = [];
+    msg.textContent = '\u2705 '+saved+' reviews saved! Rating updated.';
+    msg.style.color = '#2a9d5c';
+    btn.style.display = 'none';
+    document.getElementById('frgPreviewBox').style.display = 'none';
+    loadAdminReviews();
+  } catch(e) {
+    msg.textContent = '\u274c Error: '+e.message;
+    msg.style.color = 'var(--danger)';
+    btn.textContent = '\ud83d\ude80 Firestore mein Save'; btn.disabled = false;
+  }
+}
+
 </script>
 </body>
 </html>
